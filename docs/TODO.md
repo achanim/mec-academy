@@ -9,13 +9,15 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 - [x] Halaman inti: beranda (12 bab), BMC, 16 modul, tahapan, fasilitas, instruktur, tentang, assessment, kontak
 - [x] Sistem artikel (MDX, kategori, FAQ/BlogPosting/Breadcrumb JSON-LD), RSS, sitemap, Pagefind
 
+- [x] Animasi scroll ala preview: 7 chapter pinned (hero, challenge, journey, machine, learning, character, film), kamera zoom, hero-frame, word-mask, rail horizontal, tab mesin otomatis 3D, wipe karakter, zoom video; fallback mobile/reduced-motion/layar pendek (`src/scripts/motion.ts`, `home.ts`)
+
 ## Sedang dikerjakan
-- [ ] **Animasi scroll ala preview** (pinned scene, kamera zoom, hero-frame, rail horizontal, character beats, portal video, word-mask heading) — desktop saja, fallback aman untuk mobile/reduced-motion
+- (kosong)
 
 ## Berikutnya (perlu keputusan/data dari klien)
 - [ ] Domain final → ganti placeholder `mecacademy.id` di `astro.config.mjs`, `src/lib/site.ts`, `public/robots.txt`
 - [ ] Deploy Cloudflare Pages (connect repo, `NODE_VERSION=22`), DNS, redirect dari domain lama
-- [ ] Konfirmasi lisensi 4 font MEC (MECDisplay/Body/Bold/Mono) untuk penggunaan web
+- [ ] **Font**: ternyata bukan font custom MEC — MECBody/Bold = Nimbus Sans, MECDisplay = Nimbus Sans Narrow Bold (lisensi AGPL-3 + font exception, exception hanya menyebut PDF/PostScript → abu-abu untuk web), MECMono = DejaVu Sans Mono (Bitstream Vera, aman). Putuskan: ganti Nimbus dengan font OFL (mis. Archivo / Archivo Narrow / Inter, dari Google Fonts, self-host) atau tetap pakai + minta review legal. Teks lisensi sudah ada di `public/licenses/`.
 - [ ] Konfirmasi ejaan nama instruktur "Johan Winarto/Wiharto"
 - [ ] Isi deskripsi/tujuan/materi 12 modul yang masih placeholder (4 modul sudah ada)
 - [ ] Halaman detail instruktur `/instruktur/[slug]/` + `Person` JSON-LD
