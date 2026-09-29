@@ -12,6 +12,18 @@ const nav = [
   ['/artikel/', 'Artikel'],
   ['/assessment/', 'Assessment'],
 ];
+const menuItems = [
+  ['/', 'Beranda', 'Mulai dari awal'],
+  ['/tentang/', 'Tentang', 'Sejarah, visi & tim'],
+  ['/program/basic-mechanic-course/', 'Program', 'Basic Mechanic Course'],
+  ['/fasilitas/', 'Fasilitas', 'Workshop & galeri kegiatan'],
+  ['/#alumni', 'Alumni', 'Dari pelatihan ke industri'],
+  ['/artikel/', 'Artikel', 'Wawasan seputar alat berat'],
+  ['/assessment/', 'Assessment', 'Portal ujian online'],
+  ['/instruktur/', 'Instruktur', 'Pengalaman industri'],
+  ['/industri/', 'Industri', 'Kunjungan & kerja sama'],
+  ['/kontak/', 'Kontak', 'Jadwal, biaya, persyaratan'],
+];
 const path = Astro.url.pathname;
 ---
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-5 focus:z-[1000] focus:bg-gold focus:text-ink focus:p-3">Langsung ke konten</a>
@@ -29,10 +41,17 @@ const path = Astro.url.pathname;
   </div>
 </header>
 <div id="menu" class="menu-panel" hidden>
-  <nav aria-label="Menu">
-    <ul>
-      {[['/', 'Beranda'], ...nav, ['/instruktur/', 'Instruktur'], ['/industri/', 'Industri'], ['/kontak/', 'Kontak']].map(([href, label], i) => <li style={`--i:${i}`}><a href={href}><span>{String(i + 1).padStart(2, '0')}</span>{label}</a></li>)}
-    </ul>
-  </nav>
-  <p class="menu-foot">{site.phone} · {site.email}</p>
+  <div class="menu-inner">
+    <nav aria-label="Menu">
+      <ul class="menu-grid">
+        {menuItems.map(([href, label, desc], i) => (
+          <li style={`--i:${i}`}><a href={href}><span class="menu-no">{String(i + 1).padStart(2, '0')}</span><b>{label}</b><small>{desc}</small><i aria-hidden="true">↗</i></a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="menu-foot">
+      <p>{site.phone} · {site.email}</p>
+      <a class="btn compact" href={waLink()} target="_blank" rel="noopener">Daftar BMC <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
 </div>
