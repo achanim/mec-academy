@@ -21,25 +21,37 @@ const rows = [], fails = [];
 
 for (const preset of ['mobile', 'desktop']) {
   for (const path of pages) {
-    const chrome = await launch({ chromePath: process.env.CHROME_PATH, chromeFlags: ['--headless=new', '--no-sandbox'] });
-    try {
-      const flags = { port: chrome.port, output: 'json', logLevel: 'error', onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'] };
-      const config = preset === 'desktop' ? (await import('lighthouse/core/config/desktop-config.js')).default : undefined;
-      const { lhr } = await lighthouse(BASE + path, flags, config);
-      const sc = (k) => Math.round((lhr.categories[k]?.score ?? 0) * 100);
-      const m = { performance: sc('performance'), accessibility: sc('accessibility'), 'best-practices': sc('best-practices'), seo: sc('seo'),
-        lcp: Math.round(lhr.audits['largest-contentful-paint'].numericValue), cls: +lhr.audits['cumulative-layout-shift'].numericValue.toFixed(3), tbt: Math.round(lhr.audits['total-blocking-time'].numericValue) };
-      const b = BUDGET[preset];
-      const bad = [];
-      for (const k of ['performance', 'accessibility', 'best-practices', 'seo']) if (m[k] < b[k]) bad.push(`${k} ${m[k]}<${b[k]}`);
-      if (m.lcp > b.lcp) bad.push(`LCP ${m.lcp}>${b.lcp}`);
-      if (m.cls > b.cls) bad.push(`CLS ${m.cls}>${b.cls}`);
-      if (m.tbt > b.tbt) bad.push(`TBT ${m.tbt}>${b.tbt}`);
-      rows.push({ preset, path, ...m, bad });
-      if (bad.length) fails.push(`${preset} ${path}: ${bad.join(', ')}`);
-      writeFileSync(`reports/lighthouse/${preset}${path.replace(/\W+/g, '_')}.json`, JSON.stringify(lhr));
-      console.log(`${bad.length ? '✗' : '✓'} ${preset.padEnd(7)} ${path.padEnd(58)} perf ${m.performance} a11y ${m.accessibility} bp ${m['best-practices']} seo ${m.seo} | LCP ${m.lcp}ms CLS ${m.cls} TBT ${m.tbt}ms`);
-    } finally { await chrome.kill(); }
+    let lhr, err;
+    for (let attempt = 1; attempt <= 2 && !lhr; attempt++) {   // coba ulang sekali bila Chrome/Lighthouse gagal sesaat
+      const chrome = await launch({ chromePath: process.env.CHROME_PATH, chromeFlags: ['--headless=new', '--no-sandbox'] });
+      try {
+        const flags = { port: chrome.port, output: 'json', logLevel: 'error', onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'] };
+        const config = preset === 'desktop' ? (await import('lighthouse/core/config/desktop-config.js')).default : undefined;
+        const res = await lighthouse(BASE + path, flags, config);
+        if (res?.lhr?.runtimeError || res?.lhr?.audits?.['cumulative-layout-shift']?.numericValue == null) throw new Error(res?.lhr?.runtimeError?.message ?? 'metrik tidak lengkap');
+        lhr = res.lhr;
+      } catch (e) { err = e; } finally { await chrome.kill(); }
+    }
+    if (!lhr) {
+      const bad = [`gagal dijalankan: ${err?.message ?? 'tidak diketahui'}`];
+      rows.push({ preset, path, performance: 0, accessibility: 0, 'best-practices': 0, seo: 0, lcp: 0, cls: 0, tbt: 0, bad });
+      fails.push(`${preset} ${path}: ${bad[0]}`);
+      console.log(`✗ ${preset.padEnd(7)} ${path.padEnd(58)} ${bad[0]}`);
+      continue;
+    }
+    const sc = (k) => Math.round((lhr.categories[k]?.score ?? 0) * 100);
+    const m = { performance: sc('performance'), accessibility: sc('accessibility'), 'best-practices': sc('best-practices'), seo: sc('seo'),
+      lcp: Math.round(lhr.audits['largest-contentful-paint'].numericValue), cls: +lhr.audits['cumulative-layout-shift'].numericValue.toFixed(3), tbt: Math.round(lhr.audits['total-blocking-time'].numericValue) };
+    const b = BUDGET[preset];
+    const bad = [];
+    for (const k of ['performance', 'accessibility', 'best-practices', 'seo']) if (m[k] < b[k]) bad.push(`${k} ${m[k]}<${b[k]}`);
+    if (m.lcp > b.lcp) bad.push(`LCP ${m.lcp}>${b.lcp}`);
+    if (m.cls > b.cls) bad.push(`CLS ${m.cls}>${b.cls}`);
+    if (m.tbt > b.tbt) bad.push(`TBT ${m.tbt}>${b.tbt}`);
+    rows.push({ preset, path, ...m, bad });
+    if (bad.length) fails.push(`${preset} ${path}: ${bad.join(', ')}`);
+    writeFileSync(`reports/lighthouse/${preset}${path.replace(/\W+/g, '_')}.json`, JSON.stringify(lhr));
+    console.log(`${bad.length ? '✗' : '✓'} ${preset.padEnd(7)} ${path.padEnd(58)} perf ${m.performance} a11y ${m.accessibility} bp ${m['best-practices']} seo ${m.seo} | LCP ${m.lcp}ms CLS ${m.cls} TBT ${m.tbt}ms`);
   }
 }
 stop();
