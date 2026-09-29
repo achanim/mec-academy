@@ -30,15 +30,33 @@ tabs.forEach((t, i) => {
   });
 });
 
-/* ---------- video facade ---------- */
+/* ---------- video facade (dengan skeleton + fallback error) ---------- */
 document.querySelectorAll<HTMLButtonElement>('[data-video]').forEach((b) => b.addEventListener('click', () => {
+  const id = b.dataset.video!;
+  const box = b.parentElement!;
+  const watch = `https://www.youtube.com/watch?v=${id}`;
+  const loading = document.createElement('div');
+  loading.className = 'video-loading';
+  loading.innerHTML = '<div class="spinner" role="status" aria-label="Memuat video"></div>';
   const f = document.createElement('iframe');
-  f.src = `https://www.youtube-nocookie.com/embed/${b.dataset.video}?autoplay=1&rel=0`;
+  f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
   f.title = 'Company Profile MEC Academy';
   f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-  f.allowFullscreen = true;
   f.className = 'absolute inset-0 h-full w-full';
-  b.replaceWith(f);
+  let done = false;
+  const fail = () => {
+    if (done) return; done = true;
+    f.remove(); loading.remove();
+    const err = document.createElement('div');
+    err.className = 'video-error'; err.setAttribute('role', 'alert');
+    err.innerHTML = `<p>Video tidak dapat dimuat.</p><a class="btn justify-self-center" href="${watch}" target="_blank" rel="noopener">Tonton di YouTube ↗</a>`;
+    box.append(err);
+  };
+  f.addEventListener('load', () => { done = true; loading.remove(); });
+  f.addEventListener('error', fail);
+  setTimeout(fail, 12000);
+  b.replaceWith(f); box.append(loading);
+  if (!navigator.onLine) fail();
 }));
 
 /* ---------- koreografi scroll (pinned) ---------- */
@@ -157,7 +175,7 @@ function kick() { if (active && !raf) raf = requestAnimationFrame(tick); }
 addEventListener('scroll', kick, { passive: true });
 addEventListener('pointermove', (e) => { if (!active || e.pointerType !== 'mouse') return; tx = (e.clientX / innerWidth - 0.5) * 2; ty = (e.clientY / innerHeight - 0.5) * 2; kick(); }, { passive: true });
 let resizeT = 0;
-addEventListener('resize', () => { clearTimeout(resizeT); resizeT = window.setTimeout(setup, 200); });
+addEventListener('resize', () => { clearTimeout(resizeT); resizeT = window.setTimeout(() => { try { setup(); } catch (e) { console.error(e); teardown(); } }, 200); });
 reduced.addEventListener?.('change', setup);
 document.fonts?.ready.then(() => active && setup());
 
@@ -180,4 +198,4 @@ document.querySelector('[data-rail-prev]')?.addEventListener('click', () => goRa
 document.querySelector('[data-rail-next]')?.addEventListener('click', () => goRail(1));
 
 if (!reduced.matches) { root.classList.add('intro'); setTimeout(() => root.classList.remove('intro'), 2000); }
-setup();
+try { setup(); } catch (e) { console.error('[mec] animasi dinonaktifkan karena error:', e); teardown(); }

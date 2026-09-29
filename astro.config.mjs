@@ -7,6 +7,6 @@ export default defineConfig({
   site: 'https://mecacademy.id', // TODO: konfirmasi domain final
   trailingSlash: 'always',
   build: { format: 'directory' },
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({ filter: (p) => !/\/(404|500)\/?$/.test(p) })],
   vite: { plugins: [tailwindcss()] },
 });

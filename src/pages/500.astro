@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Terjadi kesalahan" description="Terjadi kesalahan pada server. Silakan coba lagi beberapa saat lagi." noindex>
+  <section class="wrap py-24 md:py-32">
+    <p class="eyebrow mb-4">Error 500</p>
+    <h1 class="max-w-3xl text-6xl md:text-8xl">Ada yang tidak beres.</h1>
+    <p class="mt-6 max-w-xl text-lg text-sage">Kami sedang mengalami kendala. Coba muat ulang halaman ini beberapa saat lagi.</p>
+    <div class="mt-8 flex gap-4"><button class="btn" onclick="location.reload()">Muat ulang</button><a class="btn btn-ghost" href="/">Ke beranda</a></div>
+  </section>
+</Base>

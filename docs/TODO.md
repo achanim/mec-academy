@@ -11,6 +11,8 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 
 - [x] Animasi scroll ala preview: 7 chapter pinned (hero, challenge, journey, machine, learning, character, film), kamera zoom, hero-frame, word-mask, rail horizontal, tab mesin otomatis 3D, wipe karakter, zoom video; fallback mobile/reduced-motion/layar pendek (`src/scripts/motion.ts`, `home.ts`)
 
+- [x] Skeleton loading (gambar, pencarian, video) + error handling (404/500, gambar rusak, video gagal/offline, Pagefind gagal, error JS global, banner offline)
+
 ## Sedang dikerjakan
 - (kosong)
 

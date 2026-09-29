@@ -31,5 +31,8 @@ const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [prop
     <Header />
     <main id="main" class="pt-20"><slot /></main>
     <Footer />
+    <div id="toast" role="status" aria-live="polite"></div>
+    <noscript><style>.skeleton{display:none}img{opacity:1!important}</style></noscript>
+    <script>import '../scripts/resilience.ts';</script>
   </body>
 </html>
