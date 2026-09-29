@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { img } from '../lib/images';
+import { modules, waLink } from '../lib/site';
+import research from '../data/research.json';
+import { getCollection } from 'astro:content';
+const h = research.hero;
+const latest = (await getCollection('articles', (a) => !a.data.draft)).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt).slice(0, 3);
+---
+<Base title="MEC Academy — Kursus Mekanik Alat Berat di Malang" description="Mulai langkahmu menjadi mekanik alat berat. Basic Mechanic Course MEC Academy: 16 modul, praktik komponen, instruktur industri, dan pembentukan karakter.">
+  <section class="relative isolate min-h-[92svh] overflow-hidden">
+    <Image src={img('hero')} alt="Siswa MEC Academy praktik di workshop" class="absolute inset-0 -z-20 h-full w-full object-cover" widths={[640, 1024, 1600, 2400]} sizes="100vw" loading="eager" fetchpriority="high" />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/80 to-ink/10"></div>
+    <div class="wrap pt-32 pb-24">
+      <p class="eyebrow mb-6">{h.eyebrow}</p>
+      <h1 class="max-w-4xl text-6xl md:text-8xl">{h.headline}</h1>
+      <p class="mt-6 max-w-xl text-lg">{h.lead}</p>
+      <p class="mt-3 max-w-xl text-sage">{h.body}</p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a class="btn" href={waLink()} target="_blank" rel="noopener">{h.primary_cta} ↗</a>
+        <a class="btn btn-ghost" href="/program/basic-mechanic-course/">{h.secondary_cta} ↓</a>
+      </div>
+      <p class="mt-10 font-mono text-xs text-gold">{modules.length} MODUL · PRAKTIK KOMPONEN · PEMBENTUKAN KARAKTER</p>
+    </div>
+  </section>
+
+  <section class="wrap py-20">
+    <p class="eyebrow mb-4">Explore the machine</p>
+    <h2 class="mb-10 text-5xl md:text-6xl">Kenali mesin. Bangun skill.</h2>
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {modules.slice(0, 8).map((m) => (
+        <li><a class="block border border-line p-5 hover:border-gold" href={`/program/basic-mechanic-course/modul/${m.slug}/`}>
+          <span class="font-mono text-xs text-gold">{String(m.n).padStart(2, '0')}</span>
+          <span class="mt-2 block font-display text-2xl">{m.title}</span>
+        </a></li>
+      ))}
+    </ul>
+    <a class="mt-8 inline-block text-gold underline" href="/program/basic-mechanic-course/modul/">Lihat seluruh {modules.length} modul ↗</a>
+  </section>
+
+  {latest.length > 0 && (
+    <section class="wrap pb-24">
+      <h2 class="mb-8 text-4xl">Artikel terbaru</h2>
+      <ul class="grid gap-6 md:grid-cols-3">
+        {latest.map((a) => <li><a class="block border border-line p-5 hover:border-gold" href={`/artikel/${a.id}/`}><h3 class="text-2xl">{a.data.title}</h3><p class="mt-3 text-sm text-sage">{a.data.description}</p></a></li>)}
+      </ul>
+    </section>
+  )}
+</Base>

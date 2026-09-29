@@ -1,6 +1,6 @@
 # MEC Academy — Plan Infra & Tech Stack
 
-Status: **draft untuk direview** · Dasar: `MEC_UI_Preview.html` (V5.1) + Company Profile MEC Academy 2026
+Status: **disetujui — Fase 0–1 selesai, Fase 2 berikutnya** · Dasar: `MEC_UI_Preview.html` (V5.1) + Company Profile MEC Academy 2026
 
 ## 1. Hasil analisis preview
 

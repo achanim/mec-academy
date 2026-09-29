@@ -1,0 +1,59 @@
+{
+  "reviewed_on": "2026-09-15",
+  "hero": {
+    "eyebrow": "BASIC MECHANIC COURSE · MEC ACADEMY",
+    "lead": "Industri membutuhkan keterampilan dan budaya kerja yang siap diterapkan.",
+    "headline": "Mulai langkahmu menjadi mekanik alat berat.",
+    "body": "Bangun dasar teknis, pengalaman praktik, dan karakter profesional melalui BMC MEC Academy. Persiapkan dirimu dari ruang belajar menuju dunia industri.",
+    "primary_cta": "Daftar BMC",
+    "secondary_cta": "Kenali programnya"
+  },
+  "sources": [
+    {
+      "id": "industry-safety",
+      "publisher": "United Tractors",
+      "date": "2026-09-03",
+      "event_date": "2026-08-18 / 2026-08-21",
+      "url": "https://www.unitedtractors.com/united-tractors-cabang-lampung-perkuat-kesiapan-siswa-smk-melalui-edukasi-k3-dan-budaya-kerja/",
+      "title": "Edukasi K3 dan budaya kerja untuk kesiapan siswa SMK",
+      "summary": "United Tractors menekankan keselamatan, kepatuhan pada prosedur, kedisiplinan, komunikasi, dan kerja sama tim dalam pembekalan calon lulusan.",
+      "scope": "Contoh kebutuhan kompetensi dan budaya kerja dari pelaku industri alat berat, bukan statistik kekurangan mekanik atau dukungan terhadap MEC."
+    },
+    {
+      "id": "industry-maintenance",
+      "publisher": "United Tractors",
+      "date": null,
+      "url": "https://www.unitedtractors.com/jasa-pemeliharaan/",
+      "title": "Jasa pemeliharaan alat berat",
+      "summary": "Inspeksi, pemeliharaan preventif, analisis kondisi komponen, dan perawatan mendukung ketersediaan serta produktivitas alat.",
+      "scope": "Dasar untuk hook peran mekanik dalam menjaga kesiapan alat. Tidak ada angka downtime atau pertumbuhan pasar yang diturunkan dari sumber ini."
+    },
+    {
+      "id": "policy-match",
+      "publisher": "Kemenko PMK",
+      "date": "2026-09-09",
+      "event_date": "2026-09-09",
+      "url": "https://www.kemenkopmk.go.id/atasi-pengangguran-terdidik-kemenko-pmk-dorong-pendekatan-co-creation-antara-kampus-dan-industri",
+      "title": "Penyelarasan kompetensi pendidikan dan kebutuhan industri",
+      "summary": "Kemenko PMK menyoroti kesenjangan kompetensi lulusan dan kebutuhan kerja serta mendorong keterlibatan industri dalam perancangan kompetensi, kurikulum, dan pengalaman kerja.",
+      "scope": "Arah pemerintah yang dinyatakan dalam FGD, bukan peraturan baru atau bukti keterlibatan MEC dalam program pemerintah."
+    },
+    {
+      "id": "policy-vokasi",
+      "publisher": "Kemenko PMK",
+      "date": "2026-04-25",
+      "event_date": "2026-04-22",
+      "url": "https://www.kemenkopmk.go.id/pendidikan-vokasi-harus-menjawab-perubahan-dunia-kerja-dengan-kekuatan-budaya-indonesia",
+      "title": "Revitalisasi vokasi untuk menghadapi perubahan dunia kerja",
+      "summary": "Pemerintah mendorong pelatihan vokasi yang relevan dengan perubahan pekerjaan dan penguatan hubungan pendidikan dengan dunia kerja.",
+      "scope": "Konteks arah kebijakan vokasi nasional; tidak menyatakan MEC mendapat akreditasi, subsidi, atau dukungan resmi melalui kebijakan ini."
+    }
+  ],
+  "editorial_rules": [
+    "Copy hero dan hook merupakan penulisan pemasaran MEC, bukan kutipan dari narasumber.",
+    "Jangan membuat klaim kekurangan mekanik, kepastian diterima kerja, gaji, atau kuota tanpa data MEC yang terverifikasi.",
+    "Kebijakan pemerintah ditempatkan sebagai konteks di scene tantangan dan panel sumber.",
+    "Tidak menyatakan status hukum terkini Perpres 68/2022 karena halaman hukum tidak berhasil diverifikasi.",
+    "KPRverse dipakai sebagai arah pengalaman; tidak ada standar kelulusan resmi bernama standar KPRverse."
+  ]
+}

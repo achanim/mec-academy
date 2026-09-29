@@ -1,0 +1,8 @@
+---
+import Page from '../../components/Page.astro';
+import { site, waLink } from '../../lib/site';
+---
+<Page title="Assessment Online" eyebrow="MEC Academy / Assessment" description="Assessment online untuk calon siswa dan siswa Basic Mechanic Course. Siapkan username dan password dari tim assessor MEC Academy.">
+  <ol class="mb-10 list-decimal space-y-3 pl-5 text-sage"><li>Pastikan username dan password sudah diterima dari tim assessor.</li><li>Klik Login Assessment dan masuk ke portal.</li><li>Ikuti arahan tim assessor selama pelaksanaan.</li></ol>
+  <div class="flex gap-4"><a class="btn" href={site.assessmentUrl} rel="noopener">Login Assessment ↗</a><a class="btn btn-ghost" target="_blank" rel="noopener" href={waLink('Halo MEC Academy, saya ingin bertanya tentang akses akun assessment. Mohon bantuannya.')}>Tanya akses akun</a></div>
+</Page>

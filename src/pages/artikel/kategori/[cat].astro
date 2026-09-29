@@ -1,0 +1,14 @@
+---
+import Page from '../../../components/Page.astro';
+import { publishedArticles, categories } from '../../../lib/articles';
+export async function getStaticPaths() {
+  const articles = await publishedArticles();
+  return Object.keys(categories).map((cat) => ({ params: { cat }, props: { list: articles.filter((a) => a.data.category === cat) } }));
+}
+const { cat } = Astro.params;
+const { list } = Astro.props;
+---
+<Page title={categories[cat!]} eyebrow="Kategori artikel" description={`Kumpulan artikel ${categories[cat!]} dari MEC Academy.`}>
+  <ul class="space-y-4">{list.map((a) => <li><a class="text-2xl hover:text-gold" href={`/artikel/${a.id}/`}>{a.data.title}</a><p class="text-sm text-sage">{a.data.description}</p></li>)}</ul>
+  {list.length === 0 && <p class="text-sage">Belum ada artikel di kategori ini.</p>}
+</Page>

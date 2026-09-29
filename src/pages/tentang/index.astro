@@ -1,0 +1,13 @@
+---
+import Page from '../../components/Page.astro';
+import content from '../../data/content.json';
+---
+<Page title="Tentang MEC Academy" eyebrow="Mengenal MEC Academy" description={content.vision}>
+  <h2 class="mb-6 text-4xl">Sejarah</h2>
+  <ol class="mb-14 grid gap-6 md:grid-cols-3">{content.history.map((h) => <li class="border-t border-gold pt-4"><span class="font-display text-5xl text-gold">{h.year}</span><p class="mt-2">{h.name}</p></li>)}</ol>
+  <h2 class="mb-6 text-4xl">Misi</h2>
+  <ul class="mb-14 list-disc space-y-2 pl-5 text-sage">{content.mission.map((m) => <li>{m}</li>)}</ul>
+  <h2 class="mb-6 text-4xl">Nilai</h2>
+  <ul class="grid gap-4 md:grid-cols-3">{content.values.map((v) => <li class="border border-line p-4"><b class="font-display text-2xl">{v.name}</b> <span class="text-gold">/ {v.label}</span><p class="mt-2 text-sm text-sage">{v.text}</p></li>)}</ul>
+  <p class="mt-14 text-xs text-sage">{content.legal.entity} · AHU {content.legal.ahu} · NIB {content.legal.nib}</p>
+</Page>

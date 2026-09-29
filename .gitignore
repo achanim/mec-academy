@@ -1,0 +1,5 @@
+node_modules
+dist
+.astro
+.env*
+MEC_UI_Preview.html

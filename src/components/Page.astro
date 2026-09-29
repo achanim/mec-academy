@@ -1,0 +1,16 @@
+---
+// Layout sederhana untuk halaman konten (judul + slot)
+import Base from '../layouts/Base.astro';
+interface Props { title: string; description: string; eyebrow?: string; heading?: string; jsonLd?: object | object[]; }
+const { title, description, eyebrow, heading = title, jsonLd } = Astro.props;
+---
+<Base {title} {description} {jsonLd}>
+  <section class="bg-gradient-to-br from-green to-ink py-20">
+    <div class="wrap">
+      {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
+      <h1 class="text-5xl md:text-7xl max-w-4xl">{heading}</h1>
+      <p class="mt-6 max-w-2xl text-lg text-sage">{description}</p>
+    </div>
+  </section>
+  <div class="wrap py-16"><slot /></div>
+</Base>

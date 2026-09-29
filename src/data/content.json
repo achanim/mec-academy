@@ -1,0 +1,371 @@
+{
+  "source": "Company Profile MEC ACADEMY.pdf",
+  "source_pages": 16,
+  "institution": "Lembaga Pendidikan dan Pelatihan Keterampilan Teknik Alat Berat",
+  "vision": "Menghadirkan sumber daya manusia yang berkarakter baik untuk industri alat berat di Indonesia.",
+  "mission": [
+    "Membentuk sumber daya manusia tangguh dalam spiritualitas, peradaban, dan intelektualitas.",
+    "Menghasilkan nilai tambah bagi pemangku kepentingan dan memberi manfaat bagi kesejahteraan."
+  ],
+  "values": [
+    {
+      "name": "Serve",
+      "label": "Melayani",
+      "text": "Melayani para pemangku kepentingan dengan sepenuh hati."
+    },
+    {
+      "name": "Integrity",
+      "label": "Integritas",
+      "text": "Mendasari semua aktivitas dengan jujur dan bertanggung jawab."
+    },
+    {
+      "name": "Agility",
+      "label": "Semangat",
+      "text": "Menunjukkan kesigapan untuk memenuhi tantangan yang ada."
+    },
+    {
+      "name": "Professional",
+      "label": "Profesional",
+      "text": "Memiliki kualifikasi sesuai keperluan pemangku kepentingan."
+    }
+  ],
+  "history": [
+    {
+      "year": "2018",
+      "name": "Equipment Technical Training Center",
+      "short": "ETTC"
+    },
+    {
+      "year": "2023",
+      "name": "Malang Education Centre",
+      "short": "MEC"
+    },
+    {
+      "year": "2025",
+      "name": "MEC Academy",
+      "short": "MEC ACADEMY"
+    }
+  ],
+  "metrics": {
+    "alumni": "±600",
+    "alumni_note": "Jumlah alumni menurut company profile 2026",
+    "batch": "BMC 55",
+    "batch_note": "Jumlah batch per Agustus 2026"
+  },
+  "legal": {
+    "entity": "CV MEC ACADEMY",
+    "ahu": "AHU-0011655-AH-01.14 Tahun 2025",
+    "nib": "1202250103384"
+  },
+  "team": [
+    {
+      "role": "Direktur Utama",
+      "names": [
+        "Susilo Adiyono"
+      ]
+    },
+    {
+      "role": "Wakil Direktur",
+      "names": [
+        "Didin Setyorini"
+      ]
+    },
+    {
+      "role": "Divisi Operasional",
+      "names": [
+        "Chandra Choirulyanto"
+      ]
+    },
+    {
+      "role": "Finance",
+      "names": [
+        "Agung Susetyo Widiyanto"
+      ]
+    },
+    {
+      "role": "Marketing",
+      "names": [
+        "Puji Hartono",
+        "Bambang Teddy K"
+      ]
+    },
+    {
+      "role": "Training",
+      "names": [
+        "Moh. Andy Prastyawan",
+        "Nur Wiranto",
+        "Saifullah Ali",
+        "Erik Andi Purwanto",
+        "Johan Winarto"
+      ]
+    }
+  ],
+  "instructors": [
+    {
+      "name": "Chandra Choirulyanto",
+      "asset": "trainer-chandra",
+      "role": "Supervisor",
+      "company": "PT United Tractors",
+      "credentials": [
+        "BNSP ToT Level IV",
+        "Pengawas Operasional Pertama",
+        "Asesor Kompetensi"
+      ],
+      "page": 6
+    },
+    {
+      "name": "Moh. Andy Prastyawan",
+      "asset": "trainer-andy",
+      "role": "Mekanik",
+      "company": "PT Pama Persada Nusantara",
+      "credentials": [
+        "BNSP ToT Level IV",
+        "Asesor Kompetensi"
+      ],
+      "page": 6
+    },
+    {
+      "name": "Saifullah Ali",
+      "asset": "trainer-saifullah",
+      "role": "Mekanik",
+      "company": "PT Mitrabara Adhiperdana Tbk",
+      "credentials": [
+        "BNSP ToT Level III"
+      ],
+      "page": 6
+    },
+    {
+      "name": "Nur Wiranto",
+      "asset": "trainer-nur",
+      "role": "Mekanik",
+      "company": "PT Kaltim Prima Persada (KPP)",
+      "credentials": [
+        "BNSP ToT Level III"
+      ],
+      "page": 7
+    },
+    {
+      "name": "Erik Andi Purwanto",
+      "asset": "trainer-erik",
+      "role": "Supervisor Plant System Development",
+      "company": "PT Global Makara Teknik",
+      "credentials": [
+        "BNSP ToT Level IV",
+        "Pengawas Operasional Pertama"
+      ],
+      "page": 7
+    },
+    {
+      "name": "Johan Winarto",
+      "asset": "trainer-johan",
+      "role": "Foreman Planner",
+      "company": "PT Bagong Dekaka Makmur",
+      "credentials": [
+        "Sertifikasi K3 Umum"
+      ],
+      "page": 7
+    }
+  ],
+  "modules": [
+    "Basic safety",
+    "Product knowledge",
+    "Basic tools & equipment",
+    "Basic machine element",
+    "Diesel engine",
+    "Hydraulic system",
+    "Electrical system",
+    "Direct drive system",
+    "Torqflow drive system",
+    "Steering & brake system",
+    "Axle, wheel & suspension",
+    "Final drive & undercarriage",
+    "Basic maintenance",
+    "Part book reading",
+    "Aksesoris (AC - ALS) & safety",
+    "Device (AFS)"
+  ],
+  "components": [
+    "Engine PC200",
+    "Final Drive PC1250",
+    "Control Valve Excavator",
+    "Main Pump PC1250",
+    "Torqflow Transmission",
+    "Differential LDT",
+    "Hydraulic Cylinder"
+  ],
+  "stages": [
+    {
+      "name": "Assessment",
+      "items": [
+        "Seleksi administrasi",
+        "Assessment psikologi",
+        "Interview",
+        "Tes buta warna dan kesehatan"
+      ]
+    },
+    {
+      "name": "In-class Training",
+      "items": [
+        "Bintalsik, personality, character & team building",
+        "Materi Basic Mechanic Course",
+        "Praktik komponen dan unit",
+        "Pengembangan soft skill",
+        "Evaluasi akhir"
+      ]
+    },
+    {
+      "name": "On the Job Training",
+      "items": [
+        "Praktik di lapangan",
+        "Pengembangan skill dan wawasan",
+        "Membangun mental siap bekerja",
+        "Membangun kemampuan berorganisasi dalam perusahaan"
+      ]
+    }
+  ],
+  "facilities": [
+    "6 ruang kelas",
+    "Mess satu lokasi dengan pelatihan, kapasitas 30 siswa",
+    "Workshop, tools & equipment",
+    "Pantry",
+    "Musholla",
+    "Kamar mandi",
+    "Parkir kendaraan",
+    "Seragam dan APD: seragam bintalsik, seragam trainee, dan sepatu safety"
+  ],
+  "propositions": [
+    "Basic Mechanic Course",
+    "Kurikulum berbasis industri",
+    "Instruktur berpengalaman industri",
+    "Labour Support On Job Training",
+    "Customer Specific Development"
+  ],
+  "sectors": [
+    "Mining Contractor",
+    "Mining Hauling",
+    "Heavy Equipment Distributor / Dealer",
+    "Forestry",
+    "Plantation",
+    "Rebuild Center",
+    "Heavy Equipment Accessories Dealer"
+  ],
+  "events": [
+    {
+      "name": "Penyerahan komponen",
+      "company": "PT Komatsu Remanufacturing Asia",
+      "asset": "event-komatsu",
+      "page": 12
+    },
+    {
+      "name": "Kunjungan industri ke MEC",
+      "company": "PT Sinarindo Global Sarana",
+      "asset": "event-sinarindo",
+      "page": 13
+    },
+    {
+      "name": "Kunjungan tim MEC",
+      "company": "PT United Tractors",
+      "asset": "event-ut",
+      "page": 13
+    },
+    {
+      "name": "Kunjungan tim MEC",
+      "company": "PT United Tractors Site Tenggarong",
+      "asset": "event-tenggarong",
+      "page": 13
+    },
+    {
+      "name": "Kunjungan tim MEC",
+      "company": "PT Trinity Auto",
+      "asset": "event-trinity",
+      "page": 13
+    },
+    {
+      "name": "Kunjungan industri ke MEC",
+      "company": "PT Putra Perkasa Abadi",
+      "asset": "event-ppa",
+      "page": 13
+    },
+    {
+      "name": "Kunjungan tim MEC",
+      "company": "Site ABP, Kutai, Kalimantan Timur",
+      "asset": "event-abp",
+      "page": 13
+    }
+  ],
+  "contact": {
+    "phone": "+62 822 2998 5588",
+    "whatsapp": "https://wa.me/6282229985588",
+    "email": "operasional@malangeducationcenter.com",
+    "website": "https://malangeducationcenter.com/",
+    "address": "Jl. Jatisari No. 07, Patuksari, RT.01/RW.01, Desa Plaosan, Kecamatan Wonosari, Kabupaten Malang, Jawa Timur, Indonesia."
+  },
+  "video": {
+    "watch": "https://www.youtube.com/watch?v=ZV39to3Qfz8&t=1s",
+    "embed": "https://www.youtube-nocookie.com/embed/ZV39to3Qfz8?start=1&autoplay=0",
+    "source": "Tautan yang diberikan pengguna"
+  },
+  "source_map": {
+    "institution": [
+      1
+    ],
+    "propositions": [
+      2
+    ],
+    "history": [
+      2
+    ],
+    "metrics": [
+      2
+    ],
+    "vision": [
+      3
+    ],
+    "mission": [
+      3
+    ],
+    "values": [
+      3
+    ],
+    "legal": [
+      4
+    ],
+    "team": [
+      5
+    ],
+    "instructors": [
+      6,
+      7
+    ],
+    "modules": [
+      8
+    ],
+    "components": [
+      8
+    ],
+    "stages": [
+      9
+    ],
+    "facilities": [
+      10
+    ],
+    "events": [
+      12,
+      13
+    ],
+    "alumni_photos": [
+      14,
+      15
+    ],
+    "contact": [
+      16
+    ],
+    "saa": "Brief dan dokumentasi kegiatan MEC pada percakapan sebelumnya"
+  },
+  "editorial_notes": [
+    "Nama Johan tertulis Wiharto pada halaman 5 dan Winarto pada halaman 7. Ejaan pada profil instruktur (halaman 7) dipakai sementara secara konsisten.",
+    "Riwayat pekerjaan instruktur ditulis sebagai pengalaman, bukan pekerjaan aktif saat ini.",
+    "Nama perusahaan pada kegiatan menunjukkan dokumentasi kunjungan atau penyerahan komponen, bukan jaminan penempatan kerja.",
+    "Nomor telepon dan email contoh pada gambar kartu tidak dipakai sebagai kontak website."
+  ]
+}

@@ -1,0 +1,20 @@
+---
+import Page from '../../../components/Page.astro';
+import { modules, waLink } from '../../../lib/site';
+import content from '../../../data/content.json';
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Course', name: 'Basic Mechanic Course (BMC)',
+  description: 'Pelatihan dasar mekanik alat berat: 16 modul, praktik komponen, dan On the Job Training.',
+  provider: { '@type': 'EducationalOrganization', name: 'MEC Academy', sameAs: 'https://mecacademy.id' },
+  inLanguage: 'id',
+};
+---
+<Page title="Basic Mechanic Course (BMC)" eyebrow="Program" description="Bangun dasar teknis, pengalaman praktik, dan karakter profesional untuk menjadi mekanik alat berat." jsonLd={ld}>
+  <h2 class="mb-6 text-4xl">{modules.length} modul pembelajaran</h2>
+  <ol class="grid gap-3 md:grid-cols-2">
+    {modules.map((m) => <li><a class="flex gap-4 border-b border-line py-3 hover:text-gold" href={`/program/basic-mechanic-course/modul/${m.slug}/`}><span class="font-mono text-gold">{String(m.n).padStart(2, '0')}</span>{m.title}</a></li>)}
+  </ol>
+  <h2 class="mb-6 mt-16 text-4xl">Komponen praktik</h2>
+  <ul class="flex flex-wrap gap-3">{content.components.map((c) => <li class="border border-line px-4 py-2 text-sm">{c}</li>)}</ul>
+  <a class="btn mt-14" href={waLink()} target="_blank" rel="noopener">Daftar BMC ↗</a>
+</Page>

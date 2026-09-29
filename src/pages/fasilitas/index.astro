@@ -1,0 +1,14 @@
+---
+import { Image } from 'astro:assets';
+import Page from '../../components/Page.astro';
+import { img } from '../../lib/images';
+import content from '../../data/content.json';
+import gallery from '../../data/gallery.json';
+---
+<Page title="Fasilitas MEC Academy" eyebrow="Learn by doing" description="Ruang kelas, workshop, mess, dan fasilitas pendukung belajar di MEC Academy Malang.">
+  <ul class="mb-14 grid gap-3 md:grid-cols-2">{content.facilities.map((f) => <li class="border-b border-line py-3">{f}</li>)}</ul>
+  <h2 class="mb-6 text-4xl">Galeri kegiatan</h2>
+  <ul class="grid grid-cols-2 gap-4 md:grid-cols-4">
+    {gallery.map((g) => <li><figure><Image src={img(g.asset)} alt={g.caption} widths={[320, 480, 640]} sizes="(min-width:768px) 25vw, 50vw" loading="lazy" class="aspect-[4/3] w-full object-cover" /><figcaption class="mt-2 text-xs text-sage">{g.caption}</figcaption></figure></li>)}
+  </ul>
+</Page>

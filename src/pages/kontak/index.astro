@@ -1,0 +1,8 @@
+---
+import Page from '../../components/Page.astro';
+import { site, waLink } from '../../lib/site';
+---
+<Page title="Kontak & Konsultasi" eyebrow="Langkah berikutnya" description="Hubungi tim MEC untuk jadwal, biaya, persyaratan, dan proses seleksi Basic Mechanic Course.">
+  <address class="mb-8 not-italic leading-8 text-sage">{site.address}<br />{site.phone} · {site.email}</address>
+  <a class="btn" href={waLink()} target="_blank" rel="noopener">Chat WhatsApp ↗</a>
+</Page>

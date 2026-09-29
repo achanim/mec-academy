@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+
+@font-face { font-family: 'MECDisplay'; src: url('../assets/fonts/MECDisplay.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'MECBody'; src: url('../assets/fonts/MECBody.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'MECBold'; src: url('../assets/fonts/MECBold.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'MECMono'; src: url('../assets/fonts/MECMono.woff2') format('woff2'); font-display: swap; }
+
+@theme {
+  --color-green: #265154;
+  --color-deep: #0c3438;
+  --color-ink: #061f23;
+  --color-paper: #f3f0e4;
+  --color-gold: #cdbe86;
+  --color-sage: #c0cbc0;
+  --color-line: #54716b;
+  --font-display: 'MECDisplay', Arial, sans-serif;
+  --font-body: 'MECBody', Arial, sans-serif;
+  --font-bold: 'MECBold', Arial, sans-serif;
+  --font-mono: 'MECMono', monospace;
+}
+
+:root { --pad: clamp(24px, 5.55vw, 100px); color-scheme: dark; scroll-behavior: smooth; }
+body { background: var(--color-ink); color: var(--color-paper); font-family: var(--font-body); overflow-x: clip; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: normal; text-transform: uppercase; line-height: 1; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+.wrap { padding-inline: var(--pad); max-width: 1600px; margin-inline: auto; }
+.eyebrow { font: 11px/1.6 var(--font-mono); letter-spacing: 1px; color: var(--color-gold); text-transform: uppercase; }
+.btn { display: inline-flex; gap: 12px; align-items: center; padding: 14px 22px; background: var(--color-gold); color: var(--color-ink); font-family: var(--font-bold); }
+.btn-ghost { background: transparent; color: var(--color-paper); border: 1px solid var(--color-line); }
+.prose-mec { max-width: 70ch; line-height: 1.75; }
+.prose-mec h2 { font-size: 2rem; margin: 2.2em 0 .6em; }
+.prose-mec h3 { font-size: 1.4rem; margin: 1.8em 0 .5em; }
+.prose-mec a { color: var(--color-gold); text-decoration: underline; }
+.prose-mec ul { list-style: disc; padding-left: 1.4em; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

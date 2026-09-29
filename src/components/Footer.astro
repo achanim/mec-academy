@@ -1,0 +1,22 @@
+---
+import { site } from '../lib/site';
+---
+<footer class="border-t border-line bg-deep py-14">
+  <div class="wrap grid gap-10 md:grid-cols-3">
+    <div>
+      <p class="font-display text-3xl">MEC <span class="text-gold">Academy</span></p>
+      <p class="mt-3 max-w-xs text-sm text-sage">Mekanik berkarakter. Lembaga pelatihan teknik alat berat di Malang.</p>
+    </div>
+    <address class="text-sm not-italic leading-7 text-sage">
+      {site.address}<br />
+      <a class="hover:text-gold" href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a><br />
+      <a class="hover:text-gold" href={`mailto:${site.email}`}>{site.email}</a>
+    </address>
+    <ul class="space-y-2 text-sm">
+      <li><a class="hover:text-gold" href="/artikel/">Artikel</a></li>
+      <li><a class="hover:text-gold" href="/assessment/">Assessment online</a></li>
+      <li><a class="hover:text-gold" href="/kontak/">Kontak</a></li>
+    </ul>
+  </div>
+  <p class="wrap mt-10 text-xs text-sage/70">© {new Date().getFullYear()} MEC Academy</p>
+</footer>

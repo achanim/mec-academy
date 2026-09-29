@@ -1,0 +1,35 @@
+---
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../lib/site';
+interface Props { title: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; jsonLd?: object | object[]; publishedAt?: Date; updatedAt?: Date; }
+const props = Astro.props;
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': ['EducationalOrganization', 'LocalBusiness'],
+  name: site.name,
+  url: site.url,
+  telephone: site.phone,
+  email: site.email,
+  address: { '@type': 'PostalAddress', streetAddress: site.address, addressCountry: 'ID' },
+};
+const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [props.jsonLd]) : [];
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#265154" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <Seo {...props} jsonLd={[orgLd, ...extra]} />
+  </head>
+  <body>
+    <Header />
+    <main id="main" class="pt-20"><slot /></main>
+    <Footer />
+  </body>
+</html>
