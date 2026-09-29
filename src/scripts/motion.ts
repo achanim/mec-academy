@@ -52,6 +52,7 @@ export function choreography(id: string, p: number, enter: number) {
     gate: 1 - enter, advance, camY: -42 * advance, zoom: 1.06 + 0.1 * advance,
     s0: smooth(0.05, 0.35, p), s1: smooth(0.3, 0.6, p), s2: smooth(0.55, 0.85, p),
   };
+  if (id === 'challenge') Object.assign(c, { s0: smooth(0.03, 0.2, p), s1: smooth(0.12, 0.29, p), s2: smooth(0.21, 0.38, p) });
   if (id === 'hero') Object.assign(c, { camX: -3.6 * advance, camY: -62 * advance, zoom: 1.05 + 0.21 * advance, frame: smooth(0.28, 0.68, p), word: smooth(0.1, 0.7, p) });
   if (id === 'machine') Object.assign(c, { orbit: mix(-8, 16, advance), depth: 70 * breathe });
   if (id === 'character') Object.assign(c, { zoom: 1.03 + 0.12 * advance, prayer: smooth(0.35, 0.84, p), b0: bump(p, 0.08, 0.3), b1: bump(p, 0.36, 0.6), b2: bump(p, 0.64, 0.92) });
