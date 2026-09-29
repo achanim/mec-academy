@@ -26,13 +26,13 @@ OUT = os.path.join(HERE, '..', 'Proposal-Website-MEC-Academy-Rincian-Biaya.pdf')
 
 # ============================== KONFIGURASI ==============================
 NO_PROPOSAL = '001/PRP/IX/2026'
-TANGGAL = '29 September 2026'
+TANGGAL = '30 September 2026'
 BERLAKU = '30 hari sejak tanggal proposal'
 KLIEN = 'MEC Academy'
 KLIEN_ENTITAS = 'CV MEC Academy'
 KLIEN_ALAMAT = 'Jl. Jatisari No. 07, Patuksari, Desa Plaosan, Kec. Wonosari, Kab. Malang, Jawa Timur'
 # Isi data penyedia jasa; kosong = ditampilkan sebagai garis isian pada tanda tangan
-PENYEDIA = {'nama': '', 'npwp': '', 'kontak': '', 'rekening': ''}
+PENYEDIA = {'nama': 'Achmad Hanim', 'npwp': '', 'kontak': '', 'rekening': 'BCA 4400198034 a/n Achmad Hanim'}
 TARIF_PERUBAHAN = 150_000          # Rp/jam untuk pekerjaan di luar lingkup
 GARANSI_HARI = 30
 # ============================================================================
@@ -472,7 +472,7 @@ line = lambda label, val='': [P(f'<font color="{hexs(MUTE)}" size="7.6">{label}<
 box_l = [P('<b>PEMESAN</b>', PS('bh', fontName='Inter-B', fontSize=8, textColor=BLUE)), P(KLIEN_ENTITAS, TCB), Spacer(1, 2 * mm),
          P('Paket dipilih:  ☐ Inti     ☐ Lengkap     ☐ Lengkap+'.replace('☐', '[  ]'), TC), Spacer(1, 12 * mm), P('Nama : ____________________________', TC), P('Jabatan : __________________________', TC), P('Tanggal : ___________________________', TC)]
 box_r = [P('<b>PENYEDIA JASA</b>', PS('bh', fontName='Inter-B', fontSize=8, textColor=BLUE)), P(PENYEDIA['nama'] or 'Penyedia jasa pengembangan web', TCB), Spacer(1, 2 * mm),
-         P(('NPWP : ' + PENYEDIA['npwp']) if PENYEDIA['npwp'] else 'NPWP : ______________________', TC), Spacer(1, 12 * mm), P('Nama : ____________________________', TC), P('Tanda tangan di atas nama jelas', SMALL), P('Tanggal : ___________________________', TC)]
+         P(('NPWP : ' + PENYEDIA['npwp']) if PENYEDIA['npwp'] else 'Rekening : ' + PENYEDIA['rekening'], TC), Spacer(1, 12 * mm), P('Nama : ' + (PENYEDIA['nama'] or '____________________________'), TC), P('Tanda tangan di atas nama jelas', SMALL), P('Tanggal : ___________________________', TC)]
 sig = Table([[box_l, box_r]], colWidths=[CW / 2, CW / 2]); sig.setStyle(TableStyle([('BOX', (0, 0), (0, 0), 0.6, LINE), ('BOX', (1, 0), (1, 0), 0.6, LINE), ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                                                                                 ('LEFTPADDING', (0, 0), (-1, -1), 10), ('TOPPADDING', (0, 0), (-1, -1), 8), ('BOTTOMPADDING', (0, 0), (-1, -1), 8), ('RIGHTPADDING', (0, 0), (0, 0), 10)]))
 S += [KeepTogether([sig])]
