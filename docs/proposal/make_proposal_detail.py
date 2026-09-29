@@ -42,15 +42,15 @@ GARANSI_HARI = 30
 PAKET_LENGKAP = [
     ('A', 'Persiapan & fondasi', [
         ('A1', 'Perencanaan: peta situs, kebutuhan halaman, struktur URL', 1.0, 800_000),
-        ('A2', 'Penyiapan proyek: repositori, standar kode, pengujian otomatis dasar', 1.0, 1_000_000),
-        ('A3', 'Pemindahan isi dari desain contoh: foto (format modern), font, data konten', 1.0, 1_200_000)]),
+        ('A2', 'Penyiapan proyek: repositori, standar kode, pengujian otomatis dasar', 1.0, 1_300_000),
+        ('A3', 'Pemindahan isi dari desain contoh: foto (format modern), font, data konten', 1.0, 1_400_000)]),
     ('B', 'Beranda interaktif', [
         ('B1', 'Sistem desain: warna, huruf, komponen, header & menu', 1.5, 1_500_000),
-        ('B2', 'Beranda 12 bagian: tata letak & isi', 3.5, 3_000_000),
+        ('B2', 'Beranda 12 bagian: tata letak & isi', 3.5, 3_500_000),
         ('B3', 'Animasi scroll: 7 bagian ter-pin, zoom foto, geser horizontal, tab 3D', 4.0, 3_500_000),
         ('B4', 'Layar pembuka, mode gerak tenang, navigasi antar-bagian', 2.0, 1_500_000)]),
     ('C', 'Halaman-halaman utama', [
-        ('C1', 'Program BMC + 16 halaman modul (berkelompok, navigasi sebelum/sesudah)', 2.0, 1_800_000),
+        ('C1', 'Program BMC + 16 halaman modul (berkelompok, navigasi sebelum/sesudah)', 2.0, 2_000_000),
         ('C2', 'Tahapan seleksi, Fasilitas + galeri foto dengan pembesar', 1.5, 1_200_000),
         ('C3', 'Instruktur (daftar + 6 profil), Industri, Tentang, Sumber informasi', 1.5, 1_500_000),
         ('C4', 'Assessment (langkah + FAQ), Kontak, FAQ umum (9 pertanyaan)', 2.0, 1_500_000)]),
@@ -63,8 +63,8 @@ PAKET_LENGKAP = [
         ('E1', 'Tampilan HP, tablet, laptop, layar lebar', 2.5, 2_000_000),
         ('E2', 'Pengujian 5 ukuran layar × 16 halaman, target sentuh, tanpa geser mendatar', 1.5, 1_500_000)]),
     ('F', 'Kecepatan, aksesibilitas & audit', [
-        ('F1', 'Optimasi gambar/font, kestabilan tata letak (CLS), target skor Lighthouse 95 ke atas', 1.5, 1_400_000),
-        ('F2', 'Aksesibilitas: kontras, keyboard, pembaca layar, mode kurangi animasi', 1.0, 900_000),
+        ('F1', 'Optimasi gambar/font, kestabilan tata letak (CLS), target skor Lighthouse 95 ke atas', 1.5, 1_600_000),
+        ('F2', 'Aksesibilitas: kontras, keyboard, pembaca layar, mode kurangi animasi', 1.0, 1_000_000),
         ('F3', 'Skrip audit otomatis + pemeriksaan di CI + laporan', 1.0, 700_000)]),
     ('G', 'Ketahanan & penanganan error', [
         ('G1', 'Skeleton loading & penanganan gagal muat (gambar, video, pencarian, offline)', 1.0, 1_000_000),
@@ -82,13 +82,14 @@ INTI_KURANG = [
 ]
 # Tambahan Paket Lengkap+ (uraian, harga normal, harga paket)
 PLUS_TAMBAH = [
-    ('Pemasangan online: domain, sertifikat keamanan (SSL), pengalihan alamat', 1_500_000, 1_500_000),
+    ('Pemasangan di hosting & domain milik MEC: konfigurasi, sertifikat keamanan (SSL), pengalihan alamat lama', 1_500_000, 1_500_000),
     ('10 artikel SEO (riset kata kunci, 700–1.000 kata, terbit terjadwal)', 3_000_000, 3_000_000),
     ('Pemeliharaan 12 bulan: cadangan, pemantauan, perbaikan & ubah teks kecil', 6_000_000, 4_500_000),
 ]
 ADDONS = [
-    ('Pemasangan online (domain, SSL, pengalihan alamat)', 'Sekali', 'Rp 1.500.000'),
-    ('Pantau pengunjung: Google Analytics & Search Console', 'Sekali', 'Rp 1.000.000'),
+    ('Pemasangan di hosting & domain milik MEC (konfigurasi, SSL, pengalihan alamat lama)', 'Sekali', 'Rp 1.500.000'),
+    ('Analitik dasar: Google Analytics 4 + Search Console (pemasangan, kirim sitemap, uji pelacakan)', 'Sekali', 'Rp 1.000.000'),
+    ('Analitik lanjutan: pelacakan klik WhatsApp/pendaftaran + dasbor laporan (Looker Studio)', 'Sekali', 'Rp 2.000.000'),
     ('Artikel SEO (riset kata kunci + penulisan)', 'Per artikel', 'Rp 350.000 · paket 10 = Rp 3.000.000'),
     ('Editor artikel untuk staf tanpa coding (CMS)', 'Sekali', 'Rp 3.500.000'),
     ('Formulir pendaftaran online (ke WhatsApp/email)', 'Sekali', 'Rp 2.500.000'),
@@ -98,10 +99,9 @@ ADDONS = [
     ('Pekerjaan di luar lingkup', 'Per jam', f'Rp {TARIF_PERUBAHAN:,.0f}'.replace(',', '.')),
 ]
 BIAYA_BERJALAN = [
-    ('Nama domain (.id / .com)', 'Rp 150.000 – 350.000 / tahun', 'Dibayar ke penyedia domain atas nama MEC. Pasar: Rp 150–500 rb/tahun'),
-    ('Hosting (tempat situs berada)', 'Rp 0', 'Memakai layanan gratis Cloudflare Pages. Pasar hosting umum: Rp 0,5–6 juta/tahun'),
+    ('Domain dan hosting', 'Sudah dimiliki MEC', 'Situs dipasang di hosting MEC yang sudah ada; perpanjangan tahunan tetap dibayar MEC ke penyedianya. Tidak ada biaya domain/hosting baru dari kami'),
     ('Email bisnis (opsional)', 'Rp 100.000 – 150.000 / pengguna / bulan', 'Contoh: Google Workspace'),
-    ('Pemeliharaan (opsional setelah masa paket)', 'Rp 500.000 / bulan', 'Setara ±19% biaya awal per tahun; acuan pasar 15–25%'),
+    ('Pemeliharaan (opsional setelah masa paket)', 'Rp 500.000 / bulan', 'Setara ±18% biaya awal per tahun; acuan pasar 15–25%'),
 ]
 TERMIN = [('M1', 'Persetujuan proposal & penandatanganan', 40), ('M2', 'Bahan lengkap & situs siap ditinjau (staging)', 40), ('M3', 'Tayang, serah terima & pelatihan', 20)]
 
@@ -110,9 +110,9 @@ sum_wp = lambda wp: sum(i[3] for i in wp[2]); day_wp = lambda wp: sum(i[2] for i
 HARGA_LENGKAP = sum(sum_wp(w) for w in PAKET_LENGKAP); HARI_LENGKAP = sum(day_wp(w) for w in PAKET_LENGKAP)
 HARGA_INTI = HARGA_LENGKAP - sum(k[2] for k in INTI_KURANG)
 HARGA_PLUS = HARGA_LENGKAP + sum(t[2] for t in PLUS_TAMBAH)
-assert HARGA_LENGKAP == 32_000_000, HARGA_LENGKAP
-assert HARGA_INTI == 24_000_000, HARGA_INTI
-assert HARGA_PLUS == 41_000_000, HARGA_PLUS
+assert HARGA_LENGKAP == 33_500_000, HARGA_LENGKAP
+assert HARGA_INTI == 25_500_000, HARGA_INTI
+assert HARGA_PLUS == 42_500_000, HARGA_PLUS
 assert sum(t[2] for t in TERMIN) == 100
 rp = lambda n: 'Rp ' + f'{n:,.0f}'.replace(',', '.')
 jt = lambda n: f'{n/1_000_000:.1f}'.replace('.', ',') + ' jt'
@@ -295,7 +295,7 @@ S += [callout(f'<b>Rekomendasi kami: Paket Lengkap, {rp(HARGA_LENGKAP)}.</b> Web
 S += [P('Mengapa harganya begini', H2), *bullets([
     f'<b>Harga tetap</b> per paket, dirinci per pekerjaan (Bagian 5). Usaha kerja ditampilkan sebagai transparansi: {HARI_LENGKAP:.0f} hari kerja, setara ±{rp(round(DAY_RATE, -3))} per hari.',
     '<b>Sejalan dengan pasar</b>: kelas “Profesional” (8–15 halaman, blog, SEO) di Indonesia berkisar Rp 12–35 juta dan “Kustom/Premium” Rp 35–80 juta (Lampiran A). Website ini ±44 halaman dengan animasi kustom, sehingga berada di rentang atas kelas Profesional.',
-    '<b>Tanpa biaya hosting</b>: situs dipasang di layanan gratis (Cloudflare Pages) sehingga biaya berjalan hanya domain.',
+    '<b>Memakai domain dan hosting MEC yang sudah ada</b>: kami cukup memasang dan mengonfigurasi, sehingga tidak ada biaya hosting baru.',
     '<b>Anda memiliki hasilnya</b>: situs, isi, dan kode sumber menjadi milik MEC setelah pelunasan (Bagian 8).'])]
 
 # ---- 01 Pemahaman & status ----
@@ -345,7 +345,7 @@ inc = [P('<b>Termasuk (Paket Lengkap)</b>', TCB)] + bullets([
 exc = [P('<b>Tidak termasuk</b>', TCB)] + bullets([
     'Penulisan isi/teks (kecuali paket artikel), fotografi & video',
     'Pembuatan logo/identitas visual baru',
-    'Hosting berbayar, email bisnis, dan biaya domain',
+    'Biaya perpanjangan domain/hosting MEC dan email bisnis',
     'Sistem ujian online (portal assessment tetap di alamat yang ada)',
     'Pembayaran online, toko, sistem akun/LMS',
     'Jaminan peringkat Google; iklan berbayar',
@@ -355,7 +355,7 @@ t = Table([[inc, exc]], colWidths=[CW * 0.53, CW * 0.47]); t.setStyle(TableStyle
 S += [t, P('Asumsi dan ketergantungan', H2), *bullets([
     'Harga mengacu pada <b>44 halaman, 16 modul, satu bahasa (Indonesia)</b>. Penambahan modul/halaman/bahasa dihitung terpisah.',
     f'{KLIEN} menyediakan bahan (foto, teks, info biaya) dan menunjuk <b>satu penanggung jawab</b> yang memberi umpan balik maksimal 3 hari kerja.',
-    'Domain dan seluruh akun layanan (Cloudflare, repositori) dibuat atas nama MEC sejak awal.',
+    'MEC memberi akses ke hosting dan domain yang sudah ada (mis. panel hosting/FTP). Hosting perlu mendukung situs statis (HTML) dan SSL; bila tidak, kami sarankan alternatif tanpa mengubah harga paket.',
     'Jadwal bergeser sebanding dengan keterlambatan bahan atau persetujuan dari pihak MEC.'])]
 
 # ---- 03 Paket ----
@@ -366,7 +366,7 @@ feat = [('Beranda 12 bagian + desain responsif', True, True, True), ('Program BM
         ('Profil per-instruktur, halaman Industri & Sumber', False, True, True), ('Animasi scroll penuh (ter-pin, zoom, 3D)', False, True, True), ('Layar pembuka + mode gerak tenang', False, True, True),
         ('Blog artikel + SEO teknis', True, True, True), ('Data terstruktur lengkap (kursus, FAQ, profil, breadcrumb)', False, True, True), ('Pencarian artikel', False, True, True),
         ('Skeleton loading & penanganan gagal muat', False, True, True), ('Skrip audit otomatis + pemeriksaan CI + laporan', False, True, True),
-        ('Pemasangan online (domain, SSL, pengalihan alamat)', False, False, True), ('10 artikel SEO (riset kata kunci + penulisan)', False, False, True), ('Pemeliharaan 12 bulan', False, False, True)]
+        ('Pemasangan di hosting MEC (SSL, pengalihan alamat)', False, False, True), ('10 artikel SEO (riset kata kunci + penulisan)', False, False, True), ('Pemeliharaan 12 bulan', False, False, True)]
 rows = [[Paragraph('', TCW), Paragraph('INTI', PS('p1', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_CENTER)),
          Paragraph('LENGKAP', PS('p2', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_CENTER)), Paragraph('LENGKAP+', PS('p3', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_CENTER))]]
 rows += [[P(f, TC), m(a), m(b), m(c)] for f, a, b, c in feat]
@@ -426,13 +426,13 @@ rows = [head('Komponen', 'Perkiraan biaya', 'Catatan')]
 rows += [[P(a, TCB), P(b, TC), P(c, PS('n', fontSize=7.8, leading=10.8, textColor=MUTE))] for a, b, c in BIAYA_BERJALAN]
 S += [tbl(rows, [CW * 0.27, CW * 0.31, CW * 0.42])]
 S += [P('Gambaran total biaya kepemilikan', H2)]
-dom = 300_000; upkeep = 500_000 * 12
+upkeep = 500_000 * 12
 rows = [head('', 'Tahun 1', 'Tahun berikutnya', align=[TA_LEFT, TA_RIGHT, TA_RIGHT])]
 for nm, v in [('Paket Inti', HARGA_INTI), ('Paket Lengkap', HARGA_LENGKAP), ('Paket Lengkap+', HARGA_PLUS)]:
-    rows.append([P(f'<b>{nm}</b> (+ domain ±{rp(dom)})', TC), Paragraph(rp(v + dom), TCR),
-                 Paragraph(f'{rp(dom)} <font color="{hexs(MUTE)}">atau {rp(upkeep + dom)} dengan pemeliharaan</font>', TCR)])
-S += [tbl(rows, [CW * 0.42, CW * 0.2, CW * 0.38]), Spacer(1, 1.5 * mm),
-      P('Belum termasuk pemasangan online untuk Paket Inti dan Lengkap (Rp 1.500.000, sudah termasuk di Lengkap+). Pemeliharaan opsional; tanpa pemeliharaan, biaya tahun berikutnya hanya domain.', SMALL)]
+    rows.append([P(f'<b>{nm}</b>', TC), Paragraph(rp(v), TCR),
+                 Paragraph(f'Rp 0 <font color="{hexs(MUTE)}">atau {rp(upkeep)} dengan pemeliharaan</font>', TCR)])
+S += [tbl(rows, [CW * 0.32, CW * 0.2, CW * 0.48]), Spacer(1, 1.5 * mm),
+      P('Belum termasuk pemasangan di hosting MEC untuk Paket Inti dan Lengkap (Rp 1.500.000, sudah termasuk di Lengkap+) dan perpanjangan domain/hosting MEC yang sudah berjalan. Pemeliharaan opsional.', SMALL)]
 
 # ---- 07 Jadwal & termin ----
 S += [PageBreak()] + sec('7', 'Jadwal dan termin pembayaran')
@@ -446,7 +446,7 @@ rows.append([P('', TC), P('<b>Total</b>', TCB), Paragraph('<b>100%</b>', TCC)] +
 S += [tbl(rows, [CW * 0.07, CW * 0.30, CW * 0.09, CW * 0.17, CW * 0.18, CW * 0.19], extra=[('BACKGROUND', (0, len(rows) - 1), (-1, len(rows) - 1), BLUE_L)]), Spacer(1, 2 * mm)]
 S += [*bullets(['Jatuh tempo 7 hari sejak invoice. Pembayaran ke rekening: ' + (PENYEDIA['rekening'] or 'akan dicantumkan pada invoice') + '.',
                 'Keterlambatan lebih dari 14 hari menghentikan pekerjaan sementara sampai pembayaran diterima.',
-                'Domain dan sertifikat SSL dibayar langsung oleh MEC ke penyedia dan tidak ikut dipotong pajak jasa.'])]
+                'Perpanjangan domain dan hosting tetap dibayar MEC langsung ke penyedianya, di luar tagihan kami.'])]
 S += [P('Pajak', H2), *bullets([
     'Penyedia jasa <b>bukan Pengusaha Kena Pajak (PKP)</b>, sehingga <b>tidak ada PPN</b> pada harga di atas.',
     'Pemesan berbadan usaha lazimnya memotong <b>PPh Pasal 23 sebesar 2%</b> dari nilai jasa (4% bila penyedia tanpa NPWP) dan menerbitkan bukti potong. Contoh: tagihan Rp 12.800.000 dipotong 2% = Rp 256.000, sehingga dibayar Rp 12.544.000.',
@@ -459,7 +459,7 @@ terms = [
     ('Revisi', 'Termasuk 2 putaran revisi kecil pada tahap peninjauan (teks, warna, urutan, penggantian foto). Perubahan struktur, desain ulang, atau halaman baru dianggap perubahan lingkup.'),
     ('Perubahan lingkup', f'Dikerjakan setelah ada estimasi tertulis yang disetujui; ditagih per paket tetap atau Rp {TARIF_PERUBAHAN:,.0f}/jam'.replace(',', '.') + '.'),
     ('Tanggung jawab pemesan', 'Menyediakan bahan tepat waktu, menunjuk satu penanggung jawab, dan memberi umpan balik maksimal 3 hari kerja. Keterlambatan menggeser jadwal.'),
-    ('Kepemilikan', 'Setelah pelunasan, MEC memiliki situs, isi, dan kode sumber. Domain dan akun atas nama MEC sejak awal. Komponen pihak ketiga (Astro, Tailwind, font sumber terbuka, dll.) tetap tunduk pada lisensi sumber terbuka masing-masing.'),
+    ('Kepemilikan', 'Setelah pelunasan, MEC memiliki situs, isi, dan kode sumber. Domain, hosting, dan akun tetap milik MEC. Komponen pihak ketiga (Astro, Tailwind, font sumber terbuka, dll.) tetap tunduk pada lisensi sumber terbuka masing-masing.'),
     ('Garansi', f'Perbaikan kesalahan fungsi hasil pekerjaan ini gratis selama {GARANSI_HARI} hari sejak tayang. Tidak mencakup perubahan konten/desain atau gangguan layanan pihak ketiga.'),
     ('Kinerja & SEO', 'Target skor Lighthouse 95 ke atas diukur pada versi produksi dalam kondisi lab. Hasil di situs online dapat bervariasi menurut jaringan dan hosting. Kami tidak menjamin peringkat Google.'),
     ('Kerahasiaan', 'Informasi MEC dijaga kerahasiaannya dan tidak dipakai untuk keperluan lain.'),
@@ -489,7 +489,7 @@ S += [tbl([head('Kelas', 'Kisaran pasar', 'Cakupan umum'),
 S += [Spacer(1, 2 * mm), P('Sebagian penyedia menawarkan paket jauh lebih murah (Rp 0,5–3 juta), umumnya berbasis templat dengan 5 halaman dan tanpa audit kualitas. Waktu pengerjaan acuan pasar: Profesional 4–6 minggu, Kustom 6–10 minggu. '
                                     'Biaya pemeliharaan tahunan yang lazim dianggarkan 15–25% dari biaya awal.', BODY)]
 S += [P('Cara harga ditetapkan', H2), *bullets([
-    f'Estimasi usaha {HARI_LENGKAP:.0f} hari kerja pengembang menengah–senior × tarif ±{rp(round(DAY_RATE, -3))}/hari = {rp(HARGA_LENGKAP)}. Tarif pasar Indonesia untuk pengembang menengah sekitar Rp 150.000–400.000/jam (Rp 1,2–3,2 juta per hari kerja 8 jam); tarif efektif penawaran ini (±Rp 111.000/jam) berada di bawah rentang tersebut karena desain acuan sudah tersedia sehingga tidak ada biaya perancangan visual dari nol. Angka tarif ini indikatif (acuan yang beredar di pasar), bukan tarif baku.',
+    f'Estimasi usaha {HARI_LENGKAP:.0f} hari kerja pengembang menengah–senior × tarif ±{rp(round(DAY_RATE, -3))}/hari = {rp(HARGA_LENGKAP)}. Tarif pasar Indonesia untuk pengembang menengah sekitar Rp 150.000–400.000/jam (Rp 1,2–3,2 juta per hari kerja 8 jam); tarif efektif penawaran ini (±{rp(round(DAY_RATE / 8, -3))}/jam) berada di bawah rentang tersebut karena desain acuan sudah tersedia sehingga tidak ada biaya perancangan visual dari nol. Angka tarif ini indikatif (acuan yang beredar di pasar), bukan tarif baku.',
     'Paket Inti dihitung dengan mengurangi komponen yang paling mahal dan paling “mewah” (animasi, layar pembuka, alat audit). Paket Lengkap+ menambahkan layanan yang lazim dibutuhkan agar situs benar-benar hidup: pemasangan, konten awal, dan pemeliharaan.',
     'Angka pasar bersifat indikatif dan berubah menurut vendor; pengecekan ulang disarankan sebelum keputusan akhir.'])]
 S += [P('Sumber referensi', H2), P('Majapahit Teknologi — Jasa Pembuatan Website Company Profile 2026 (majapahit.id) · Ascendweb — Biaya Jasa Pembuatan Website Profesional 2026 (ascendweb.id) · '
@@ -501,6 +501,8 @@ S += [tbl([head('Istilah', 'Artinya'),
            [P('<b>SSL / HTTPS</b>', TC), P('Gembok keamanan di alamat situs; wajib agar situs dipercaya browser dan Google.', TC)],
            [P('<b>CMS</b>', TC), P('Editor tempat staf menulis dan menerbitkan artikel tanpa perlu menulis kode.', TC)],
            [P('<b>Lighthouse</b>', TC), P('Alat penilai dari Google untuk kecepatan, aksesibilitas, dan SEO (skor 0–100).', TC)],
+           [P('<b>CI</b>', TC), P('Continuous Integration: pemeriksaan otomatis (uji dan audit) yang berjalan setiap ada perubahan kode, agar kesalahan terdeteksi sebelum tayang.', TC)],
+           [P('<b>Google Analytics / Search Console</b>', TC), P('Alat gratis Google untuk melihat jumlah dan perilaku pengunjung (Analytics) serta kata kunci dan kesehatan indeks (Search Console).', TC)],
            [P('<b>CLS</b>', TC), P('Ukuran seberapa banyak tampilan “melompat” saat halaman dimuat; makin kecil makin nyaman.', TC)],
            [P('<b>Staging</b>', TC), P('Salinan situs untuk ditinjau MEC sebelum dipasang resmi di internet.', TC)],
            [P('<b>PKP / PPh 23</b>', TC), P('PKP: pengusaha yang wajib memungut PPN. PPh 23: pajak penghasilan atas jasa yang dipotong oleh pemberi kerja.', TC)]],
