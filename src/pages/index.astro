@@ -28,7 +28,6 @@ const chapters = [
   { id: 'instructors', title: 'Belajar bersama instruktur' }, { id: 'about', title: 'Tentang MEC' }, { id: 'industry', title: 'Terhubung dengan industri' },
   { id: 'alumni', title: 'Alumni dan OJT' }, { id: 'film', title: 'Company profile' }, { id: 'contact', title: 'Mulai BMC' },
 ];
-const num = (n: number) => `${String(n).padStart(2, '0')} / ${String(chapters.length).padStart(2, '0')}`;
 const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, inLanguage: 'id' };
 ---
 <Base home footer={false} title="MEC Academy — Kursus Mekanik Alat Berat di Malang" description="Mulai langkahmu menjadi mekanik alat berat. Basic Mechanic Course MEC Academy: 16 modul, praktik komponen, instruktur industri, dan pembentukan karakter." jsonLd={ld}>
@@ -153,7 +152,7 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.na
           <div class="split-copy" data-reveal><p class="text-sage">Belajar mengamati, mencoba, mencatat, dan mengevaluasi bersama instruktur.</p><a class="text-link" href="/fasilitas/">Jelajahi fasilitas <span aria-hidden="true">↗</span></a></div>
         </div>
         <div class="rail-window"><ul class="rail" data-rail tabindex="0" aria-label="Tahapan belajar">
-          {learning.map(([t, i, d], k) => <li data-title={t}><figure><Image src={img(i)} alt={t} widths={[640, 960]} sizes="(min-width:1000px) 51vw, 86vw" loading="lazy" class="rail-img" /><figcaption><span>0{k + 1}</span><h3>{t}</h3></figcaption></figure></li>)}
+          {learning.map(([t, i], k) => <li data-title={t}><figure><Image src={img(i)} alt={t} widths={[640, 960]} sizes="(min-width:1000px) 51vw, 86vw" loading="lazy" class="rail-img" /><figcaption><span>0{k + 1}</span><h3>{t}</h3></figcaption></figure></li>)}
         </ul></div>
         <div class="learning-footer">
           <div class="rail-controls"><button data-rail-prev aria-label="Sebelumnya">←</button><button data-rail-next aria-label="Berikutnya">→</button>
