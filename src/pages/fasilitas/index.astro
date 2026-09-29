@@ -1,14 +1,23 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Page from '../../components/Page.astro';
 import { img } from '../../lib/images';
 import content from '../../data/content.json';
 import gallery from '../../data/gallery.json';
+const items = await Promise.all(gallery.map(async (g) => ({ ...g, full: (await getImage({ src: img(g.asset), width: 1600, format: 'webp' })).src })));
 ---
 <Page title="Fasilitas MEC Academy" eyebrow="Learn by doing" description="Ruang kelas, workshop, mess, dan fasilitas pendukung belajar di MEC Academy Malang.">
   <ul class="mb-14 grid gap-3 md:grid-cols-2">{content.facilities.map((f) => <li class="border-b border-line py-3">{f}</li>)}</ul>
-  <h2 class="mb-6 text-4xl">Galeri kegiatan</h2>
+  <h2 id="galeri" class="mb-6 scroll-mt-28 text-4xl">Galeri kegiatan</h2>
   <ul class="grid grid-cols-2 gap-4 md:grid-cols-4">
-    {gallery.map((g) => <li><figure><Image src={img(g.asset)} alt={g.caption} widths={[320, 480, 640]} sizes="(min-width:768px) 25vw, 50vw" loading="lazy" class="aspect-[4/3] w-full object-cover" /><figcaption class="mt-2 text-xs text-sage">{g.caption}</figcaption></figure></li>)}
+    {items.map((g) => <li><figure><button type="button" class="gallery-btn" data-full={g.full} data-caption={g.caption} aria-label={`Perbesar foto: ${g.caption}`}><Image src={img(g.asset)} alt={g.caption} widths={[320, 480, 640]} sizes="(min-width:768px) 25vw, 50vw" loading="lazy" class="aspect-[4/3] w-full object-cover" /></button><figcaption class="mt-2 text-xs text-sage">{g.caption}</figcaption></figure></li>)}
   </ul>
+  <dialog id="lightbox" class="lightbox" aria-label="Foto kegiatan"><button type="button" class="close-dialog" aria-label="Tutup">×</button><img alt="" /><p></p></dialog>
+  <script>
+    const dlg = document.getElementById('lightbox') as HTMLDialogElement;
+    const im = dlg.querySelector('img')!; const cap = dlg.querySelector('p')!;
+    document.querySelectorAll<HTMLButtonElement>('.gallery-btn').forEach((b) => b.addEventListener('click', () => { im.src = b.dataset.full!; im.alt = b.dataset.caption!; cap.textContent = b.dataset.caption!; dlg.showModal(); }));
+    dlg.querySelector('.close-dialog')!.addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  </script>
 </Page>

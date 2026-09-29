@@ -2,7 +2,8 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { img } from '../lib/images';
-import { modules, waLink, site } from '../lib/site';
+import { modules, waLink, site, slugify } from '../lib/site';
+import ChapterUI from '../components/ChapterUI.astro';
 import { publishedArticles, categories } from '../lib/articles';
 import { systems } from '../data/systems';
 import content from '../data/content.json';
@@ -21,99 +22,121 @@ const learning = [
   ['Observasi & evaluasi', 'gallery-01', 'Mengamati, mencatat, dan mengevaluasi hasil praktik.'],
 ] as const;
 const events = content.events.slice(0, 3);
+const chapters = [
+  { id: 'hero', title: 'Mulai langkahmu' }, { id: 'challenge', title: 'Kebutuhan industri' }, { id: 'bmc', title: 'Perjalanan BMC' },
+  { id: 'machine', title: 'Jelajahi sistem' }, { id: 'learning', title: 'Belajar melalui praktik' }, { id: 'character', title: 'Mekanik berkarakter' },
+  { id: 'instructors', title: 'Belajar bersama instruktur' }, { id: 'about', title: 'Tentang MEC' }, { id: 'industry', title: 'Terhubung dengan industri' },
+  { id: 'alumni', title: 'Alumni dan OJT' }, { id: 'film', title: 'Company profile' }, { id: 'contact', title: 'Mulai BMC' },
+];
+const num = (n: number) => `${String(n).padStart(2, '0')} / ${String(chapters.length).padStart(2, '0')}`;
 const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, inLanguage: 'id' };
-const S = 'wrap py-20 md:py-28';
 ---
-<Base title="MEC Academy — Kursus Mekanik Alat Berat di Malang" description="Mulai langkahmu menjadi mekanik alat berat. Basic Mechanic Course MEC Academy: 16 modul, praktik komponen, instruktur industri, dan pembentukan karakter." jsonLd={ld}>
+<Base home footer={false} title="MEC Academy — Kursus Mekanik Alat Berat di Malang" description="Mulai langkahmu menjadi mekanik alat berat. Basic Mechanic Course MEC Academy: 16 modul, praktik komponen, instruktur industri, dan pembentukan karakter." jsonLd={ld}>
+  <ChapterUI chapters={chapters} />
+
   <!-- 01 Hero -->
-  <section class="chapter" id="hero" data-chapter="hero" data-span="1.9">
+  <section class="chapter" id="hero" data-ch="Mulai langkahmu" data-chapter="hero" data-span="2.75">
     <div class="scene isolate">
       <div class="depth-photo"><Image src={img('hero')} alt="Siswa MEC Academy praktik di workshop" class="h-full w-full object-cover" widths={[640, 1024, 1600, 2400]} sizes="100vw" loading="eager" fetchpriority="high" /></div>
-      <div class="absolute inset-0 z-[-1] bg-gradient-to-r from-ink via-ink/80 to-ink/10"></div>
+      <div class="absolute inset-0 z-[-1] bg-gradient-to-r from-ink via-ink/75 to-ink/5"></div>
+      <div class="technical-grid" aria-hidden="true"></div>
       <span class="hero-word" aria-hidden="true">PRAKTIK.</span>
       <figure class="hero-frame" aria-hidden="true">
-        <Image src={img('practice')} alt="" widths={[480, 720]} sizes="31vw" loading="eager" class="h-full w-full object-cover" />
+        <div class="hero-frame-image"><Image src={img('practice')} alt="" widths={[480, 720, 1600]} sizes="31vw" loading="eager" class="h-full w-full object-cover" /></div>
         <figcaption><span>01 / PRAKTIK KOMPONEN</span><strong>Kenali. Coba. Pahami.</strong></figcaption>
       </figure>
-      <div class="scene-pad wrap"><div class="scene-inner hero-copy" style="min-height:min(70svh,620px)">
-        <p class="eyebrow mb-6">{h.eyebrow}</p>
-        <h1 class="max-w-4xl text-6xl md:text-8xl" data-split>{h.headline}</h1>
-        <p class="mt-6 max-w-xl text-lg">{h.lead}</p>
-        <p class="mt-3 max-w-xl text-sage">{h.body}</p>
-        <div class="mt-8 flex flex-wrap gap-4">
-          <a class="btn" href={waLink()} target="_blank" rel="noopener">{h.primary_cta} ↗</a>
-          <a class="btn btn-ghost" href="#tantangan">{h.secondary_cta} ↓</a>
+      <div class="scene-pad wrap"><div class="scene-inner hero-copy">
+        <p class="eyebrow mb-6">01 / Basic Mechanic Course</p>
+        <h1 class="display max-w-4xl" data-split>Mulai langkahmu.<br />Jadi mekanik<br /><em>alat berat.</em></h1>
+        <p class="mt-6 max-w-xl text-lg font-bold">{h.lead}</p>
+        <p class="mt-3 max-w-xl text-sage">Bangun dasar teknis, pengalaman praktik, dan karakter profesional melalui BMC MEC Academy.</p>
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <a class="btn" href={waLink()} target="_blank" rel="noopener">{h.primary_cta} <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="#challenge">{h.secondary_cta} <span aria-hidden="true">↓</span></a>
         </div>
-        <p class="mt-10 font-mono text-xs text-gold">{modules.length} MODUL · PRAKTIK KOMPONEN · PEMBENTUKAN KARAKTER</p>
+        <p class="mt-8 font-mono text-[11px] text-sage">{modules.length} modul pembelajaran <i class="dot"></i> Praktik komponen <i class="dot"></i> Pembentukan karakter</p>
       </div></div>
-      <p class="floating-caption font-mono text-xs text-gold" aria-hidden="true"><span class="block text-sage">LEARN BY DOING</span>Mulai dari praktik nyata.</p>
-      <p class="scroll-cue font-mono text-xs text-sage" aria-hidden="true">Gulir untuk menjelajah ↓</p>
-      <div class="scene-gate" aria-hidden="true"></div>
+      <p class="floating-caption" aria-hidden="true"><span class="plus">+</span><span><b>LEARN BY DOING</b><br />Mulai dari praktik nyata.</span></p>
+      <p class="scroll-cue" aria-hidden="true">GULIR UNTUK MENJELAJAH <span>↓</span></p>
+      <a class="film-link" href="#film"><span aria-hidden="true">▷</span> Tonton company profile</a>
     </div>
   </section>
 
-  <!-- 02 Tantangan -->
-  <section id="tantangan" class="chapter" data-chapter="challenge" data-span="1.7">
+  <!-- 02 Challenge -->
+  <section class="chapter on-paper" id="challenge" data-ch="Kebutuhan industri" data-chapter="challenge" data-span="1.75">
     <div class="scene bg-paper text-green">
       <div class="scene-pad wrap"><div class="scene-inner">
-        <div class="grid gap-12 md:grid-cols-2">
-          <div data-reveal>
-            <p class="eyebrow !text-green mb-4">02 / Tantangan di balik setiap unit</p>
-            <h2 class="text-5xl md:text-7xl" data-split>Alat harus siap. Mekaniknya juga.</h2>
-            <p class="mt-6 text-lg">Kesiapan alat bertumpu pada perawatan yang tepat. Kesiapan mekanik dibangun melalui kompetensi, keselamatan, dan disiplin kerja.</p>
-            <p class="mt-3">Bekali dirimu untuk memahami sistem, mengikuti prosedur, dan bekerja bersama tim.</p>
+        <div class="split">
+          <div><p class="eyebrow mb-4">02 / Tantangan di balik setiap unit</p>
+          <h2 class="display" data-split>Alat harus siap.<br /><em>Mekaniknya juga.</em></h2></div>
+          <div class="split-copy" data-reveal>
+            <p class="lead">Kesiapan alat bertumpu pada perawatan yang tepat. Kesiapan mekanik dibangun melalui kompetensi, keselamatan, dan disiplin kerja.</p>
+            <p>Bekali dirimu untuk memahami sistem, mengikuti prosedur, dan bekerja bersama tim.</p>
+            <a class="dark-link" href="/sumber/">Baca konteks industri & sumber <span aria-hidden="true">↗</span></a>
           </div>
-          <ul class="grid gap-6 self-center sm:grid-cols-3 md:grid-cols-1">
-            {[['01 / Kompetensi', 'Pahami sistemnya.', 'Bangun dasar untuk mengenali komponen dan proses perawatan.'], ['02 / Keselamatan', 'Biasakan cara aman.', 'APD, prosedur, dan kepedulian pada rekan kerja.'], ['03 / Kesiapan kerja', 'Latih sikapnya.', 'Disiplin, komunikasi, dan tanggung jawab dalam praktik.']].map(([k, t, d], i) => (
-              <li data-reveal data-step style={`--i:${i};--step:var(--s${i})`} class="border-t border-green/30 pt-4"><span class="font-mono text-xs">{k}</span><h3 class="mt-1 text-2xl">{t}</h3><p class="mt-1 text-sm">{d}</p></li>
-            ))}
-          </ul>
         </div>
-        <p class="mt-8 text-xs text-green/80">Konteks: pemerintah mendorong kesesuaian kompetensi lulusan dengan kebutuhan industri.
-          <a class="underline" href="https://www.kemenkopmk.go.id/atasi-pengangguran-terdidik-kemenko-pmk-dorong-pendekatan-co-creation-antara-kampus-dan-industri" rel="noopener" target="_blank">Kemenko PMK ↗</a></p>
+        <ul class="points">
+          {[['01 / Kompetensi', 'Pahami sistemnya.', 'Bangun dasar untuk mengenali komponen dan proses perawatan.'], ['02 / Keselamatan', 'Biasakan cara aman.', 'APD, prosedur, dan kepedulian pada rekan kerja.'], ['03 / Kesiapan kerja', 'Latih sikapnya.', 'Disiplin, komunikasi, dan tanggung jawab dalam praktik.']].map(([k, t, d], i) => (
+            <li data-step style={`--i:${i};--step:var(--s${i})`}><span class="font-mono text-[10px]">{k}</span><h3 class="mt-2 text-3xl">{t}</h3><p class="mt-2 text-sm">{d}</p></li>
+          ))}
+        </ul>
+        <div class="policy-note"><span class="font-mono text-[10px]">ARAH VOKASI 2026</span>
+          <p>Pemerintah mendorong kesesuaian kompetensi lulusan dengan kebutuhan industri. Jadikan pembelajaran yang relevan sebagai langkah persiapanmu.</p>
+          <a class="underline" href="https://www.kemenkopmk.go.id/atasi-pengangguran-terdidik-kemenko-pmk-dorong-pendekatan-co-creation-antara-kampus-dan-industri" rel="noopener" target="_blank">Kemenko PMK · 9 Sep 2026 ↗</a></div>
       </div></div>
       <div class="scene-gate" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- 03 Perjalanan -->
-  <section class="chapter" data-chapter="journey" data-span="1.7">
-    <div class="scene">
+  <!-- 03 BMC -->
+  <section class="chapter" id="bmc" data-ch="Perjalanan BMC" data-chapter="journey" data-span="1.9">
+    <div class="scene bg-green-grad">
       <div class="scene-pad wrap"><div class="scene-inner">
-        <div data-reveal><p class="eyebrow mb-4">03 / Perjalananmu di MEC</p><h2 class="max-w-3xl text-5xl md:text-7xl" data-split>Dari belajar. Menuju industri.</h2>
-        <p class="mt-6 max-w-2xl text-sage">Basic Mechanic Course menyatukan dasar teknik, praktik komponen, dan pembentukan karakter dalam proses yang terarah.</p></div>
-        <ol class="journey mt-10 grid gap-8 md:grid-cols-3">
+        <div class="split">
+          <div><p class="eyebrow mb-4">03 / Perjalananmu di MEC</p><h2 class="display" data-split>Dari belajar.<br /><em>Menuju industri.</em></h2></div>
+          <p class="split-copy text-sage" data-reveal>Basic Mechanic Course menyatukan dasar teknik, praktik komponen, dan pembentukan karakter dalam proses yang terarah.</p>
+        </div>
+        <ol class="journey">
+          <span class="journey-line" aria-hidden="true"></span>
           {journey.map(([n, t, d, i], k) => (
-            <li data-reveal data-step style={`--i:${k};--step:var(--s${k})`}><div class="overflow-hidden"><Image src={img(i)} alt="" widths={[480, 720]} sizes="(min-width:768px) 33vw, 100vw" loading="lazy" class="journey-img h-56 w-full object-cover" /></div>
-              <span class="step-no mt-4 inline-block bg-gold px-2 font-mono text-xs text-ink">{n}</span><h3 class="mt-3 text-3xl">{t}</h3><p class="text-sage">{d}</p></li>
+            <li data-step style={`--i:${k};--step:var(--s${k})`}><div class="journey-image"><Image src={img(i)} alt="" widths={[480, 720]} sizes="(min-width:768px) 33vw, 100vw" loading="lazy" class="journey-img" /><span class="step-no">{n}</span></div>
+              <h3>{t}</h3><p class="text-sage">{d}</p></li>
           ))}
         </ol>
-        <div class="mt-8 flex flex-wrap gap-4"><a class="btn btn-ghost" href="/tahapan-seleksi/">Lihat tahapan BMC ↗</a><a class="btn btn-ghost" href={waLink('Halo MEC Academy, saya ingin bertanya jadwal dan persyaratan BMC.')} target="_blank" rel="noopener">Tanya jadwal & persyaratan ↗</a></div>
+        <div class="flex flex-wrap gap-4"><a class="btn" href="/tahapan-seleksi/">Lihat tahapan BMC <span aria-hidden="true">↗</span></a><a class="text-link" href={waLink('Halo MEC Academy, saya ingin bertanya jadwal dan persyaratan BMC.')} target="_blank" rel="noopener">Tanya jadwal & persyaratan <span aria-hidden="true">↗</span></a></div>
       </div></div>
       <div class="scene-gate" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- 04 Explore the machine -->
-  <section class="chapter" data-chapter="machine" data-span="2.4">
-    <div class="scene bg-deep">
-      <div class="scene-pad wrap"><div class="scene-inner grid items-center gap-12 lg:grid-cols-2">
-        <div data-reveal>
-          <p class="eyebrow mb-4">04 / Explore the machine</p><h2 class="text-5xl md:text-7xl" data-split>Kenali mesin. Bangun skill.</h2>
-          <p class="mt-6 max-w-md text-sage">Pilih sistem yang ingin kamu pelajari, lalu jelajahi contoh materi BMC.</p>
-          <div role="tablist" aria-label="Sistem mesin" class="mt-8 grid max-w-md grid-cols-2 gap-2">
-            {systems.map((s, i) => <button role="tab" data-tab id={`tab-${i}`} aria-controls={`panel-${i}`} aria-selected={i === 0} tabindex={i === 0 ? 0 : -1} class="border border-line px-4 py-3 text-left font-mono text-xs uppercase">{s.code}</button>)}
-          </div>
-          <a class="mt-8 inline-block text-gold underline" href="/program/basic-mechanic-course/modul/">Lihat seluruh {modules.length} modul ↗</a>
-        </div>
-        <div class="machine-stage">
-          {systems.map((s, i) => (
-            <div role="tabpanel" data-panel id={`panel-${i}`} aria-labelledby={`tab-${i}`} hidden={i !== 0} class="spatial-frame">
-              <div class="spatial-back" aria-hidden="true"></div>
-              <Image src={img(s.image)} alt={s.alt} widths={[640, 960]} sizes="(min-width:1024px) 50vw, 100vw" loading="lazy" class="spatial-image h-72 w-full border border-gold/30 object-cover" />
-              <div class="spatial-label"><p class="eyebrow mt-5">{s.kicker}</p><h3 class="mt-1 text-4xl">{s.title}</h3><p class="mt-2 max-w-lg text-sage">{s.description}</p>
-              <a class="mt-3 inline-block text-gold underline" href={`/program/basic-mechanic-course/modul/${s.slug}/`}>Detail modul →</a></div>
+  <!-- 04 Machine -->
+  <section class="chapter" id="machine" data-ch="Jelajahi sistem" data-chapter="machine" data-span="2.4">
+    <div class="scene bg-machine">
+      <div class="scene-pad wrap"><div class="scene-inner">
+        <div class="machine-layout">
+          <div>
+            <p class="eyebrow mb-4">04 / Explore the machine</p><h2 class="display" data-split>Kenali mesin.<br /><em>Bangun skill.</em></h2>
+            <p class="mt-6 max-w-sm text-sage" data-reveal>Pilih sistem yang ingin kamu pelajari, lalu jelajahi contoh materi BMC.</p>
+            <div role="tablist" aria-label="Sistem mesin" class="system-tabs">
+              {systems.map((s, i) => <button role="tab" data-tab id={`tab-${i}`} aria-controls={`panel-${i}`} aria-selected={i === 0} tabindex={i === 0 ? 0 : -1}>{s.code}</button>)}
             </div>
+            <a class="text-link" href="/program/basic-mechanic-course/modul/">Lihat seluruh {modules.length} modul <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="machine-stage" data-stage>
+            {systems.map((s, i) => (
+              <div role="tabpanel" data-panel id={`panel-${i}`} aria-labelledby={`tab-${i}`} hidden={i !== 0} class="spatial-frame">
+                <div class="spatial-back" aria-hidden="true"></div>
+                <div class="spatial-guide" aria-hidden="true"></div>
+                <Image src={img(s.image)} alt={s.alt} widths={[640, 960]} sizes="(min-width:1024px) 50vw, 100vw" loading="lazy" class="spatial-image" />
+                <div class="spatial-label"><span>{s.code.toUpperCase().replace(' / ', ' / ')}</span><span>Component study</span></div>
+              </div>
+            ))}
+            <div class="stage-controls"><button type="button" data-rotate="-18" aria-label="Putar ke kiri">↶</button><span>Gerakkan kursor · pilih sistem</span><button type="button" data-rotate="18" aria-label="Putar ke kanan">↷</button><button type="button" data-rotate="0" aria-label="Reset putaran">↺</button></div>
+          </div>
+        </div>
+        <div class="machine-infos">
+          {systems.map((s, i) => (
+            <div data-info hidden={i !== 0}><span class="eyebrow">{s.kicker}</span><h3>{s.title}</h3><p>{s.description}</p><a class="text-link" href={`/program/basic-mechanic-course/modul/${s.slug}/`}>Detail modul <span aria-hidden="true">→</span></a><b class="font-mono text-xs text-gold">0{i + 1}—04</b></div>
           ))}
         </div>
       </div></div>
@@ -121,125 +144,147 @@ const S = 'wrap py-20 md:py-28';
     </div>
   </section>
 
-  <!-- 05 Learn by doing -->
-  <section class="chapter" data-chapter="learning" data-span="3.2">
-    <div class="scene">
+  <!-- 05 Learning -->
+  <section class="chapter" id="learning" data-ch="Belajar melalui praktik" data-chapter="learning" data-span="3.3">
+    <div class="scene bg-green-grad">
       <div class="scene-pad wrap"><div class="scene-inner">
-        <div data-reveal><p class="eyebrow mb-4">05 / Learn by doing</p><h2 class="max-w-3xl text-5xl md:text-7xl" data-split>Masuk workshop. Temukan prosesmu.</h2>
-        <p class="mt-6 max-w-2xl text-sage">Belajar mengamati, mencoba, mencatat, dan mengevaluasi bersama instruktur.</p></div>
-        <div class="rail-controls mt-8 flex items-center gap-4"><button data-rail-prev class="h-11 w-11 border border-line hover:bg-gold hover:text-ink" aria-label="Sebelumnya">←</button><button data-rail-next class="h-11 w-11 border border-line hover:bg-gold hover:text-ink" aria-label="Berikutnya">→</button>
-          <span class="font-mono text-xs text-gold" data-rail-label aria-live="polite">01 / 04 Classroom</span><span class="rail-bar" aria-hidden="true"><i data-rail-bar></i></span></div>
-        <div class="rail-window mt-6"><ul class="rail" data-rail tabindex="0" aria-label="Tahapan belajar">
-          {learning.map(([t, i, d], k) => <li data-title={t}><figure><Image src={img(i)} alt={t} widths={[640, 960]} sizes="(min-width:1000px) 51vw, 86vw" loading="lazy" class="rail-img h-64 w-full object-cover" /><figcaption class="pt-3"><span class="font-mono text-xs text-gold">0{k + 1}</span><h3 class="text-2xl">{t}</h3><p class="text-sm text-sage">{d}</p></figcaption></figure></li>)}
+        <div class="split">
+          <div><p class="eyebrow mb-4">05 / Learn by doing</p><h2 class="display" data-split>Masuk workshop.<br /><em>Temukan prosesmu.</em></h2></div>
+          <div class="split-copy" data-reveal><p class="text-sage">Belajar mengamati, mencoba, mencatat, dan mengevaluasi bersama instruktur.</p><a class="text-link" href="/fasilitas/">Jelajahi fasilitas <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="rail-window"><ul class="rail" data-rail tabindex="0" aria-label="Tahapan belajar">
+          {learning.map(([t, i, d], k) => <li data-title={t}><figure><Image src={img(i)} alt={t} widths={[640, 960]} sizes="(min-width:1000px) 51vw, 86vw" loading="lazy" class="rail-img" /><figcaption><span class="font-mono text-xs text-gold">0{k + 1}</span><h3>{t}</h3><p class="text-sm text-sage">{d}</p></figcaption></figure></li>)}
         </ul></div>
-        <a class="mt-6 inline-block text-gold underline" href="/fasilitas/">Jelajahi fasilitas & 20 foto kegiatan ↗</a>
+        <div class="learning-footer">
+          <div class="rail-controls"><button data-rail-prev aria-label="Sebelumnya">←</button><button data-rail-next aria-label="Berikutnya">→</button>
+            <span class="rail-label"><b data-rail-count>01 / 04</b><span data-rail-label aria-live="polite">Classroom</span></span><span class="rail-bar" aria-hidden="true"><i data-rail-bar></i></span></div>
+          <p class="font-mono text-[10px] text-sage">CLASSROOM → COMPONENT → PRACTICE → ASSESSMENT</p>
+          <a class="text-link" href="/fasilitas/#galeri">Lihat 20 foto kegiatan <span aria-hidden="true">↗</span></a>
+        </div>
       </div></div>
       <div class="scene-gate" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- 06 Karakter -->
-  <section class="chapter" data-chapter="character" data-span="2.2">
+  <!-- 06 Character -->
+  <section class="chapter" id="character" data-ch="Mekanik berkarakter" data-chapter="character" data-span="2.3">
     <div class="scene isolate bg-ink">
       <div class="depth-photo"><Image src={img('bintalsik')} alt="Bintalsik di MEC Academy" widths={[800, 1600]} sizes="100vw" loading="lazy" class="h-full w-full object-cover" /></div>
       <div class="prayer-photo"><Image src={img('prayer')} alt="Sholat berjamaah di MEC Academy" widths={[800, 1600]} sizes="100vw" loading="lazy" class="h-full w-full object-cover" /></div>
-      <div class="absolute inset-0 z-[-1] bg-gradient-to-r from-ink via-ink/75 to-ink/10"></div>
-      <div class="scene-pad wrap"><div class="scene-inner" data-reveal>
+      <div class="absolute inset-0 z-[-1] bg-gradient-to-r from-ink via-ink/75 to-ink/5"></div>
+      <div class="scene-pad wrap"><div class="scene-inner">
         <p class="eyebrow mb-4">06 / Mekanik berkarakter</p>
-        <h2 class="max-w-3xl text-5xl md:text-8xl" data-split>Terampil di tangan. Baik dalam perbuatan.</h2>
-        <p class="mt-6 max-w-xl text-lg">Disiplin dan keselamatan dibiasakan. Tanggung jawab serta adab ditumbuhkan dalam keseharian.</p>
-        <p class="mt-6 font-mono text-xs text-gold">SAA · SHOLAT · AL-QUR’AN · ADAB · DISCIPLINE / SAFETY / RESPONSIBILITY</p>
+        <h2 class="display max-w-2xl" data-split>Terampil<br />di tangan.<br /><em>Baik dalam<br />perbuatan.</em></h2>
+        <p class="mt-6 max-w-md text-lg" data-reveal>Disiplin dan keselamatan dibiasakan. Tanggung jawab serta adab ditumbuhkan dalam keseharian.</p>
+        <div class="saa" data-reveal><b>SAA</b><span>Sholat<br />Al-Qur’an<br />Adab</span></div>
+        <p class="mt-6 font-mono text-[10px] text-gold">DISCIPLINE / SAFETY / RESPONSIBILITY</p>
       </div></div>
       <div class="character-beats" aria-hidden="true"><span style="--b:var(--b0)">Disiplin.</span><span style="--b:var(--b1)">Tanggung jawab.</span><span style="--b:var(--b2)">Adab.</span></div>
-      <div class="scene-gate" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- 07 Instruktur -->
-  <section class="bg-paper text-ink">
-    <div class={S}>
-      <div data-reveal><p class="eyebrow !text-green mb-4">07 / Pengalaman yang dibagikan</p><h2 class="max-w-3xl text-5xl md:text-7xl text-green">Belajar dari pengalaman industri.</h2></div>
-      <ul class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+  <!-- 07 Instructors -->
+  <section class="chapter on-paper" id="instructors" data-ch="Belajar bersama instruktur">
+    <div class="scene bg-paper text-ink"><div class="scene-pad wrap"><div class="scene-inner">
+      <div class="split">
+        <div><p class="eyebrow mb-4">07 / Pengalaman yang dibagikan</p><h2 class="display" data-split>Belajar dari<br /><em>pengalaman industri.</em></h2></div>
+        <p class="split-copy text-green" data-reveal>Kenali orang-orang yang mendampingi proses belajarmu di MEC Academy.</p>
+      </div>
+      <ul class="trainer-gallery">
         {content.instructors.map((p, i) => (
-          <li data-reveal style={`--i:${i}`} class="border-t-2 border-gold"><Image src={img(p.asset)} alt={p.name} widths={[240, 400]} sizes="(min-width:1024px) 16vw, 45vw" loading="lazy" class="h-56 w-full bg-paper object-cover object-top" />
-            <h3 class="mt-3 text-xl">{p.name}</h3><p class="text-xs">Pengalaman: {p.company}</p></li>
+          <li data-reveal style={`--i:${i}`}><a class="trainer-card" href={`/instruktur/${slugify(p.name)}/`}>
+            <span class="trainer-portrait"><Image src={img(p.asset)} alt={p.name} widths={[240, 400]} sizes="(min-width:1024px) 16vw, 45vw" loading="lazy" /></span>
+            <span class="trainer-caption"><b>{p.name}</b><small>Pengalaman: {p.company}</small><em>LIHAT PROFIL ↗</em></span></a></li>
         ))}
       </ul>
-      <a class="mt-8 inline-block text-green underline" href="/instruktur/">Lihat profil instruktur ↗</a>
-    </div>
+      <p class="mt-6 text-xs text-green">Riwayat pengalaman dan kompetensi instruktur · Company profile MEC 2026</p>
+    </div></div></div>
   </section>
 
-  <!-- 08 Tentang -->
-  <section class={S + ' grid items-center gap-12 lg:grid-cols-2'}>
-    <Image src={img('building')} alt="Gedung MEC Academy" widths={[640, 960]} sizes="(min-width:1024px) 45vw, 100vw" loading="lazy" class="h-[420px] w-full border-t-4 border-gold object-cover" />
-    <div data-reveal>
-      <p class="eyebrow mb-4">08 / Mengenal MEC Academy</p><h2 class="text-5xl md:text-7xl">Tempat belajar. Awal perjalanan.</h2>
-      <p class="mt-6 text-sage">{content.institution} di Malang. {content.vision}</p>
-      <ol class="mt-8 grid grid-cols-3 gap-4">{content.history.map((x) => <li class="border-t border-gold pt-2"><b class="font-display text-3xl text-gold">{x.year}</b><p class="text-xs">{x.name}</p></li>)}</ol>
-      <p class="mt-8 text-sm text-sage">Alumni {content.metrics.alumni} · {content.metrics.batch}</p>
-      <a class="mt-4 inline-block text-gold underline" href="/tentang/">Tentang kami ↗</a>
-    </div>
+  <!-- 08 About -->
+  <section class="chapter" id="about" data-ch="Tentang MEC">
+    <div class="scene bg-green-grad"><div class="scene-pad wrap"><div class="scene-inner about-layout">
+      <div class="about-visual">
+        <Image src={img('building')} alt="Gedung MEC Academy" widths={[640, 960]} sizes="(min-width:1024px) 45vw, 100vw" loading="lazy" class="about-photo" />
+        <div class="about-logo"><Image src={img('logo')} alt="MEC Academy" width={150} height={81} loading="lazy" /></div>
+      </div>
+      <div>
+        <p class="eyebrow mb-4">08 / Mengenal MEC Academy</p><h2 class="display" data-split>Tempat belajar.<br /><em>Awal perjalanan.</em></h2>
+        <p class="mt-6 max-w-xl text-sage" data-reveal>{content.institution} di Malang. Menghadirkan sumber daya manusia yang berkarakter baik untuk industri alat berat di Indonesia.</p>
+        <ol class="timeline">{content.history.map((x) => <li><b>{x.year}</b><span>{x.name}</span></li>)}</ol>
+        <div class="metrics"><div><b>{content.metrics.alumni}</b><span>Alumni menurut company profile 2026</span></div><div><b>{content.metrics.batch}</b><span>Batch per Agustus 2026</span></div></div>
+        <div class="flex flex-wrap gap-6"><a class="text-link" href="/tentang/#identitas">Visi, misi & identitas <span aria-hidden="true">↗</span></a><a class="text-link" href="/tentang/#tim">Tim MEC <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </div></div></div>
   </section>
 
-  <!-- 09 Industri -->
-  <section class="bg-deep">
-    <div class={S}>
-      <div data-reveal><p class="eyebrow mb-4">09 / Industry connection</p><h2 class="max-w-3xl text-5xl md:text-7xl">Membuka wawasan. Membangun hubungan.</h2>
-      <p class="mt-6 max-w-2xl text-sage">Kunjungan dan kegiatan industri menghadirkan konteks dunia kerja dalam perjalanan MEC.</p></div>
-      <ul class="mt-10 grid gap-6 md:grid-cols-3">
-        {events.map((e, i) => <li data-reveal style={`--i:${i}`}><figure><Image src={img(e.asset)} alt={`${e.name} — ${e.company}`} widths={[480, 720]} sizes="(min-width:768px) 33vw, 100vw" loading="lazy" class="h-60 w-full object-cover" /><figcaption class="border-b border-line py-3 text-sm"><span class="block font-mono text-[10px] text-gold">{e.name.toUpperCase()}</span>{e.company}</figcaption></figure></li>)}
+  <!-- 09 Industry -->
+  <section class="chapter" id="industry" data-ch="Terhubung dengan industri">
+    <div class="scene bg-machine"><div class="scene-pad wrap"><div class="scene-inner">
+      <div class="split">
+        <div><p class="eyebrow mb-4">09 / Industry connection</p><h2 class="display" data-split>Membuka wawasan.<br /><em>Membangun hubungan.</em></h2></div>
+        <p class="split-copy text-sage" data-reveal>Kunjungan dan kegiatan industri menghadirkan konteks dunia kerja dalam perjalanan MEC.</p>
+      </div>
+      <ul class="industry-grid">
+        {events.map((e, i) => <li data-reveal style={`--i:${i}`}><figure><Image src={img(e.asset)} alt={`${e.name} — ${e.company}`} widths={[480, 720]} sizes="(min-width:768px) 33vw, 100vw" loading="lazy" /><figcaption><span>{e.name}</span>{e.company}</figcaption></figure></li>)}
       </ul>
-    </div>
+      <div class="flex flex-wrap gap-4"><a class="btn" href="/industri/">Lihat seluruh kegiatan <span aria-hidden="true">↗</span></a><a class="text-link" href="/industri/#kerja-sama">Kerja sama industri <span aria-hidden="true">↗</span></a></div>
+    </div></div></div>
   </section>
 
-  <!-- 10 OJT -->
-  <section class="relative isolate overflow-hidden">
-    <Image src={img('ojt')} alt="Peserta On the Job Training" widths={[800, 1600]} sizes="100vw" loading="lazy" class="absolute inset-0 -z-20 h-full w-full object-cover" />
-    <div class="absolute inset-0 z-[-1] bg-ink/75"></div>
-    <div class={S} data-reveal>
-      <p class="eyebrow mb-4">10 / From training to industry</p><h2 class="max-w-3xl text-5xl md:text-7xl">Proses hari ini. Bekal untuk langkah berikutnya.</h2>
-      <p class="mt-6 max-w-xl text-lg">On the Job Training mengembangkan keterampilan, wawasan, mental kerja, dan kemampuan berorganisasi dalam perusahaan.</p>
-      <a class="btn mt-8" href={waLink('Halo MEC Academy, saya ingin berkonsultasi tentang program BMC dan On the Job Training. Mohon informasinya.')} target="_blank" rel="noopener">Tanya alur BMC & OJT ↗</a>
-    </div>
+  <!-- 10 Alumni & OJT -->
+  <section class="chapter on-paper" id="alumni" data-ch="Alumni dan OJT" data-chapter="alumni" data-span="1.8">
+    <div class="scene bg-paper text-ink"><div class="scene-pad wrap"><div class="scene-inner alumni-layout">
+      <div>
+        <p class="eyebrow mb-4">10 / From training to industry</p><h2 class="display" data-split>Proses hari ini.<br /><em>Bekal untuk<br />langkah berikutnya.</em></h2>
+        <p class="mt-6 max-w-md text-green" data-reveal>On the Job Training mengembangkan keterampilan, wawasan, mental kerja, dan kemampuan berorganisasi dalam perusahaan.</p>
+        <a class="btn mt-8" href={waLink('Halo MEC Academy, saya ingin berkonsultasi tentang program BMC dan On the Job Training. Mohon informasinya.')} target="_blank" rel="noopener">Tanya alur BMC & OJT <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="alumni-stack">
+        <Image src={img('alumni3')} alt="Alumni MEC Academy di lokasi kerja" widths={[640, 960]} sizes="45vw" loading="lazy" class="alumni-back" />
+        <Image src={img('alumni')} alt="Alumni MEC Academy bersama unit alat berat" widths={[640, 960]} sizes="45vw" loading="lazy" class="alumni-front" />
+        <p class="alumni-caption">SETIAP PERJALANAN DIMULAI DARI BELAJAR.</p>
+      </div>
+    </div></div></div>
   </section>
 
-  <!-- 11 Video -->
-  <section class="chapter" data-chapter="film" data-span="1.6">
+  <!-- 11 Film -->
+  <section class="chapter" id="film" data-ch="Company profile" data-chapter="film" data-span="1.7">
     <div class="scene isolate bg-ink">
       <div class="depth-photo film-bg"><Image src={img('film')} alt="" widths={[800, 1600, 2400]} sizes="100vw" loading="lazy" class="h-full w-full object-cover" /></div>
-      <div class="absolute inset-0 z-[-1] bg-ink/55"></div>
-      <div class="scene-pad wrap text-center"><div class="scene-inner">
-        <p class="eyebrow mb-4">11 / Mengenal lebih dekat</p><h2 class="mb-8 text-5xl md:text-7xl" data-split>Inilah MEC Academy.</h2>
-        <div class="film-box relative mx-auto aspect-video bg-deep" style="width:min(820px, 100%, calc((100svh - 340px) * 1.7778))">
-          <button data-video="ZV39to3Qfz8" class="group absolute inset-0 grid place-items-center" aria-label="Putar video company profile MEC Academy">
-            <Image src={img('film')} alt="" widths={[640, 1024, 1600]} sizes="820px" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-70" />
-            <span class="relative grid h-20 w-20 place-items-center rounded-full border border-gold bg-ink/70 text-3xl text-gold group-hover:bg-gold group-hover:text-ink">▷</span>
-          </button>
-        </div>
-        <a class="mt-5 inline-block text-gold underline" href={content.video.watch} rel="noopener" target="_blank">Tonton di YouTube ↗</a>
+      <div class="absolute inset-0 z-[-1] bg-gradient-to-t from-ink/95 via-ink/45 to-ink/65"></div>
+      <div class="scene-pad wrap"><div class="scene-inner film-content">
+        <p class="eyebrow mb-4">11 / Mengenal lebih dekat</p>
+        <h2 class="display" data-split>Inilah<br /><em>MEC Academy.</em></h2>
+        <button class="play-button" data-video-open="ZV39to3Qfz8" aria-label="Putar video company profile MEC Academy"><span aria-hidden="true">▷</span></button>
+        <p class="mt-6 max-w-sm text-sm">Temukan proses, orang-orang, dan semangat di balik pelatihan.</p>
+        <a class="text-link" href={content.video.watch} rel="noopener" target="_blank">Tonton di YouTube <span aria-hidden="true">↗</span></a>
       </div></div>
-      <div class="scene-gate" aria-hidden="true"></div>
     </div>
   </section>
 
   {latest.length > 0 && (
-    <section class="wrap pb-20">
-      <div class="mb-8 flex items-end justify-between"><h2 class="text-4xl md:text-5xl">Artikel terbaru</h2><a class="text-gold underline" href="/artikel/">Semua artikel ↗</a></div>
+    <section class="wrap pb-20 pt-20" aria-label="Artikel terbaru">
+      <div class="mb-8 flex items-end justify-between"><h2 class="text-4xl md:text-5xl">Artikel terbaru</h2><a class="text-link" href="/artikel/">Semua artikel <span aria-hidden="true">↗</span></a></div>
       <ul class="grid gap-6 md:grid-cols-3">
         {latest.map((a) => <li><a class="block h-full border border-line p-6 hover:border-gold" href={`/artikel/${a.id}/`}><p class="eyebrow">{categories[a.data.category]}</p><h3 class="mt-2 text-2xl">{a.data.title}</h3><p class="mt-3 text-sm text-sage">{a.data.description}</p></a></li>)}
       </ul>
     </section>
   )}
 
-  <!-- 12 CTA -->
-  <section class="border-t border-line bg-gradient-to-br from-green to-deep">
-    <div class={S + ' text-center'} data-reveal>
-      <p class="eyebrow mb-4">12 / Langkah berikutnya milikmu</p><h2 class="mx-auto max-w-4xl text-5xl md:text-8xl">Cita-cita perlu langkah pertama.</h2>
-      <p class="mx-auto mt-6 max-w-xl text-sage">Mulai persiapanmu menjadi mekanik alat berat bersama BMC MEC Academy. Hubungi tim MEC untuk jadwal, biaya, persyaratan, dan proses seleksi.</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-4"><a class="btn" href={waLink()} target="_blank" rel="noopener">Mulai daftar BMC ↗</a><a class="btn btn-ghost" href="/kontak/">Konsultasi dulu ↗</a></div>
-      <p class="mt-8 text-sm text-sage">{site.email} · {site.phone}</p>
-    </div>
+  <!-- 12 Contact -->
+  <section class="chapter" id="contact" data-ch="Mulai BMC">
+    <div class="scene bg-cta"><div class="scene-pad wrap"><div class="scene-inner">
+      <p class="eyebrow mb-4">12 / Langkah berikutnya milikmu</p><h2 class="display" data-split>Cita-cita perlu<br /><em>langkah pertama.</em></h2>
+      <p class="mt-6 max-w-lg text-sage" data-reveal>Mulai persiapanmu menjadi mekanik alat berat bersama BMC MEC Academy.</p>
+      <div class="mt-8 flex flex-wrap items-center gap-6"><a class="btn" href={waLink()} target="_blank" rel="noopener">Mulai daftar BMC <span aria-hidden="true">↗</span></a><a class="text-link" href="/kontak/">Konsultasi dulu <span aria-hidden="true">↗</span></a></div>
+      <p class="mt-4 max-w-md text-xs text-sage">Hubungi tim MEC untuk jadwal, biaya, persyaratan, dan proses seleksi.</p>
+      <div class="contact-row"><div><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></div><address>{site.address}</address></div>
+      <footer class="home-footer"><span>© MEC Academy · Mekanik Berkarakter</span>
+        <div><a href="/assessment/">Assessment ↗</a><a href="/tentang/#identitas">Identitas lembaga</a><a href="/sumber/">Sumber informasi</a><button type="button" id="replay-loader">Ulang pembuka</button><a href="#hero">Kembali ke atas ↑</a></div></footer>
+    </div></div></div>
   </section>
-  <div class="scroll-meter" aria-hidden="true"><i></i></div>
+
+  <dialog id="video-dialog" aria-label="Video company profile MEC Academy"><button type="button" class="close-dialog" aria-label="Tutup video">×</button><div class="video-box"></div></dialog>
   <script>import '../scripts/home.ts';</script>
 </Base>

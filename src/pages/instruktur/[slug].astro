@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { img } from '../../lib/images';
+import { slugify, site, waLink } from '../../lib/site';
+import content from '../../data/content.json';
+export function getStaticPaths() {
+  return content.instructors.map((p) => ({ params: { slug: slugify(p.name) }, props: { p } }));
+}
+const { p } = Astro.props;
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'Person', name: p.name, jobTitle: `${p.role} (pengalaman)`, description: `Instruktur MEC Academy dengan pengalaman di ${p.company}.`, worksFor: { '@type': 'EducationalOrganization', name: site.name }, hasCredential: p.credentials.map((c) => ({ '@type': 'EducationalOccupationalCredential', name: c })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [['Beranda', '/'], ['Instruktur', '/instruktur/'], [p.name, Astro.url.pathname]].map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(path, Astro.site).href })) },
+];
+const others = content.instructors.filter((x) => x.name !== p.name);
+---
+<Base title={`${p.name} — Instruktur`} description={`${p.name}, instruktur MEC Academy dengan pengalaman sebagai ${p.role} di ${p.company}. Kompetensi: ${p.credentials.join(', ')}.`} jsonLd={ld}>
+  <section class="wrap py-16 md:py-24">
+    <nav aria-label="Breadcrumb" class="eyebrow mb-8"><a href="/">Beranda</a> / <a href="/instruktur/">Instruktur</a> / <span aria-current="page">{p.name}</span></nav>
+    <div class="grid items-start gap-12 md:grid-cols-[380px_1fr]">
+      <div class="border-t-2 border-gold bg-paper/10"><Image src={img(p.asset)} alt={p.name} widths={[380, 760]} sizes="380px" loading="eager" class="w-full object-cover object-top" /></div>
+      <div>
+        <p class="eyebrow mb-3">Instruktur MEC Academy</p>
+        <h1 class="display">{p.name}</h1>
+        <p class="mt-5 text-lg text-sage">Pengalaman: {p.role} — {p.company}</p>
+        <h2 class="mb-4 mt-10 text-3xl">Kompetensi & sertifikasi</h2>
+        <ul class="flex flex-wrap gap-3">{p.credentials.map((c) => <li class="border border-line px-4 py-2 text-sm">{c}</li>)}</ul>
+        <p class="mt-8 max-w-xl text-sm text-sage">Riwayat pekerjaan ditulis sebagai pengalaman, bukan pekerjaan aktif. Sumber: company profile MEC Academy 2026.</p>
+        <div class="mt-10 flex flex-wrap gap-4"><a class="btn" href={waLink()} target="_blank" rel="noopener">Daftar BMC ↗</a><a class="btn btn-ghost" href="/instruktur/">Semua instruktur</a></div>
+      </div>
+    </div>
+    <h2 class="mb-6 mt-20 text-3xl">Instruktur lainnya</h2>
+    <ul class="grid grid-cols-2 gap-4 md:grid-cols-5">{others.map((o) => <li><a class="block border border-line p-3 text-sm hover:border-gold" href={`/instruktur/${slugify(o.name)}/`}>{o.name}<span class="block text-xs text-sage">{o.company}</span></a></li>)}</ul>
+  </section>
+</Base>

@@ -5,9 +5,14 @@ import content from '../../data/content.json';
 <Page title="Tentang MEC Academy" eyebrow="Mengenal MEC Academy" description={content.vision}>
   <h2 class="mb-6 text-4xl">Sejarah</h2>
   <ol class="mb-14 grid gap-6 md:grid-cols-3">{content.history.map((h) => <li class="border-t border-gold pt-4"><span class="font-display text-5xl text-gold">{h.year}</span><p class="mt-2">{h.name}</p></li>)}</ol>
+  <div id="identitas" class="scroll-mt-28"></div>
+  <h2 class="mb-6 text-4xl">Visi</h2>
+  <p class="mb-14 max-w-2xl text-lg text-sage">{content.vision}</p>
   <h2 class="mb-6 text-4xl">Misi</h2>
   <ul class="mb-14 list-disc space-y-2 pl-5 text-sage">{content.mission.map((m) => <li>{m}</li>)}</ul>
   <h2 class="mb-6 text-4xl">Nilai</h2>
   <ul class="grid gap-4 md:grid-cols-3">{content.values.map((v) => <li class="border border-line p-4"><b class="font-display text-2xl">{v.name}</b> <span class="text-gold">/ {v.label}</span><p class="mt-2 text-sm text-sage">{v.text}</p></li>)}</ul>
+  <h2 id="tim" class="mb-6 mt-16 scroll-mt-28 text-4xl">Tim MEC</h2>
+  <ul class="grid gap-4 md:grid-cols-3">{content.team.map((t) => <li class="border-t border-gold pt-3"><b class="font-display text-xl uppercase">{t.role}</b><p class="mt-1 text-sm text-sage">{t.names.join(', ')}</p></li>)}</ul>
   <p class="mt-14 text-xs text-sage">{content.legal.entity} · AHU {content.legal.ahu} · NIB {content.legal.nib}</p>
 </Page>

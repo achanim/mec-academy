@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { smooth, clamp, chapterState, railOffset, railProgress, railIndex, motionAllowed, indexFromProgress, choreography, bump } from '../src/scripts/motion';
+import { smooth, clamp, chapterState, railOffset, railProgress, railIndex, motionAllowed, indexFromProgress, choreography, bump, zoomPortal } from '../src/scripts/motion';
 
 describe('motion math', () => {
   it('smooth clamps and is monotonic', () => {
@@ -40,5 +40,14 @@ describe('motion math', () => {
     expect(choreography('character', 0.9, 1).prayer).toBeCloseTo(1, 1);
     expect(bump(0, 0.1, 0.5)).toBe(0);
     expect(clamp(5)).toBe(1);
+  });
+  it('zoomPortal covers the viewport at the end and is idle at start', () => {
+    const box = { x: 900, y: 200, width: 440, height: 400 }, vp = { width: 1440, height: 900 };
+    expect(zoomPortal(0, box, vp).scale).toBe(1);
+    const z = zoomPortal(1, box, vp);
+    expect(z.scale * box.width).toBeGreaterThan(vp.width);
+    expect(z.scale * box.height).toBeGreaterThan(vp.height);
+    expect(box.x + box.width / 2 + z.x).toBeCloseTo(vp.width / 2);
+    expect(zoomPortal(1, null, vp).scale).toBe(1);
   });
 });

@@ -1,22 +1,38 @@
 ---
+import { Image } from 'astro:assets';
+import { img } from '../lib/images';
 import { site, waLink } from '../lib/site';
+interface Props { home?: boolean }
+const { home = false } = Astro.props;
 const nav = [
+  ['/tentang/', 'Tentang'],
   ['/program/basic-mechanic-course/', 'Program'],
-  ['/tahapan-seleksi/', 'Tahapan'],
   ['/fasilitas/', 'Fasilitas'],
   ['/instruktur/', 'Instruktur'],
   ['/artikel/', 'Artikel'],
-  ['/tentang/', 'Tentang'],
+  ['/assessment/', 'Assessment'],
 ];
 const path = Astro.url.pathname;
 ---
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-5 focus:z-[1000] focus:bg-gold focus:text-ink focus:p-3">Langsung ke konten</a>
-<header class="fixed inset-x-0 top-0 z-50 border-b border-gold/20 bg-gradient-to-r from-deep/95 to-ink/95 backdrop-blur">
-  <div class="wrap flex h-20 items-center gap-8">
-    <a href="/" class="font-display text-2xl tracking-wide" aria-label={`${site.name} — beranda`}>MEC <span class="text-gold">Academy</span></a>
-    <nav class="ml-4 hidden gap-6 text-sm md:flex" aria-label="Utama">
-      {nav.map(([href, label]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined} class="hover:text-gold aria-[current=page]:text-gold">{label}</a>)}
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="logo-frame" aria-label={`${site.name} — beranda`}><Image src={img('logo')} alt="MEC Academy" width={105} height={57} loading="eager" /></a>
+    <nav class="desktop-nav" aria-label="Navigasi utama">
+      {nav.map(([href, label]) => <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>)}
     </nav>
-    <a href={waLink()} class="btn ml-auto text-sm" rel="noopener" target="_blank">Daftar BMC ↗</a>
+    <div class="header-actions">
+      {home && <button class="motion-control" type="button" id="motion-toggle" aria-pressed="false" aria-label="Aktifkan mode tenang, kurangi animasi">Gerak <span>aktif</span></button>}
+      <a class="btn compact" href={waLink()} target="_blank" rel="noopener">Daftar BMC <span aria-hidden="true">↗</span></a>
+      <button class="menu-control" type="button" id="menu-toggle" aria-expanded="false" aria-controls="menu" aria-label="Buka menu"><span></span><span></span></button>
+    </div>
   </div>
 </header>
+<div id="menu" class="menu-panel" hidden>
+  <nav aria-label="Menu">
+    <ul>
+      {[['/', 'Beranda'], ...nav, ['/industri/', 'Industri'], ['/kontak/', 'Kontak']].map(([href, label], i) => <li style={`--i:${i}`}><a href={href}><span>{String(i + 1).padStart(2, '0')}</span>{label}</a></li>)}
+    </ul>
+  </nav>
+  <p class="menu-foot">{site.phone} · {site.email}</p>
+</div>

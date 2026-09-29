@@ -60,3 +60,11 @@ export function choreography(id: string, p: number, enter: number) {
 }
 /** Fade-in/out berbentuk lonceng di antara a..b. */
 export const bump = (p: number, a: number, b: number) => smooth(a, a + (b - a) * 0.3, p) * (1 - smooth(a + (b - a) * 0.7, b, p));
+
+/** Zoom foto (hero-frame) sampai memenuhi layar. box = posisi & ukuran frame tanpa transform. */
+export function zoomPortal(p: number, box: { x: number; y: number; width: number; height: number } | null, viewport: { width: number; height: number }) {
+  if (!box || box.width <= 0 || box.height <= 0) return { progress: 0, scale: 1, x: 0, y: 0, caption: 1 };
+  const t = smooth(0.56, 0.96, p);
+  const cover = Math.max((viewport.width + 100) / box.width, (viewport.height + 100) / box.height) * 1.12;
+  return { progress: t, scale: Math.pow(Math.max(1, cover), t), x: (viewport.width / 2 - box.x - box.width / 2) * t, y: (viewport.height / 2 - box.y - box.height / 2) * t, caption: 1 - smooth(0, 0.32, t) };
+}

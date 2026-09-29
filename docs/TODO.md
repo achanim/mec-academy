@@ -13,6 +13,8 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 
 - [x] Skeleton loading (gambar, pencarian, video) + error handling (404/500, gambar rusak, video gagal/offline, Pagefind gagal, error JS global, banner offline)
 
+- [x] Penyetaraan dengan preview: layar intro + logo, header/menu/toggle gerak, heading dua warna, navigasi bab (dot + status bar), zoom hero, bab alumni/OJT polaroid, detail tiap bab, profil instruktur, /industri/, /sumber/, assessment lengkap (FAQ), lightbox galeri
+
 ## Sedang dikerjakan
 - (kosong)
 
@@ -22,8 +24,7 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 - [x] Font: Nimbus Sans (AGPL, abu-abu untuk web) diganti Archivo + Archivo Narrow (OFL); DejaVu Sans Mono tetap. Lisensi di `public/licenses/`
 - [ ] Konfirmasi ejaan nama instruktur "Johan Winarto/Wiharto"
 - [ ] Isi deskripsi/tujuan/materi 12 modul yang masih placeholder (4 modul sudah ada)
-- [ ] Halaman detail instruktur `/instruktur/[slug]/` + `Person` JSON-LD
-- [ ] Halaman industri & alumni (`/industri/`, `/alumni/`), `/faq/` + FAQPage JSON-LD
+- [ ] Halaman `/faq/` umum + FAQPage JSON-LD
 - [ ] CMS editor untuk artikel (Keystatic/Decap) — butuh keputusan hosting & login GitHub
 - [ ] OG image dinamis per artikel (Satori) + OG default yang proper
 - [ ] Riset keyword + kalender editorial; tulis 5–10 artikel awal per pilar topik

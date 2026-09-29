@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import Page from '../../components/Page.astro';
+import { img } from '../../lib/images';
+import { waLink } from '../../lib/site';
+import content from '../../data/content.json';
+---
+<Page title="Industri & Kerja Sama" eyebrow="Industry connection" description="Kunjungan, penyerahan komponen, dan kegiatan bersama pelaku industri alat berat yang menghadirkan konteks dunia kerja dalam perjalanan MEC.">
+  <h2 class="mb-6 text-4xl">Kegiatan industri</h2>
+  <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {content.events.map((e) => <li><figure><Image src={img(e.asset)} alt={`${e.name} — ${e.company}`} widths={[480, 720]} sizes="(min-width:1024px) 33vw, 50vw" loading="lazy" class="h-60 w-full object-cover" /><figcaption class="border-b border-line py-3 text-sm"><span class="block font-mono text-[10px] uppercase text-gold">{e.name}</span>{e.company}</figcaption></figure></li>)}
+  </ul>
+  <h2 id="kerja-sama" class="mb-6 mt-20 scroll-mt-28 text-4xl">Kerja sama industri</h2>
+  <ul class="grid gap-3 md:grid-cols-2">{content.propositions.map((x) => <li class="border-t border-gold pt-3 text-lg">{x}</li>)}</ul>
+  <h2 class="mb-6 mt-16 text-3xl">Sektor industri</h2>
+  <ul class="flex flex-wrap gap-3">{content.sectors.map((x) => <li class="border border-line px-4 py-2 text-sm">{x}</li>)}</ul>
+  <a class="btn mt-14" href={waLink('Halo MEC Academy, saya ingin berdiskusi tentang kerja sama industri.')} target="_blank" rel="noopener">Diskusikan kerja sama ↗</a>
+</Page>

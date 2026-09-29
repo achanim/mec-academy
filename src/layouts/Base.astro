@@ -3,9 +3,10 @@ import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Loader from '../components/Loader.astro';
 import { site } from '../lib/site';
-interface Props { title: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; jsonLd?: object | object[]; publishedAt?: Date; updatedAt?: Date; }
-const props = Astro.props;
+interface Props { title: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; home?: boolean; footer?: boolean; jsonLd?: object | object[]; publishedAt?: Date; updatedAt?: Date; }
+const { home = false, footer = true, ...props } = Astro.props;
 const orgLd = {
   '@context': 'https://schema.org',
   '@type': ['EducationalOrganization', 'LocalBusiness'],
@@ -25,14 +26,16 @@ const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [prop
     <meta name="theme-color" content="#265154" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {home && <script is:inline>try{if(!sessionStorage.getItem('mec-intro'))document.documentElement.classList.add('intro-pending')}catch(e){}</script>}
     <Seo {...props} jsonLd={[orgLd, ...extra]} />
   </head>
   <body>
-    <Header />
-    <main id="main" class="pt-20"><slot /></main>
-    <Footer />
+    {home && <Loader />}
+    <Header home={home} />
+    <main id="main" class={home ? '' : 'pt-20'}><slot /></main>
+    {footer && <Footer />}
     <div id="toast" role="status" aria-live="polite"></div>
     <noscript><style>.skeleton{display:none}img{opacity:1!important}</style></noscript>
-    <script>import '../scripts/resilience.ts';</script>
+    <script>import '../scripts/resilience.ts'; import '../scripts/ui.ts';</script>
   </body>
 </html>
