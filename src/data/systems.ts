@@ -1,0 +1,6 @@
+export const systems = [
+  { slug: 'diesel-engine', code: '01 / Engine', kicker: '01 / DIESEL ENGINE', title: 'Engine system', image: 'engine', alt: 'Siswa MEC mempelajari diesel engine', description: 'Mengenal komponen utama dan prinsip kerja diesel engine sebagai sumber tenaga alat berat.' },
+  { slug: 'hydraulic-system', code: '02 / Hydraulic', kicker: '02 / HYDRAULIC SYSTEM', title: 'Hydraulic system', image: 'hydraulic', alt: 'Praktik control valve di workshop MEC', description: 'Mengenal komponen dan prinsip dasar hidrolik serta penerapannya pada pergerakan alat berat.' },
+  { slug: 'torqflow-drive-system', code: '03 / Power train', kicker: '03 / POWER TRAIN', title: 'Power train', image: 'powertrain', alt: 'Torqflow Transmission sebagai komponen pembelajaran MEC', description: 'Mempelajari dasar penyaluran tenaga melalui transmisi dan komponen penggerak alat berat.' },
+  { slug: 'electrical-system', code: '04 / Electrical', kicker: '04 / ELECTRICAL SYSTEM', title: 'Electrical system', image: 'workshop', alt: 'Lingkungan praktik MEC; ilustrasi kegiatan belajar, bukan foto khusus kelistrikan', description: 'Mengenal dasar sistem kelistrikan alat berat. Foto memperlihatkan lingkungan praktik MEC.' },
+];

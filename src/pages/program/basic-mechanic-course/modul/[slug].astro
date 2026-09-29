@@ -2,14 +2,18 @@
 import Page from '../../../../components/Page.astro';
 import { modules, waLink } from '../../../../lib/site';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { img } from '../../../../lib/images';
+import { systems } from '../../../../data/systems';
 export async function getStaticPaths() {
   const articles = await getCollection('articles', (a) => !a.data.draft);
   return modules.map((m) => ({ params: { slug: m.slug }, props: { m, related: articles.filter((a) => a.data.relatedModules.includes(m.slug)) } }));
 }
 const { m, related } = Astro.props;
+const sys = systems.find((s) => s.slug === m.slug);
 ---
 <Page title={`Modul ${m.title}`} eyebrow={`Modul ${String(m.n).padStart(2, '0')} / ${modules.length}`} description={`Modul ${m.title} pada Basic Mechanic Course MEC Academy. Belajar teori dan praktik bersama instruktur berpengalaman industri.`}>
-  <p class="prose-mec text-sage">Konten detail modul ini akan dilengkapi (tujuan pembelajaran, materi, komponen praktik).</p>
+  {sys ? (<div class="grid items-start gap-8 md:grid-cols-2"><Image src={img(sys.image)} alt={sys.alt} widths={[640, 960]} sizes="(min-width:768px) 50vw, 100vw" class="w-full border border-gold/30 object-cover" /><p class="text-lg text-sage">{sys.description}</p></div>) : (<p class="prose-mec text-sage">Detail materi modul ini akan dilengkapi bersama tim MEC Academy.</p>)}
   {related.length > 0 && (<>
     <h2 class="mb-6 mt-14 text-3xl">Artikel terkait</h2>
     <ul class="space-y-3">{related.map((a) => <li><a class="text-gold underline" href={`/artikel/${a.id}/`}>{a.data.title}</a></li>)}</ul>

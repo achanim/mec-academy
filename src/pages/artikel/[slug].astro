@@ -19,7 +19,7 @@ const ld: object[] = [
 if (d.faq.length) ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: d.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
 ---
 <Base title={d.title} description={d.description} type="article" publishedAt={d.publishedAt} updatedAt={d.updatedAt} image={d.cover?.src} jsonLd={ld}>
-  <article class="wrap py-16">
+  <article class="wrap py-16" data-pagefind-body>
     <nav aria-label="Breadcrumb" class="eyebrow mb-6"><a href="/">Beranda</a> / <a href="/artikel/">Artikel</a> / <a href={`/artikel/kategori/${d.category}/`}>{categories[d.category]}</a></nav>
     <h1 class="max-w-4xl text-5xl md:text-7xl">{d.title}</h1>
     <p class="mt-4 text-sm text-sage">{d.author} · <time datetime={d.publishedAt.toISOString()}>{d.publishedAt.toLocaleDateString('id-ID', { dateStyle: 'long' })}</time>{d.updatedAt && <> · Diperbarui <time datetime={d.updatedAt.toISOString()}>{d.updatedAt.toLocaleDateString('id-ID', { dateStyle: 'long' })}</time></>} · {readingMinutes(a.body)} menit baca</p>

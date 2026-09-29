@@ -4,6 +4,7 @@ import { publishedArticles, categories } from '../../lib/articles';
 const articles = await publishedArticles();
 ---
 <Page title="Artikel" eyebrow="Wawasan" description="Artikel seputar karier mekanik alat berat, pengetahuan teknis, K3, dan dunia industri dari tim MEC Academy.">
+  <div id="search" class="mb-8"></div>
   <ul class="mb-10 flex flex-wrap gap-3 text-sm">{Object.entries(categories).map(([k, v]) => <li><a class="border border-line px-3 py-1 hover:border-gold" href={`/artikel/kategori/${k}/`}>{v}</a></li>)}</ul>
   <ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {articles.map((a) => (
@@ -16,4 +17,7 @@ const articles = await publishedArticles();
     ))}
   </ul>
   {articles.length === 0 && <p class="text-sage">Belum ada artikel.</p>}
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>window.addEventListener('DOMContentLoaded', () => { if (window.PagefindUI) new PagefindUI({ element: '#search', showSubResults: false, translations: { placeholder: 'Cari artikel…' } }); });</script>
 </Page>

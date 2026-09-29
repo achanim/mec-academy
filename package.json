@@ -5,11 +5,12 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "check": "astro check",
     "extract": "node scripts/extract-preview.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "start": "astro preview --host"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
@@ -22,6 +23,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "pagefind": "^1.5.2",
     "vitest": "^5.0.2"
   }
 }
