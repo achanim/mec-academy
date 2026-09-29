@@ -1,0 +1,17 @@
+---
+// Heading dipecah per kata SAAT BUILD (bukan di browser) supaya layout paint pertama sama dengan layout akhir
+// (tanpa layout shift) dan teks tetap ada di HTML untuk SEO. <em> => aksen (.hl), <br /> dipertahankan.
+interface Props { tag?: 'h1' | 'h2' | 'h3'; class?: string; [k: string]: unknown }
+const { tag: Tag = 'h2', class: cls, ...rest } = Astro.props;
+const html = (await Astro.slots.render('default')).trim();
+const plain = html.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+let n = 0;
+const words = (text: string, hl: boolean) =>
+  text.split(/\s+/).filter(Boolean).map((w) => `<span class="wm${hl ? ' hl' : ''}" aria-hidden="true"><span style="--i:${n++}">${w}</span></span>`).join(' ');
+const out = html.split(/(<em>[\s\S]*?<\/em>)/).map((part) => {
+  const em = part.match(/^<em>([\s\S]*)<\/em>$/);
+  const src = em ? em[1] : part;
+  return src.split(/(<br\s*\/?>)/i).map((seg) => (/^<br/i.test(seg) ? '<br />' : words(seg, !!em))).join(' ');
+}).join(' ').replace(/ ?<br \/> ?/g, '<br />');
+---
+<Tag class={cls} aria-label={plain} {...rest} set:html={out} />

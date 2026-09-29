@@ -10,7 +10,10 @@
     "check": "astro check",
     "extract": "node scripts/extract-preview.mjs",
     "test": "vitest run",
-    "start": "astro preview --host"
+    "start": "astro preview --host",
+    "audit:lh": "node scripts/lighthouse.mjs",
+    "audit:site": "node scripts/audit.mjs",
+    "audit": "npm run audit:site && npm run audit:lh"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
@@ -25,7 +28,10 @@
   "devDependencies": {
     "@fontsource/archivo": "^5.3.0",
     "@fontsource/archivo-narrow": "^5.3.0",
+    "chrome-launcher": "^1.2.1",
+    "lighthouse": "^13.5.0",
     "pagefind": "^1.5.2",
+    "playwright-core": "^1.63.0",
     "vitest": "^5.0.2"
   }
 }

@@ -28,7 +28,18 @@ npm run check      # typecheck
 npm test           # vitest
 npm run build      # output ke dist/
 npm run extract -- path/ke/MEC_UI_Preview.html   # ekstrak aset & konten dari preview (sekali jalan)
+npm run audit:site # audit otomatis (Playwright): overflow, h1, alt, font <12px, kontras, target sentuh, error JS
+npm run audit:lh   # Lighthouse mobile + desktop ke 16 halaman, cek ambang batas
+npm run audit      # keduanya (dipakai CI)
 ```
+
+## Audit kualitas
+Jalankan `npm run build` dulu (skrip menyajikan hasil build lewat `astro preview` di port 4399).
+- Butuh Chrome/Chromium. Skrip mencari otomatis; kalau tidak ketemu, set `CHROME_PATH=/path/ke/chrome`.
+- Opsi: `AUDIT_PAGES=/,/faq/` untuk halaman tertentu, `AUDIT_URL=https://situs-live` untuk menguji situs yang sudah online.
+- Hasil: `reports/site-audit.md` dan `reports/lighthouse-summary.md` (JSON mentah di `reports/lighthouse/`, tidak di-commit).
+- Ambang batas ada di `scripts/lighthouse.mjs` (`BUDGET`) dan `scripts/audit.mjs` (`MIN_FONT`, `MIN_TOUCH`). Melewati ambang → exit code 1, dan job `quality` di CI gagal.
+- Lighthouse melewati layar intro karena user-agent headless dianggap crawler; pengunjung nyata tetap melihat intro.
 
 ## Struktur
 - `src/data/*.json` — konten hasil ekstraksi preview (modul, instruktur, fasilitas, dst.)

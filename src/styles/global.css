@@ -3,7 +3,7 @@
 @font-face { font-family: 'ArchivoNarrow'; src: url('../assets/fonts/ArchivoNarrow-700.woff2') format('woff2'); font-weight: 400 700; font-display: swap; }
 @font-face { font-family: 'Archivo'; src: url('../assets/fonts/Archivo-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Archivo'; src: url('../assets/fonts/Archivo-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
-@font-face { font-family: 'MECMono'; src: url('../assets/fonts/MECMono.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'MECMono'; src: url('../assets/fonts/MECMono.woff2') format('woff2'); font-display: optional; }
 
 @theme {
   --color-green: #265154;
@@ -249,26 +249,26 @@ dialog .close-dialog { position: absolute; right: 10px; top: 4px; font-size: 32p
 .motion-ready .journey-img { transform: scale(calc(1.1 - var(--step, 1) * .1)); }
 .motion-ready .journey .step-no { background: color-mix(in srgb, var(--color-gold) calc(var(--step, 1) * 100%), var(--color-ink)); color: color-mix(in srgb, var(--color-ink) calc(var(--step, 1) * 100%), var(--color-gold)); }
 
-.motion-ready .technical-grid { display: block; position: absolute; inset: -10%; z-index: -1; opacity: .12; background: linear-gradient(#cdbe86 1px, transparent 1px) 0 0 / 110px 110px, linear-gradient(90deg, #cdbe86 1px, transparent 1px) 0 0 / 110px 110px; transform: perspective(1400px) rotateY(calc(var(--px, 0) * -3deg)) translate3d(calc(var(--px, 0) * 12px), calc(var(--advance, 0) * -60px), 0); pointer-events: none; }
-.motion-ready .hero-word { display: block; position: absolute; right: -12%; top: 62%; z-index: 0; font: 700 clamp(160px, 20vw, 380px)/.8 var(--font-display); letter-spacing: -.025em; color: transparent; -webkit-text-stroke: 1px #cdbe8655; pointer-events: none;
+:is(.motion-ready, .motion-pre) .technical-grid { display: block; position: absolute; inset: -10%; z-index: -1; opacity: .12; background: linear-gradient(#cdbe86 1px, transparent 1px) 0 0 / 110px 110px, linear-gradient(90deg, #cdbe86 1px, transparent 1px) 0 0 / 110px 110px; transform: perspective(1400px) rotateY(calc(var(--px, 0) * -3deg)) translate3d(calc(var(--px, 0) * 12px), calc(var(--advance, 0) * -60px), 0); pointer-events: none; }
+:is(.motion-ready, .motion-pre) .hero-word { display: block; position: absolute; right: -12%; top: 62%; z-index: 0; font: 700 clamp(160px, 20vw, 380px)/.8 var(--font-display); letter-spacing: -.025em; color: transparent; -webkit-text-stroke: 1px #cdbe8655; pointer-events: none;
   transform: translate3d(calc(var(--word, 0) * -16vw), calc(var(--word, 0) * -8vh), 0); opacity: calc(.25 + var(--word, 0) * .6); }
-.motion-ready .hero-frame { display: block; position: absolute; top: 24%; right: 6%; z-index: 2; width: 31vw; max-width: 500px; height: clamp(285px, 28vw, 414px); margin: 0; padding: 8px; transform-origin: 50% 50%;
+:is(.motion-ready, .motion-pre) .hero-frame { display: block; position: absolute; top: 24%; right: 6%; z-index: 2; width: 31vw; max-width: 500px; height: clamp(285px, 28vw, 414px); margin: 0; padding: 8px; transform-origin: 50% 50%;
   background: linear-gradient(135deg, #cdbe8633, #061f2399); border: 1px solid #cdbe8688; box-shadow: 0 25px 80px #061f2377; opacity: var(--frame, 0);
   transform: perspective(1000px) translate3d(calc((1 - var(--frame, 0)) * 130px + var(--zx, 0px) + var(--px, 0) * 13px * (1 - var(--zp, 0))), calc((1 - var(--frame, 0)) * 80px + var(--zy, 0px) + var(--py, 0) * 8px * (1 - var(--zp, 0))), 0) rotateY(calc((-16deg + var(--frame, 0) * 10deg) * (1 - var(--zp, 0)))) scale(var(--zs, 1)); }
-.motion-ready .hero-frame-image { height: 100%; position: relative; overflow: hidden; }
-.motion-ready .hero-frame::after { content: ''; position: absolute; inset: 0; z-index: 3; background: linear-gradient(90deg, #061f23f5, #061f23c4 44%, #061f2377 76%, #061f2340); opacity: var(--zp, 0); pointer-events: none; }
-.motion-ready .hero-frame figcaption { position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 2; padding: 14px 12px 10px; background: var(--color-ink); display: flex; flex-direction: column; gap: 6px; opacity: var(--zc, 1); }
+:is(.motion-ready, .motion-pre) .hero-frame-image { height: 100%; position: relative; overflow: hidden; }
+:is(.motion-ready, .motion-pre) .hero-frame::after { content: ''; position: absolute; inset: 0; z-index: 3; background: linear-gradient(90deg, #061f23f5, #061f23c4 44%, #061f2377 76%, #061f2340); opacity: var(--zp, 0); pointer-events: none; }
+:is(.motion-ready, .motion-pre) .hero-frame figcaption { position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 2; padding: 14px 12px 10px; background: var(--color-ink); display: flex; flex-direction: column; gap: 6px; opacity: var(--zc, 1); }
 .hero-frame figcaption span { font: 12px/1.6 var(--font-mono); letter-spacing: 1px; color: var(--color-gold); }
 .hero-frame figcaption strong { font: 700 24px/1 var(--font-display); text-transform: uppercase; }
-.motion-ready .floating-caption { opacity: calc(1 - var(--frame, 0)); }
+:is(.motion-ready, .motion-pre) .floating-caption { opacity: calc(1 - var(--frame, 0)); }
 .motion-ready #hero .scene-pad { position: relative; z-index: 3; }
-.motion-ready .hero-copy { transform: translate3d(calc(var(--zp, 0) * -14px), calc(var(--zp, 0) * -28px), 0) scale(calc(1 - var(--zp, 0) * .035)); transform-origin: 10% 35%; }
+:is(.motion-ready, .motion-pre) .hero-copy { transform: translate3d(calc(var(--zp, 0) * -14px), calc(var(--zp, 0) * -28px), 0) scale(calc(1 - var(--zp, 0) * .035)); transform-origin: 10% 35%; }
 
 .motion-ready .machine-stage .spatial-frame { transform-style: preserve-3d; transform: translate3d(0, calc((1 - var(--enter, 1)) * 28px), 0) rotateX(calc(-6deg + var(--py, 0) * -4deg)) rotateY(calc(-12deg + var(--orbit, 0) * 1deg + var(--px, 0) * 7deg + var(--rotate, 0deg))); transition: transform .35s ease-out; }
 .motion-ready .spatial-back { display: block; position: absolute; inset: -14px 14px 34px -14px; border: 1px solid #cdbe8666; transform: translateZ(calc(-42px - var(--depth, 0) * .7px)); }
 .motion-ready .spatial-guide { display: block; position: absolute; inset: 10px -10px -10px 10px; border: 1px dashed #cdbe8633; transform: translateZ(calc(-5px + var(--depth, 0) * .18px)); }
 .motion-ready .spatial-image { transform: translateZ(calc(32px + var(--depth, 0) * .35px)); }
-.motion-ready .spatial-label { transform: translateZ(calc(72px + var(--depth, 0) * 1px)); margin: -26px 24px 0; position: relative; border: 1px solid #cdbe8644; }
+:is(.motion-ready, .motion-pre) .spatial-label { transform: translateZ(calc(72px + var(--depth, 0) * 1px)); margin: -26px 24px 0; position: relative; border: 1px solid #cdbe8644; }
 
 .motion-ready .rail-window { overflow: visible; perspective: 1200px; }
 .motion-ready .motion-scene .rail { overflow: visible; scroll-snap-type: none; transform: translate3d(var(--rail-x, 0px), 0, 0); will-change: transform; padding: 0; }
@@ -501,8 +501,8 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .btn span, .button span, .text-link span { font-weight: 400; font-family: var(--font-body); }
 
 /* ---- pass 2: selisih hasil perbandingan berdampingan ---- */
-.motion-ready #hero .display { font-size: clamp(64px, 6.1vw, 106px); }
-.motion-ready #hero .display { margin-bottom: 20px; }
+:is(.motion-ready, .motion-pre) #hero .display { font-size: clamp(64px, 6.1vw, 106px); }
+:is(.motion-ready, .motion-pre) #hero .display { margin-bottom: 20px; }
 .points h3 { text-transform: none; font: 700 22px/1.2 var(--font-bold); margin-top: 8px; }
 .split-copy { font-size: clamp(16px, 1.4vw, 20px); line-height: 1.6; max-width: 470px; }
 .split-copy .lead { font-size: clamp(18px, 1.65vw, 25px); line-height: 1.5; margin-bottom: 14px; }
@@ -599,7 +599,7 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 }
 .btn.compact { white-space: nowrap; }
 .floating-caption { display: none; }
-.motion-ready .floating-caption { display: flex; }
+:is(.motion-ready, .motion-pre) .floating-caption { display: flex; }
 .scene-bottom { position: relative; inset: auto; padding: 0 var(--pad) 40px; margin-top: -8px; }
 .motion-ready .scene-bottom { position: absolute; left: var(--pad); right: var(--pad); bottom: 58px; padding: 0; margin: 0; }
 @media (max-width: 760px) { .motion-ready .scene-bottom { position: relative; } }
@@ -684,7 +684,7 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 /* ---- C1/C3: crop lebih longgar, foto utama lebih besar ---- */
 .motion-ready .motion-scene .rail > li { flex: 0 0 min(38vw, 540px); }
 .rail-img { height: clamp(200px, 32svh, 300px); }
-.motion-ready .rail-img { height: clamp(190px, 31svh, 290px); }
+:is(.motion-ready, .motion-pre) .rail-img { height: clamp(190px, 31svh, 290px); }
 .rail > li { flex-basis: min(78vw, 540px); }
 .journey-image { height: clamp(170px, 24vh, 270px); }
 .journey-line { top: calc(clamp(170px, 24vh, 270px) + 3px); }
@@ -718,7 +718,7 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .page-title.title-case, .title-case { text-transform: none; letter-spacing: -.01em; line-height: 1.08; max-width: 24ch; font-size: clamp(34px, 4.6vw, 60px); }
 .module-groups { display: grid; gap: 40px; }
 .module-group { display: grid; grid-template-columns: 280px 1fr; gap: 24px 40px; padding-top: 24px; border-top: 1px solid var(--color-line); }
-.module-group h3 { font-size: 28px; }
+.module-group h2, .module-group h3 { font-size: 28px; }
 .module-group header p { margin: 8px 0 0; font-size: 14px; color: var(--color-sage); }
 .module-group ul { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .module-group a { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 10px; min-height: 64px; padding: 12px 16px; border: 1px solid var(--color-line); background: #ffffff05; transition: border-color .2s, background .2s; }
@@ -792,7 +792,7 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .btn:disabled, .btn[aria-disabled='true'] { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 .text-link:active { opacity: .7; }
 
-.motion-ready .stage-controls { margin-top: 44px; position: relative; z-index: 2; }
+:is(.motion-ready, .motion-pre) .stage-controls { margin-top: 44px; position: relative; z-index: 2; }
 
 /* banner halaman dalam: lebih rendah & foto lebih terlihat */
 .page-hero-inner { padding-block: clamp(48px, 6vw, 80px) clamp(32px, 4vw, 52px); }
@@ -808,3 +808,14 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
   .article-chips a, ul.article-chips a { display: inline-flex; align-items: center; min-height: 44px; }
   nav[aria-label='Breadcrumb'] a { display: inline-block; padding: 14px 4px; }
 }
+
+
+/* ---- CLS: layout pinned sudah berlaku sejak paint pertama (kelas .motion-pre dipasang skrip di <head>).
+   JS kemudian mengganti .motion-pre dengan .motion-ready pada frame yang sama, tanpa lompatan layout. ---- */
+.motion-pre .chapter[data-chapter]:not(.no-pin) { height: calc(100svh * var(--span, 1.6)); }
+.motion-pre .chapter[data-chapter]:not(.no-pin) > .scene { position: sticky; top: 0; height: 100svh; }
+.motion-pre .chapter[data-chapter]:not(.no-pin) .scene-pad { height: 100%; padding-top: 112px; padding-bottom: 60px; display: flex; align-items: center; }
+.motion-pre .chapter[data-chapter]:not(.no-pin) .scene-inner { width: 100%; }
+.motion-pre .hero-copy { padding-top: 0; }
+.motion-pre #hero .scene-pad { position: relative; z-index: 3; }
+.motion-pre .scene-bottom { position: absolute; left: var(--pad); right: var(--pad); bottom: 58px; padding: 0; margin: 0; }

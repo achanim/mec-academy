@@ -118,38 +118,12 @@ const railLabel = document.querySelector<HTMLElement>('[data-rail-label]');
 const railCount = document.querySelector<HTMLElement>('[data-rail-count]');
 const cards = rail ? ([...rail.children] as HTMLElement[]) : [];
 
-// Heading dipecah per kata; <em> dan <br> dipertahankan (aksen emas).
-function splitWords() {
-  let n = 0;
-  document.querySelectorAll<HTMLElement>('[data-split]').forEach((h) => {
-    if (h.dataset.splitDone) return;
-    h.dataset.splitDone = '1';
-    h.setAttribute('aria-label', (h.textContent ?? '').replace(/\s+/g, ' ').trim());
-    n = 0;
-    const walk = (node: Node, hl: boolean): Node[] => {
-      const out: Node[] = [];
-      node.childNodes.forEach((c) => {
-        if (c.nodeType === Node.TEXT_NODE) {
-          const words = (c.textContent ?? '').split(/\s+/).filter(Boolean);
-          words.forEach((w) => {
-            const outer = document.createElement('span'); outer.className = hl ? 'wm hl' : 'wm'; outer.setAttribute('aria-hidden', 'true');
-            const inner = document.createElement('span'); inner.style.setProperty('--i', String(n++)); inner.textContent = w; outer.append(inner);
-            out.push(outer, document.createTextNode(' '));
-          });
-        } else if (c.nodeName === 'BR') out.push(c.cloneNode());
-        else if (c.nodeName === 'EM') out.push(...walk(c, true));
-      });
-      return out;
-    };
-    h.replaceChildren(...walk(h, false));
-  });
-}
-
 function teardown() {
   active = false;
   cancelAnimationFrame(raf); raf = 0;
   root.classList.remove('motion-ready');
-  chapters.forEach(({ el }) => { el.classList.remove('motion-scene'); el.removeAttribute('style'); });
+  const pre = root.classList.contains('motion-pre');
+  chapters.forEach(({ el }) => { el.classList.remove('motion-scene'); if (!pre) el.removeAttribute('style'); });
   chapters = [];
   ['--px', '--py'].forEach((k) => root.style.removeProperty(k));
 }
@@ -157,15 +131,19 @@ function teardown() {
 function setup() {
   teardown();
   const ok = !calm() && motionAllowed({ width: innerWidth, height: innerHeight, reduced: reduced.matches, coarse: coarse.matches, saveData: saveData() });
-  if (!ok) return;
+  if (!ok) { root.classList.remove('motion-pre'); return; }
   // Chapter hanya di-pin bila kontennya muat dalam satu layar
   const els = [...document.querySelectorAll<HTMLElement>('[data-chapter]')].filter((el) => {
     const inner = el.querySelector<HTMLElement>('.scene-inner');
     return inner ? inner.offsetHeight + 172 <= innerHeight : false;
   });
-  if (!els.length) return;
-  splitWords();
+  if (!els.length) { root.classList.remove('motion-pre'); return; }
+  // Tinggi .scene-inner sama di mode awal & aktif, jadi tidak perlu melepas .motion-pre sebelum mengukur
+  // (layout paksa di tengah proses tercatat Chrome sebagai layout shift).
+  document.querySelectorAll<HTMLElement>('[data-chapter]').forEach((el) => el.classList.toggle('no-pin', !els.includes(el)));
   els.forEach((el) => { el.style.setProperty('--span', el.dataset.span ?? '1.6'); el.classList.add('motion-scene'); });
+  // .motion-pre sengaja dipertahankan selama animasi aktif: melepasnya bersamaan dengan menambah .motion-ready
+  // tercatat Chrome sebagai layout shift pada hero (layout akhirnya identik, hanya transisi kelasnya yang dihitung).
   root.classList.add('motion-ready');
   active = true;
   requestAnimationFrame(() => {

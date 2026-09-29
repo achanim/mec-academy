@@ -14,3 +14,23 @@ jobs:
       - run: npx astro check
       - run: npm test
       - run: npm run build
+
+  quality:
+    # Audit situs (Playwright) + Lighthouse terhadap build produksi. Gagal bila melewati ambang di scripts/.
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - name: Audit situs + Lighthouse
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: npm run audit
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audit-reports
+          path: reports/
