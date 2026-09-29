@@ -15,6 +15,8 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 
 - [x] Penyetaraan dengan preview: layar intro + logo, header/menu/toggle gerak, heading dua warna, navigasi bab (dot + status bar), zoom hero, bab alumni/OJT polaroid, detail tiap bab, profil instruktur, /industri/, /sumber/, assessment lengkap (FAQ), lightbox galeri
 
+- [x] Responsive: diuji di 320/360/390/820/1000/1024/1920 px — tanpa scroll horizontal; HP tanpa target sentuh <32px; header tablet memakai hamburger (<1000px); animasi pin hanya ≥1000px
+
 ## Sedang dikerjakan
 - (kosong)
 

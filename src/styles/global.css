@@ -524,3 +524,90 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .film-content > p { max-width: 420px; font-size: 15px; }
 #contact .lead { max-width: 570px; font-size: 22px; line-height: 1.5; color: var(--color-paper); }
 .trainer-info strong { text-transform: none; }
+
+/* ============ RESPONSIVE ============ */
+/* Tablet & di bawahnya */
+@media (max-width: 899px) {
+  .split, #instructors .split { grid-template-columns: 1fr; gap: 16px; }
+  .split > .split-copy, .split > div:last-child { margin-top: 0; }
+  .machine-infos [data-info] { grid-template-columns: 1fr; gap: 6px; }
+  .machine-infos b { justify-self: start; }
+  .spatial-frame { max-width: 100%; }
+  .spatial-image { height: clamp(200px, 48vw, 300px); }
+  .contact-row { flex-direction: column; gap: 18px; }
+  .contact-row address { max-width: none; }
+  .alumni-stack { min-height: 320px; margin-top: 8px; }
+  .learning-footer { gap: 14px 24px; }
+  .rail > li { flex-basis: min(78vw, 560px); }
+}
+/* HP */
+@media (max-width: 760px) {
+  :root { --pad: 20px; }
+  .scene-pad { padding-block: 96px 56px; }
+  #hero .scene-pad { padding-block: 100px 24px; }
+  .hero-copy { padding-top: 0; }
+  .micro-proof { display: block; line-height: 2.2; font-size: 9px; max-width: 310px; }
+  .micro-proof i { display: inline-block; vertical-align: middle; margin: 0 8px; }
+  .scene-bottom { position: relative; inset: auto; left: auto; right: auto; bottom: auto; padding: 0 var(--pad) 40px; flex-wrap: wrap; gap: 14px 20px; align-items: center; }
+  .scroll-cue { max-width: none; }
+  .film-link { min-height: 44px; }
+  .hero-hook { font-size: 17px; }
+  .display { word-break: normal; overflow-wrap: break-word; }
+  .points, .journey { gap: 22px; }
+  .trainer-gallery { gap: 12px; }
+  .trainer-info { padding: 14px 10px; min-height: 110px; }
+  .trainer-info strong { font-size: 15px; }
+  .about-photo { height: 260px; }
+  .about-logo { right: 0; bottom: 10px; padding: 12px 18px; }
+  .about-logo img { width: 90px; height: auto; }
+  .timeline { grid-template-columns: 1fr; gap: 10px; }
+  .metrics { flex-direction: column; gap: 14px; }
+  .metrics article { flex-direction: row; align-items: center; }
+  .timeline li { display: flex; gap: 12px; align-items: baseline; }
+  .industry-grid img { height: 200px; }
+  .home-footer { flex-direction: column; }
+  .contact-orbit { display: none; }
+  .btn.large { min-width: 0; width: 100%; }
+  .loader h2 { font-size: clamp(40px, 12vw, 64px); }
+  .loader-foot { position: static; padding: 24px 20px; }
+  .menu-panel a { font-size: clamp(30px, 9vw, 48px); }
+  .lightbox { padding: 8px; }
+  #toast { bottom: 12px; }
+  .account-card { left: 0; right: 0; position: relative; margin-top: -30px; }
+}
+/* Target sentuh >= 44px pada layar sentuh */
+@media (pointer: coarse) {
+  .menu-control { width: 44px; padding-inline: 10px; }
+  .home-footer a, .home-footer button { display: inline-block; padding: 12px 4px; }
+  .contact-row a { display: inline-block; padding: 10px 0; }
+  .policy-note a, .footer-link, footer a { display: inline-block; padding: 10px 0; }
+  .text-link { min-height: 44px; }
+  .rail-controls button, .stage-controls button { width: 44px; height: 44px; }
+  .chapter-nav a { min-width: 24px; min-height: 24px; }
+}
+/* Laptop kecil */
+@media (min-width: 900px) and (max-width: 1150px) {
+  .site-header-inner { gap: 16px; }
+  .desktop-nav { gap: 18px; font-size: 13px; }
+  .machine-layout { gap: 30px; }
+  .about-layout, .alumni-layout { gap: 36px; }
+  .trainer-gallery { grid-template-columns: repeat(3, 1fr); }
+  .machine-infos [data-info] { grid-template-columns: 150px 200px 1fr auto auto; gap: 14px; }
+}
+/* Layar sangat lebar */
+@media (min-width: 1800px) { .wrap { padding-inline: max(var(--pad), calc((100vw - 1600px) / 2)); } }
+@media (max-width: 380px) { #hero .display { font-size: 44px; } .display { font-size: 42px; } .btn { padding: 14px 16px; gap: 14px; } }
+
+/* Tablet: header lebih lega, elemen dekoratif hero hanya di mode gerak */
+@media (max-width: 999px) {
+  .desktop-nav { display: none !important; }
+  .header-actions { margin-left: auto; }
+  .menu-control { display: block; }
+}
+.btn.compact { white-space: nowrap; }
+.floating-caption { display: none; }
+.motion-ready .floating-caption { display: flex; }
+.scene-bottom { position: relative; inset: auto; padding: 0 var(--pad) 40px; margin-top: -8px; }
+.motion-ready .scene-bottom { position: absolute; left: var(--pad); right: var(--pad); bottom: 58px; padding: 0; margin: 0; }
+@media (max-width: 760px) { .motion-ready .scene-bottom { position: relative; } }
+@media (max-height: 760px) { .motion-ready .scroll-cue { display: none; } }
