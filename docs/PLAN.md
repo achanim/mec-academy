@@ -12,7 +12,7 @@ Preview saat ini satu file HTML 21 MB. Isinya:
 | Konten | Ada di JS (`mecContent`, `mecResearch`, `mecGallery`) dan dirender via modal | Google tidak melihat konten sebagai halaman. **Harus jadi halaman HTML sungguhan** |
 | Routing | Satu halaman, `#assessment` via `location.hash` + `pushState` | Tidak ada URL yang bisa di-index. Perlu real routes |
 | Motion | Scroll-choreography custom (`MECMotion`, pinned scene, rail, zoom portal), tanpa WebGL/CDN, ada mode `calm`/reduced-motion | Bagus & sudah pure-function → bisa dipindah utuh sebagai modul kecil (JS ringan) |
-| Tampilan | Bahasa ID, palet hijau tua `#265154` / gold `#CDBE86` / paper `#F3F0E4`, font MECDisplay/Body/Bold/Mono | Jadi design tokens |
+| Tampilan | Bahasa ID, palet hijau tua `#265154` / gold `#CDBE86` / paper `#F3F0E4`, font display/body/mono (kini Archivo Narrow, Archivo, DejaVu Sans Mono) | Jadi design tokens |
 | CTA | Semua konversi lewat WhatsApp `wa.me/6282229985588` + link ke portal assessment eksternal | Tidak butuh backend auth/payment sekarang |
 | Video | YouTube (nocookie) di modal | Lazy-load facade (jangan load iframe sebelum klik) |
 
@@ -162,7 +162,7 @@ Cloudflare Pages/DNS: gratis · Domain: ±Rp150–250rb/th · Plausible: ±$9/bl
 1. Domain final yang dipakai? (dan apakah `malangeducationcenter.com` di-redirect)
 2. Setuju Astro + Cloudflare Pages (vs Vercel/Next.js)?
 3. Siapa yang menulis artikel & butuh editor UI (Keystatic) atau cukup menulis Markdown?
-4. Lisensi font MECDisplay/Body/Bold/Mono — boleh dipakai web?
+4. Lisensi font display/body/mono (kini Archivo Narrow, Archivo, DejaVu Sans Mono) — boleh dipakai web?
 5. Perlu form pendaftaran sendiri, atau WhatsApp saja cukup?
 6. Portal assessment tetap eksternal?
 7. Perlu multi-bahasa (EN) di kemudian hari? (memengaruhi struktur URL sejak awal)

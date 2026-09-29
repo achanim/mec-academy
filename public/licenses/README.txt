@@ -1,6 +1,4 @@
-Font pihak ketiga yang dipakai situs ini (di-host sendiri, diubah hanya formatnya ke WOFF2):
+Font pihak ketiga yang dipakai situs ini (di-host sendiri):
 
-- Nimbus Sans Regular / Bold / Narrow Bold  — (URW)++ Design & Development, AGPL-3 dengan font exception.
-  Lihat Nimbus-Sans-URW-License.txt. Sumber: https://github.com/ArtifexSoftware/urw-base35-fonts
-- DejaVu Sans Mono — Bitstream Vera license (perubahan DejaVu: public domain).
-  Lihat DejaVu-Fonts-License.txt. Sumber: https://dejavu-fonts.github.io/
+- Archivo (Regular, Bold) dan Archivo Narrow (Bold) — SIL Open Font License 1.1. Lihat Archivo-OFL.txt, ArchivoNarrow-OFL.txt.
+- DejaVu Sans Mono — Bitstream Vera license (perubahan DejaVu: public domain). Lihat DejaVu-Fonts-License.txt.

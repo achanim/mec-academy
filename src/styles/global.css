@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
-@font-face { font-family: 'MECDisplay'; src: url('../assets/fonts/MECDisplay.woff2') format('woff2'); font-display: swap; }
-@font-face { font-family: 'MECBody'; src: url('../assets/fonts/MECBody.woff2') format('woff2'); font-display: swap; }
-@font-face { font-family: 'MECBold'; src: url('../assets/fonts/MECBold.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'ArchivoNarrow'; src: url('../assets/fonts/ArchivoNarrow-700.woff2') format('woff2'); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url('../assets/fonts/Archivo-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url('../assets/fonts/Archivo-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 @font-face { font-family: 'MECMono'; src: url('../assets/fonts/MECMono.woff2') format('woff2'); font-display: swap; }
 
 @theme {
@@ -13,19 +13,19 @@
   --color-gold: #cdbe86;
   --color-sage: #c0cbc0;
   --color-line: #54716b;
-  --font-display: 'MECDisplay', Arial, sans-serif;
-  --font-body: 'MECBody', Arial, sans-serif;
-  --font-bold: 'MECBold', Arial, sans-serif;
+  --font-display: 'ArchivoNarrow', 'Arial Narrow', Arial, sans-serif;
+  --font-body: 'Archivo', Arial, sans-serif;
+  --font-bold: 'Archivo', Arial, sans-serif;
   --font-mono: 'MECMono', monospace;
 }
 
 :root { --pad: clamp(24px, 5.55vw, 100px); color-scheme: dark; scroll-behavior: smooth; }
 body { background: var(--color-ink); color: var(--color-paper); font-family: var(--font-body); overflow-x: clip; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: normal; text-transform: uppercase; line-height: 1; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; line-height: 1; }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
 .wrap { padding-inline: var(--pad); max-width: 1600px; margin-inline: auto; }
 .eyebrow { font: 11px/1.6 var(--font-mono); letter-spacing: 1px; color: var(--color-gold); text-transform: uppercase; }
-.btn { display: inline-flex; gap: 12px; align-items: center; padding: 14px 22px; background: var(--color-gold); color: var(--color-ink); font-family: var(--font-bold); }
+.btn { font-weight: 700; display: inline-flex; gap: 12px; align-items: center; padding: 14px 22px; background: var(--color-gold); color: var(--color-ink); font-family: var(--font-bold); }
 .btn-ghost { background: transparent; color: var(--color-paper); border: 1px solid var(--color-line); }
 .prose-mec { max-width: 70ch; line-height: 1.75; }
 .prose-mec h2 { font-size: 2rem; margin: 2.2em 0 .6em; }
@@ -40,7 +40,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); ou
 .rail { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; padding-bottom: 12px; }
 .rail > * { flex: 0 0 min(86vw, 640px); scroll-snap-align: start; }
 [data-tab][aria-selected='true'] { background: var(--color-gold); color: var(--color-ink); }
-#search { --pagefind-ui-primary: #cdbe86; --pagefind-ui-text: #f3f0e4; --pagefind-ui-background: #0c3438; --pagefind-ui-border: #54716b; --pagefind-ui-font: MECBody, Arial, sans-serif; max-width: 640px; }
+#search { --pagefind-ui-primary: #cdbe86; --pagefind-ui-text: #f3f0e4; --pagefind-ui-background: #0c3438; --pagefind-ui-border: #54716b; --pagefind-ui-font: Archivo, Arial, sans-serif; max-width: 640px; }
 
 /* ============ Scene / chapter (default = alur normal, aman tanpa JS) ============ */
 .chapter { position: relative; isolation: isolate; }

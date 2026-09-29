@@ -17,7 +17,7 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 ## Berikutnya (perlu keputusan/data dari klien)
 - [ ] Domain final → ganti placeholder `mecacademy.id` di `astro.config.mjs`, `src/lib/site.ts`, `public/robots.txt`
 - [ ] Deploy Cloudflare Pages (connect repo, `NODE_VERSION=22`), DNS, redirect dari domain lama
-- [ ] **Font**: ternyata bukan font custom MEC — MECBody/Bold = Nimbus Sans, MECDisplay = Nimbus Sans Narrow Bold (lisensi AGPL-3 + font exception, exception hanya menyebut PDF/PostScript → abu-abu untuk web), MECMono = DejaVu Sans Mono (Bitstream Vera, aman). Putuskan: ganti Nimbus dengan font OFL (mis. Archivo / Archivo Narrow / Inter, dari Google Fonts, self-host) atau tetap pakai + minta review legal. Teks lisensi sudah ada di `public/licenses/`.
+- [x] Font: Nimbus Sans (AGPL, abu-abu untuk web) diganti Archivo + Archivo Narrow (OFL); DejaVu Sans Mono tetap. Lisensi di `public/licenses/`
 - [ ] Konfirmasi ejaan nama instruktur "Johan Winarto/Wiharto"
 - [ ] Isi deskripsi/tujuan/materi 12 modul yang masih placeholder (4 modul sudah ada)
 - [ ] Halaman detail instruktur `/instruktur/[slug]/` + `Person` JSON-LD
