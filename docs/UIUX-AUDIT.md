@@ -1,7 +1,7 @@
 # Audit UI/UX — MEC Academy
 
 Diukur 2026-09-29 di Chromium (desktop 1440×900, HP 390×844) dengan mode gerak dimatikan supaya semua elemen terlihat.
-Angka di bawah hasil ukur otomatis, bukan perkiraan. Status: **daftar temuan, belum dikerjakan** (kecuali menu hamburger).
+Angka di bawah hasil ukur otomatis, bukan perkiraan. Status: **P1–P3 yang bisa dikerjakan sudah diimplementasikan** (lihat kolom "Status" di akhir). Tersisa yang bergantung pada foto asli dari MEC.
 
 Prioritas: **P1** = pengaruh besar ke keterbacaan/konversi/SEO · **P2** = terasa jelas · **P3** = polesan.
 
@@ -70,3 +70,31 @@ Prioritas: **P1** = pengaruh besar ke keterbacaan/konversi/SEO · **P2** = teras
 |---|---|---|---|---|
 | G1 | Font mono terlalu besar | `MECMono` (DejaVu Sans Mono) 147 KB dari total font 184 KB (80%) di setiap halaman | Subset ke Latin (±10–15 KB) atau ganti mono lebih ringan; hemat ±130 KB per halaman | P1 |
 | G2 | Lain-lain | JS/CSS kecil; hero 90 KB; CLS 0 | Pertahankan | – |
+
+## Status pengerjaan
+
+| Kode | Status | Catatan |
+|---|---|---|
+| A1 | ✅ | Lantai 12px untuk label mono; konten 13–14px. Font mono di-subset |
+| A2 | ◐ | Token `--fs-*` ditambahkan; skala penuh belum dipakai di semua komponen |
+| A3 | ✅ | Body 16px, lead 18–25px |
+| A4 | ✅ | Judul artikel/halaman panjang memakai title case |
+| A5 | ◐ | Heading display dikecilkan sedikit; sisanya dibiarkan agar sama dengan preview |
+| B2 | ✅ | Scrim + text-shadow untuk teks kecil di atas foto, ukuran ≥12px |
+| B3 | ◐ | Label minor memakai sage; eyebrow tetap emas mengikuti preview |
+| B4 | ✅ | Baris kedua heading di latar terang memakai hijau lebih gelap |
+| B5 | ✅ | State `:active` dan `disabled` |
+| C1 | ✅ | Titik fokus per foto, rasio 3:2 di grid industri, rail lebih lebar-tinggi seimbang |
+| C2 | ⏳ | Menunggu foto asli dari MEC (≥1600px lebar, potret ≥600px) |
+| C3 | ✅ | Foto mesin, instruktur, tentang diperbesar |
+| D1 | ◐ | Durasi pin dipangkas; ruang kosong sisa dibiarkan |
+| D2 | ✅ | Banner berfoto, halaman modul tanpa placeholder + navigasi sebelumnya/berikutnya |
+| D3 | ✅ | Modul berkelompok dalam kartu |
+| D4 | ✅ | Kartu kontak, cara mendaftar, link peta |
+| D5 | ✅ | Footer lengkap dipakai di halaman dalam |
+| D6 | ✅ | Kartu artikel bergambar + kartu unggulan |
+| E1 | ✅ | Intro masuk otomatis, tombol lewati langsung aktif, dilewati untuk crawler |
+| E2 | ✅ | Bab Alumni tidak di-pin; durasi pin dipangkas; daftar horizontal di HP. Tinggi halaman desktop ±24 → ±18 layar |
+| E3 | ◐ | FAQ (`/faq/` + ringkasan di beranda) dan chip mitra industri. Testimoni/logo klien belum ada datanya |
+| E4–E6 | ✅ | Ikon + tooltip kontrol gerak, label dot bab, bar status ≥12px |
+| G1 | ✅ | Font mono 147 KB → 8,6 KB |

@@ -1,22 +1,36 @@
 ---
+import { Image } from 'astro:assets';
 import Page from '../../../../components/Page.astro';
 import { modules, waLink } from '../../../../lib/site';
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
-import { img } from '../../../../lib/images';
+import { img, pos } from '../../../../lib/images';
 import { systems } from '../../../../data/systems';
+import { moduleGroups } from '../../../../lib/modules';
 export async function getStaticPaths() {
   const articles = await getCollection('articles', (a) => !a.data.draft);
-  return modules.map((m) => ({ params: { slug: m.slug }, props: { m, related: articles.filter((a) => a.data.relatedModules.includes(m.slug)) } }));
+  return modules.map((m, i) => ({ params: { slug: m.slug }, props: { m, prev: modules[i - 1], next: modules[i + 1], related: articles.filter((a) => a.data.relatedModules.includes(m.slug)) } }));
 }
-const { m, related } = Astro.props;
+const { m, prev, next, related } = Astro.props;
 const sys = systems.find((s) => s.slug === m.slug);
+const group = moduleGroups.find((g) => g.items.some((x) => x.slug === m.slug))!;
+const ld = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [['Beranda', '/'], ['Program BMC', '/program/basic-mechanic-course/'], ['Modul', '/program/basic-mechanic-course/modul/'], [m.title, Astro.url.pathname]].map(([name, p], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(p, Astro.site).href })) };
 ---
-<Page title={`Modul ${m.title}`} eyebrow={`Modul ${String(m.n).padStart(2, '0')} / ${modules.length}`} description={`Modul ${m.title} pada Basic Mechanic Course MEC Academy. Belajar teori dan praktik bersama instruktur berpengalaman industri.`}>
-  {sys ? (<div class="grid items-start gap-8 md:grid-cols-2"><Image src={img(sys.image)} alt={sys.alt} widths={[640, 960]} sizes="(min-width:768px) 50vw, 100vw" class="w-full border border-gold/30 object-cover" /><p class="text-lg text-sage">{sys.description}</p></div>) : (<p class="prose-mec text-sage">Detail materi modul ini akan dilengkapi bersama tim MEC Academy.</p>)}
+<Page title={`Modul ${m.title}`} image={sys?.image ?? 'workshop'} imageAlt={sys?.alt ?? 'Praktik di workshop MEC Academy'} eyebrow={`Modul ${String(m.n).padStart(2, '0')} / ${modules.length} · ${group.title}`} description={sys?.description ?? `Modul ${m.title} pada Basic Mechanic Course MEC Academy, dipelajari bersama instruktur berpengalaman industri.`} jsonLd={ld}>
+  <div class="module-detail">
+    <div>
+      <h2 class="text-3xl">Tentang modul ini</h2>
+      <p class="mt-4 max-w-xl text-sage">{m.title} adalah modul ke-{m.n} dari {modules.length} modul Basic Mechanic Course, di kelompok <b class="text-paper">{group.title}</b> ({group.note.toLowerCase()}). Materi dipelajari melalui kelas dan praktik bersama instruktur.</p>
+      <p class="mt-4 max-w-xl text-sage">Silabus rinci dan urutan materi modul ini dijelaskan langsung oleh tim MEC. Tanyakan sebelum mendaftar.</p>
+      <div class="mt-8 flex flex-wrap gap-4"><a class="btn" href={waLink(`Halo MEC Academy, saya ingin bertanya tentang materi modul ${m.title} di program BMC.`)} target="_blank" rel="noopener">Tanya silabus modul <span aria-hidden="true">↗</span></a><a class="text-link" href="/program/basic-mechanic-course/modul/">Semua modul</a></div>
+    </div>
+    {sys && <Image src={img(sys.image)} alt={sys.alt} widths={[640, 960, 1280]} sizes="(min-width:900px) 45vw, 100vw" loading="lazy" class="module-photo" style={pos(sys.image)} />}
+  </div>
   {related.length > 0 && (<>
-    <h2 class="mb-6 mt-14 text-3xl">Artikel terkait</h2>
+    <h2 class="mb-4 mt-14 text-3xl">Artikel terkait</h2>
     <ul class="space-y-3">{related.map((a) => <li><a class="text-gold underline" href={`/artikel/${a.id}/`}>{a.data.title}</a></li>)}</ul>
   </>)}
-  <div class="mt-14 flex gap-4"><a class="btn" href={waLink()} target="_blank" rel="noopener">Daftar BMC ↗</a><a class="btn btn-ghost" href="/program/basic-mechanic-course/modul/">Semua modul</a></div>
+  <nav class="module-nav" aria-label="Modul sebelum dan sesudah">
+    {prev ? <a href={`/program/basic-mechanic-course/modul/${prev.slug}/`}><small>← Sebelumnya</small><b>{prev.title}</b></a> : <span></span>}
+    {next ? <a href={`/program/basic-mechanic-course/modul/${next.slug}/`} class="text-right"><small>Berikutnya →</small><b>{next.title}</b></a> : <span></span>}
+  </nav>
 </Page>

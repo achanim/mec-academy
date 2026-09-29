@@ -6,7 +6,7 @@ import content from '../../data/content.json';
 import gallery from '../../data/gallery.json';
 const items = await Promise.all(gallery.map(async (g) => ({ ...g, full: (await getImage({ src: img(g.asset), width: 1600, format: 'webp' })).src })));
 ---
-<Page title="Fasilitas MEC Academy" eyebrow="Learn by doing" description="Ruang kelas, workshop, mess, dan fasilitas pendukung belajar di MEC Academy Malang.">
+<Page title="Fasilitas MEC Academy" image="building" imageAlt="Gedung MEC Academy" eyebrow="Learn by doing" description="Ruang kelas, workshop, mess, dan fasilitas pendukung belajar di MEC Academy Malang.">
   <ul class="mb-14 grid gap-3 md:grid-cols-2">{content.facilities.map((f) => <li class="border-b border-line py-3">{f}</li>)}</ul>
   <h2 id="galeri" class="mb-6 scroll-mt-28 text-4xl">Galeri kegiatan</h2>
   <ul class="grid grid-cols-2 gap-4 md:grid-cols-4">

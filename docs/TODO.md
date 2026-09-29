@@ -17,6 +17,8 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 
 - [x] Responsive: diuji di 320/360/390/820/1000/1024/1920 px — tanpa scroll horizontal; HP tanpa target sentuh <32px; header tablet memakai hamburger (<1000px); animasi pin hanya ≥1000px
 
+- [x] Audit UI/UX P1–P3 (lihat `docs/UIUX-AUDIT.md`): font, foto, warna, halaman dalam, FAQ, intro otomatis, menu 2 kolom, scroll dipangkas
+
 ## Sedang dikerjakan
 - (kosong)
 
@@ -26,7 +28,8 @@ Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
 - [x] Font: Nimbus Sans (AGPL, abu-abu untuk web) diganti Archivo + Archivo Narrow (OFL); DejaVu Sans Mono tetap. Lisensi di `public/licenses/`
 - [ ] Konfirmasi ejaan nama instruktur "Johan Winarto/Wiharto"
 - [ ] Isi deskripsi/tujuan/materi 12 modul yang masih placeholder (4 modul sudah ada)
-- [ ] Halaman `/faq/` umum + FAQPage JSON-LD
+- [ ] **Foto asli resolusi tinggi dari MEC** (foto lebar ≥1600px, potret instruktur ≥600px) — foto sekarang berasal dari thumbnail PDF sehingga buram di layar retina
+- [ ] Testimoni alumni & logo mitra (belum ada datanya)
 - [ ] CMS editor untuk artikel (Keystatic/Decap) — butuh keputusan hosting & login GitHub
 - [ ] OG image dinamis per artikel (Satori) + OG default yang proper
 - [ ] Riset keyword + kalender editorial; tulis 5–10 artikel awal per pilar topik

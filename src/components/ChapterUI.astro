@@ -3,7 +3,7 @@ interface Props { chapters: { id: string; title: string }[] }
 const { chapters } = Astro.props;
 ---
 <nav class="chapter-nav" aria-label="Bab perjalanan">
-  {chapters.map((c, i) => <a href={`#${c.id}`} aria-label={`Bab ${i + 1}: ${c.title}`} title={c.title}></a>)}
+  {chapters.map((c, i) => <a href={`#${c.id}`} aria-label={`Bab ${i + 1}: ${c.title}`} data-label={c.title}></a>)}
 </nav>
 <div class="chapter-status" aria-hidden="true">
   <span id="chapter-number">01 / {String(chapters.length).padStart(2, '0')}</span>

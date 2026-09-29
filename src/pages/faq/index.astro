@@ -1,0 +1,10 @@
+---
+import Page from '../../components/Page.astro';
+import { faq } from '../../data/faq';
+import { waLink } from '../../lib/site';
+const ld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Page title="Pertanyaan Umum (FAQ)" image="classroom" imageAlt="Kelas MEC Academy" eyebrow="FAQ" description="Jawaban singkat tentang program BMC, seleksi, fasilitas, instruktur, biaya, dan assessment online." jsonLd={ld}>
+  <div class="max-w-3xl">{faq.map((f) => <details class="faq"><summary>{f.q}<span aria-hidden="true">+</span></summary><p>{f.a}</p></details>)}</div>
+  <div class="mt-12 flex flex-wrap items-center gap-6"><p class="text-sage">Belum terjawab?</p><a class="btn" href={waLink('Halo MEC Academy, saya punya pertanyaan tentang program BMC.')} target="_blank" rel="noopener">Tanya tim MEC <span aria-hidden="true">↗</span></a></div>
+</Page>

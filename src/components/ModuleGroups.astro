@@ -1,0 +1,13 @@
+---
+import { moduleGroups } from '../lib/modules';
+---
+<div class="module-groups">
+  {moduleGroups.map((g) => (
+    <section class="module-group">
+      <header><h3>{g.title}</h3><p>{g.note}</p></header>
+      <ul>
+        {g.items.map((m) => <li><a href={`/program/basic-mechanic-course/modul/${m.slug}/`}><span>{String(m.n).padStart(2, '0')}</span><b>{m.title}</b><i aria-hidden="true">→</i></a></li>)}
+      </ul>
+    </section>
+  ))}
+</div>

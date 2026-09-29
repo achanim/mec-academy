@@ -1,9 +1,7 @@
 ---
 import Page from '../../../../components/Page.astro';
-import { modules } from '../../../../lib/site';
+import ModuleGroups from '../../../../components/ModuleGroups.astro';
 ---
-<Page title="16 Modul Basic Mechanic Course" eyebrow="Kurikulum" description="Daftar modul BMC MEC Academy: dari basic safety, diesel engine, hydraulic, hingga part book reading.">
-  <ol class="grid gap-3 md:grid-cols-2">
-    {modules.map((m) => <li><a class="flex gap-4 border-b border-line py-3 hover:text-gold" href={`/program/basic-mechanic-course/modul/${m.slug}/`}><span class="font-mono text-gold">{String(m.n).padStart(2, '0')}</span>{m.title}</a></li>)}
-  </ol>
+<Page title="16 Modul Basic Mechanic Course" image="hydraulic" imageAlt="Praktik komponen hidrolik" eyebrow="Kurikulum" description="Daftar modul BMC MEC Academy: dari basic safety, diesel engine, hydraulic, hingga part book reading.">
+  <ModuleGroups />
 </Page>
