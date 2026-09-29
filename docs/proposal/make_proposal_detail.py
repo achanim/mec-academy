@@ -63,7 +63,7 @@ PAKET_LENGKAP = [
         ('E1', 'Tampilan HP, tablet, laptop, layar lebar', 2.5, 2_000_000),
         ('E2', 'Pengujian 5 ukuran layar × 16 halaman, target sentuh, tanpa geser mendatar', 1.5, 1_500_000)]),
     ('F', 'Kecepatan, aksesibilitas & audit', [
-        ('F1', 'Optimasi gambar/font, kestabilan tata letak (CLS), skor Lighthouse 98–100', 1.5, 1_400_000),
+        ('F1', 'Optimasi gambar/font, kestabilan tata letak (CLS), target skor Lighthouse 95 ke atas', 1.5, 1_400_000),
         ('F2', 'Aksesibilitas: kontras, keyboard, pembaca layar, mode kurangi animasi', 1.0, 900_000),
         ('F3', 'Skrip audit otomatis + pemeriksaan di CI + laporan', 1.0, 700_000)]),
     ('G', 'Ketahanan & penanganan error', [
@@ -199,19 +199,20 @@ def stacked_bar():
     return d
 
 def gantt():
-    rows = [('Kickoff & konfirmasi bahan yang dibutuhkan', 0, 0.6), ('MEC mengirim foto asli, teks modul, info biaya & jadwal', 0.3, 2.0),
-            ('Input konten, penyesuaian, pemeriksaan akhir tampilan', 1.0, 2.7), ('Peninjauan MEC + 2 putaran revisi kecil (staging)', 2.0, 3.3),
-            ('Pemasangan online, uji akhir, pelatihan, serah terima', 3.2, 4.0), (f'Masa garansi perbaikan {GARANSI_HARI} hari', 4.0, 8.0)]
-    lw = 190; wk = 8; cw_ = (CW - lw) / wk; rh = 18
+    rows = [('Kickoff, perencanaan, sistem desain', 0, 1.0), ('Beranda interaktif dan animasi', 1.0, 3.5),
+            ('Halaman utama, modul, blog dan SEO', 3.0, 5.5), ('Responsif, kecepatan, ketahanan, audit', 5.0, 7.0),
+            ('MEC: kirim bahan, tinjau, 2 putaran revisi', 1.5, 7.5), ('Pemasangan online, pelatihan, serah terima', 7.5, 8.5),
+            (f'Masa garansi perbaikan {GARANSI_HARI} hari', 8.5, 12)]
+    lw = 178; wk = 12; cw_ = (CW - lw) / wk; rh = 18
     d = Drawing(CW, rh * (len(rows) + 1) + 6)
     top = rh * len(rows) + 4
     for w in range(wk):
         d.add(Rect(lw + w * cw_, 0, cw_ - 1, rh * len(rows) + 2, fillColor=BG if w % 2 == 0 else WHITE, strokeColor=None))
-        d.add(String(lw + w * cw_ + cw_ / 2, top + 5, f'M{w + 1}', fontName='Inter-SB', fontSize=7.4, fillColor=MUTE, textAnchor='middle'))
+        d.add(String(lw + w * cw_ + cw_ / 2, top + 5, f'M{w + 1}', fontName='Inter-SB', fontSize=7, fillColor=MUTE, textAnchor='middle'))
     for i, (lab, a, b) in enumerate(rows):
         y = rh * (len(rows) - 1 - i) + 3
-        d.add(String(0, y + 5, lab, fontName='Inter', fontSize=7.9, fillColor=SLATE))
-        col = AMBER if i == 5 else (BLUE if i in (1, 3) else NAVY)
+        d.add(String(0, y + 5, lab, fontName='Inter', fontSize=7.7, fillColor=SLATE))
+        col = AMBER if i == 6 else (BLUE if i == 4 else NAVY)
         d.add(Rect(lw + a * cw_, y + 2, max((b - a) * cw_, 6), 10, rx=3, ry=3, fillColor=col, strokeColor=None))
     return d
 
@@ -226,18 +227,6 @@ def market_bar():
     for v, lab, col in [(HARGA_INTI / 1e6, 'Inti', BLUE), (HARGA_LENGKAP / 1e6, 'Lengkap', NAVY), (HARGA_PLUS / 1e6, 'Lengkap+', AMBER)]:
         d.add(Line(sx(v), 44, sx(v), 68, strokeColor=col, strokeWidth=1.6)); d.add(Circle(sx(v), 70, 3.2, fillColor=col, strokeColor=None))
         d.add(String(sx(v), 78, f'{lab} {v:.0f} jt', fontName='Inter-SB', fontSize=7.6, fillColor=col, textAnchor='middle'))
-    return d
-
-def progress():
-    steps = [('Desain & pengembangan', 'Selesai', GREEN), ('Kualitas & pengujian', 'Selesai', GREEN), ('Bahan dari MEC', 'Menunggu', AMBER), ('Tayang', 'Direncanakan', MUTE), ('Pertumbuhan', 'Opsional', MUTE)]
-    n = len(steps); d = Drawing(CW, 46); gap = CW / n
-    d.add(Line(gap / 2, 30, CW - gap / 2, 30, strokeColor=LINE, strokeWidth=2))
-    d.add(Line(gap / 2, 30, gap * 1.5, 30, strokeColor=GREEN, strokeWidth=2))
-    for i, (lab, st, col) in enumerate(steps):
-        cx = gap * i + gap / 2
-        d.add(Circle(cx, 30, 6, fillColor=col if st in ('Selesai', 'Menunggu') else WHITE, strokeColor=col, strokeWidth=1.4))
-        d.add(String(cx, 12, lab, fontName='Inter-SB', fontSize=7.4, fillColor=NAVY, textAnchor='middle'))
-        d.add(String(cx, 2, st, fontName='Inter', fontSize=7, fillColor=col, textAnchor='middle'))
     return d
 
 # ------------------------------ DOKUMEN -----------------------------------
@@ -300,31 +289,48 @@ S += [P('RINGKASAN EKSEKUTIF', EYEBROW), P('Ringkasan eksekutif', H1)]
 S += [P(f'{KLIEN} memerlukan website resmi yang memperkenalkan program <b>Basic Mechanic Course (BMC)</b>, meyakinkan calon peserta dan orang tua, '
         f'serta menjadi kanal jangka panjang lewat artikel yang mudah ditemukan di Google. Proposal ini merinci apa yang dikerjakan, berapa biayanya, '
         f'kapan selesai, dan apa saja yang diperlukan dari pihak {KLIEN}.', LEAD), Spacer(1, 3 * mm)]
-S += [kpi([('44', 'halaman sudah dibuat'), ('16', 'modul pelatihan tersaji'), ('98–100', 'skor kecepatan Google (Lighthouse)'), ('3', 'pilihan paket')]), Spacer(1, 4 * mm)]
-S += [callout(f'<b>Rekomendasi kami: Paket Lengkap, {rp(HARGA_LENGKAP)}.</b> Seluruh tampilan, animasi, halaman, blog, dan pengujian kualitas sudah selesai dan berjalan. '
-              f'Yang tersisa hanyalah bahan dari {KLIEN} (foto asli, deskripsi modul, info biaya/jadwal) dan pemasangan online.', 'ok'), Spacer(1, 3 * mm)]
+S += [kpi([('±44', 'halaman website'), ('16', 'modul pelatihan tersaji'), ('95+', 'target skor kecepatan Google (Lighthouse)'), ('3', 'pilihan paket')]), Spacer(1, 4 * mm)]
+S += [callout(f'<b>Rekomendasi kami: Paket Lengkap, {rp(HARGA_LENGKAP)}.</b> Website dibangun dari nol mengikuti desain acuan (preview) yang sudah Anda miliki: beranda interaktif, halaman program dan modul, blog dengan SEO, tampilan HP, serta pengujian kualitas. '
+              f'Paket Inti ({rp(HARGA_INTI)}) lebih ringkas; Paket Lengkap+ ({rp(HARGA_PLUS)}) sudah termasuk pemasangan online, 10 artikel, dan pemeliharaan setahun.', 'ok'), Spacer(1, 3 * mm)]
 S += [P('Mengapa harganya begini', H2), *bullets([
     f'<b>Harga tetap</b> per paket, dirinci per pekerjaan (Bagian 5). Usaha kerja ditampilkan sebagai transparansi: {HARI_LENGKAP:.0f} hari kerja, setara ±{rp(round(DAY_RATE, -3))} per hari.',
-    '<b>Sejalan dengan pasar</b>: kelas “Profesional” (8–15 halaman, blog, SEO) di Indonesia berkisar Rp 12–35 juta dan “Kustom/Premium” Rp 35–80 juta (Lampiran A). Situs ini 44 halaman dengan animasi kustom, sehingga berada di rentang atas kelas Profesional.',
+    '<b>Sejalan dengan pasar</b>: kelas “Profesional” (8–15 halaman, blog, SEO) di Indonesia berkisar Rp 12–35 juta dan “Kustom/Premium” Rp 35–80 juta (Lampiran A). Website ini ±44 halaman dengan animasi kustom, sehingga berada di rentang atas kelas Profesional.',
     '<b>Tanpa biaya hosting</b>: situs dipasang di layanan gratis (Cloudflare Pages) sehingga biaya berjalan hanya domain.',
     '<b>Anda memiliki hasilnya</b>: situs, isi, dan kode sumber menjadi milik MEC setelah pelunasan (Bagian 8).'])]
 
 # ---- 01 Pemahaman & status ----
-S += [PageBreak()] + sec('1', 'Pemahaman kebutuhan dan status proyek')
+S += [PageBreak()] + sec('1', 'Pemahaman kebutuhan dan peningkatan yang diusulkan')
 S += [P('Tujuan bisnis yang kami tangkap', H2), *bullets([
     'Memperkenalkan program BMC (16 modul, praktik komponen, OJT) dan membangun kepercayaan: instruktur bersertifikat, fasilitas, kegiatan bersama industri.',
     'Mengarahkan calon peserta ke satu tindakan yang jelas: menghubungi tim lewat WhatsApp untuk jadwal, biaya, dan persyaratan.',
     'Menjaring calon peserta secara organik lewat artikel dan halaman yang terindeks Google (SEO).',
     'Mudah dirawat: tim MEC dapat menambah artikel tanpa bergantung pada developer (opsional).'])]
-S += [P('Status pekerjaan saat ini', H2), progress(), Spacer(1, 3 * mm)]
-S += [tbl([head('Tahap', 'Isi', 'Status'),
-           [P('<b>1 · Desain & pengembangan</b>', TC), P('Beranda 12 bagian dengan animasi, 44 halaman, blog, pencarian, SEO teknis', TC), P(f'<font color="{hexs(GREEN)}"><b>Selesai</b></font>', TC)],
-           [P('<b>2 · Kualitas & pengujian</b>', TC), P('Responsif 5 ukuran layar, aksesibilitas, kecepatan, audit otomatis (0 pelanggaran; Lighthouse 32/32 lolos)', TC), P(f'<font color="{hexs(GREEN)}"><b>Selesai</b></font>', TC)],
-           [P('<b>3 · Bahan dari MEC</b>', TC), P('Foto asli beresolusi tinggi, deskripsi 12 modul, info biaya/jadwal/jam operasional, keputusan nama domain', TC), P(f'<font color="{hexs(AMBER)}"><b>Menunggu MEC</b></font>', TC)],
-           [P('<b>4 · Tayang & serah terima</b>', TC), P('Pemasangan online, uji akhir, pelatihan singkat, serah terima akun dan kode', TC), P(f'<font color="{hexs(MUTE)}"><b>Direncanakan</b></font>', TC)],
-           [P('<b>5 · Pertumbuhan</b>', TC), P('Artikel SEO, analitik, pemeliharaan berkala', TC), P(f'<font color="{hexs(MUTE)}"><b>Opsional</b></font>', TC)]],
-          [CW * 0.27, CW * 0.55, CW * 0.18])]
-S += [Spacer(1, 3 * mm), callout('<b>Dampak ke biaya:</b> karena tahap 1–2 sudah selesai, klien dapat melihat dan menguji hasilnya sebelum membayar DP. Risiko proyek jauh lebih rendah dibanding proyek yang baru dimulai.', 'info')]
+PERBAIKAN = [
+    ('Berkas tunggal ±21 MB; foto dan font tertanam di dalamnya',
+     'Foto dikonversi ke format modern dan ukuran sesuai layar; font dimuat efisien; halaman dipecah sehingga cepat dibuka di HP', ['A3', 'F1']),
+    ('Satu halaman panjang, tanpa halaman terpisah dan navigasi',
+     'Struktur situs ±44 halaman: beranda, Program BMC, 16 modul, tahapan, fasilitas, instruktur, industri, tentang, assessment, kontak, FAQ, dengan menu dan URL yang jelas', ['A1', 'B1', 'B2', 'C1', 'C2', 'C3', 'C4']),
+    ('Animasi baru berupa contoh tampilan',
+     'Animasi scroll disusun ulang agar ringan dan stabil, dilengkapi mode kurangi gerak, cadangan bila gagal, dan aksesibilitas (kontras, keyboard)', ['B3', 'B4', 'F2']),
+    ('Belum ada blog dan SEO',
+     'Sistem artikel, sitemap, RSS, data terstruktur, pencarian, dan struktur URL agar mudah ditemukan Google', ['D1', 'D2', 'D3', 'D4']),
+    ('Belum dirancang untuk HP dan tablet',
+     'Tampilan responsif dan pengujian di 5 ukuran layar; target sentuh yang nyaman', ['E1', 'E2']),
+    ('Belum ada penanganan gagal muat dan error',
+     'Skeleton loading, halaman 404/500, penanganan gambar/video gagal dan koneksi terputus', ['G1', 'G2']),
+    ('Belum ada pengujian kualitas',
+     'Pengujian otomatis dasar, skrip audit, dan laporan hasil sebelum tayang', ['A2', 'F3']),
+]
+_biaya = {it[0]: it[3] for wp in PAKET_LENGKAP for it in wp[2]}
+assert sorted(k for p in PERBAIKAN for k in p[2]) == sorted(_biaya), 'setiap pekerjaan harus dipetakan tepat satu kali'
+S += [P('Kondisi desain awal dan yang perlu ditingkatkan', H2),
+      P('Desain acuan (preview) sudah menunjukkan arah tampilan yang tepat, tetapi masih berupa contoh, belum siap dipakai sebagai website. Berikut peningkatan yang diusulkan dan biayanya pada Paket Lengkap.')]
+rows = [head('Kondisi awal', 'Peningkatan yang dikerjakan', 'Biaya', align=[TA_LEFT, TA_LEFT, TA_RIGHT])]
+for a, b, ks in PERBAIKAN:
+    rows.append([P(f'<b>{a}</b>', TC), P(b, TC), Paragraph(rp(sum(_biaya[k] for k in ks)), TCR)])
+rows.append([P('', TC), P('<b>Total Paket Lengkap</b>', TCB), Paragraph(f'<b>{rp(HARGA_LENGKAP)}</b>', TCRB)])
+S += [Spacer(1, 2 * mm), tbl(rows, [CW * 0.29, CW * 0.52, CW * 0.19], extra=[('BACKGROUND', (0, len(rows) - 1), (-1, len(rows) - 1), BLUE_L)])]
+S += [Spacer(1, 2 * mm), P('Rincian per pekerjaan ada di Bagian 4. Paket Inti mengurangi sebagian peningkatan di atas (Bagian 5).', SMALL)]
 
 # ---- 02 Ruang lingkup ----
 S += [PageBreak()] + sec('2', 'Ruang lingkup pekerjaan')
@@ -365,11 +371,11 @@ rows = [[Paragraph('', TCW), Paragraph('INTI', PS('p1', fontName='Inter-B', font
          Paragraph('LENGKAP', PS('p2', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_CENTER)), Paragraph('LENGKAP+', PS('p3', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_CENTER))]]
 rows += [[P(f, TC), m(a), m(b), m(c)] for f, a, b, c in feat]
 rows += [[P('<b>Investasi</b>', TCB)] + [Paragraph(f'<font name="Inter-B" size="10" color="{hexs(NAVY)}">{rp(v)}</font>', PS('pr', alignment=TA_CENTER, leading=16)) for v in (HARGA_INTI, HARGA_LENGKAP, HARGA_PLUS)]]
-rows += [[P('Cocok untuk', TC)] + [P(x, PS('cf', fontSize=7.6, leading=10.4, alignment=TA_CENTER, textColor=MUTE)) for x in ('Anggaran terbatas, kebutuhan dasar profesional', 'Kebutuhan penuh sesuai desain contoh, sudah teruji', 'Ingin langsung tayang, punya konten & dirawat 1 tahun')]]
+rows += [[P('Cocok untuk', TC)] + [P(x, PS('cf', fontSize=7.6, leading=10.4, alignment=TA_CENTER, textColor=MUTE)) for x in ('Anggaran terbatas, kebutuhan dasar profesional', 'Kebutuhan penuh sesuai desain contoh', 'Ingin langsung tayang, punya konten & dirawat 1 tahun')]]
 tp = tbl(rows, [CW * 0.46, CW * 0.18, CW * 0.18, CW * 0.18], extra=[
     ('ALIGN', (1, 0), (-1, -1), 'CENTER'), ('BACKGROUND', (2, 0), (2, 0), BLUE), ('BACKGROUND', (2, 1), (2, -1), colors.HexColor('#EEF3FE')),
     ('BACKGROUND', (0, len(rows) - 2), (-1, len(rows) - 2), BLUE_L), ('LINEABOVE', (0, len(rows) - 2), (-1, len(rows) - 2), 0.8, BLUE)], zebra=False)
-S += [Spacer(1, 3 * mm), tp, Spacer(1, 2 * mm), P('Kolom LENGKAP adalah rekomendasi kami: sama dengan yang sudah dibangun dan diuji.', SMALL)]
+S += [Spacer(1, 3 * mm), tp, Spacer(1, 2 * mm), P('Kolom LENGKAP adalah rekomendasi kami: mewujudkan desain acuan secara penuh.', SMALL)]
 
 # ---- 04 Rincian biaya Paket Lengkap ----
 S += [PageBreak()] + sec('4', f'Rincian biaya — Paket Lengkap ({rp(HARGA_LENGKAP)})')
@@ -386,7 +392,7 @@ for wp in PAKET_LENGKAP:
 rows.append([P('', TC), Paragraph('<b>TOTAL PAKET LENGKAP</b>', PS('tt', fontName='Inter-B', fontSize=9, textColor=WHITE)), Paragraph(f'<b>{HARI_LENGKAP:.1f} hr</b>'.replace('.', ','), PS('tt2', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_RIGHT)),
              Paragraph(f'<b>{rp(HARGA_LENGKAP)}</b>', PS('tt3', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_RIGHT))])
 extra += [('BACKGROUND', (0, len(rows) - 1), (-1, len(rows) - 1), NAVY)]
-S += [Spacer(1, 2 * mm), tbl(rows, [CW * 0.08, CW * 0.62, CW * 0.11, CW * 0.19], zebra=False, extra=extra, pad=3.2)]
+S += [Spacer(1, 2 * mm), tbl(rows, [CW * 0.08, CW * 0.62, CW * 0.11, CW * 0.19], zebra=False, extra=extra, pad=2.5)]
 S += [CondPageBreak(75 * mm), P('Ke mana uang dialokasikan', H2), stacked_bar(), Spacer(1, 2 * mm),
       P(f'Bobot terbesar ada pada <b>beranda interaktif ({round(100 * sum_wp(PAKET_LENGKAP[1]) / HARGA_LENGKAP)}%)</b> karena animasi kustom paling menuntut pengembangan dan pengujian; '
         f'pondasi SEO, blog, dan kualitas teknis (D–G) bersama-sama {round(100 * sum(sum_wp(w) for w in PAKET_LENGKAP[3:]) / HARGA_LENGKAP)}% — porsi yang menentukan hasil jangka panjang di Google dan kenyamanan pengguna.', BODY)]
@@ -431,13 +437,13 @@ S += [tbl(rows, [CW * 0.42, CW * 0.2, CW * 0.38]), Spacer(1, 1.5 * mm),
 # ---- 07 Jadwal & termin ----
 S += [PageBreak()] + sec('7', 'Jadwal dan termin pembayaran')
 S += [P('Jadwal perkiraan (sejak proposal disetujui)', H2), gantt(), Spacer(1, 1 * mm),
-      P('Batang biru = tahap yang membutuhkan masukan dari MEC. Total ±4 minggu kerja sampai tayang, bila bahan diterima pada minggu pertama–kedua.', SMALL)]
+      P('Batang biru = tahap yang membutuhkan masukan MEC. Estimasi ±8 minggu sampai tayang (36 hari kerja), dengan asumsi bahan diterima pada minggu ke-2 dan umpan balik maksimal 3 hari kerja. Paket Inti lebih singkat ±1–2 minggu.', SMALL)]
 S += [P('Termin pembayaran', H2)]
 rows = [head('Tahap', 'Pemicu penagihan', '%', 'Paket Inti', 'Paket Lengkap', 'Paket Lengkap+', align=[TA_LEFT, TA_LEFT, TA_CENTER, TA_RIGHT, TA_RIGHT, TA_RIGHT])]
 for code, pemicu, pct in TERMIN:
     rows.append([P(f'<b>{code}</b>', TCB), P(pemicu, TC), Paragraph(f'{pct}%', TCC)] + [Paragraph(rp(v * pct // 100), TCR) for v in (HARGA_INTI, HARGA_LENGKAP, HARGA_PLUS)])
 rows.append([P('', TC), P('<b>Total</b>', TCB), Paragraph('<b>100%</b>', TCC)] + [Paragraph(f'<b>{rp(v)}</b>', TCRB) for v in (HARGA_INTI, HARGA_LENGKAP, HARGA_PLUS)])
-S += [tbl(rows, [CW * 0.08, CW * 0.33, CW * 0.07, CW * 0.17, CW * 0.17, CW * 0.18], extra=[('BACKGROUND', (0, len(rows) - 1), (-1, len(rows) - 1), BLUE_L)]), Spacer(1, 2 * mm)]
+S += [tbl(rows, [CW * 0.07, CW * 0.30, CW * 0.09, CW * 0.17, CW * 0.18, CW * 0.19], extra=[('BACKGROUND', (0, len(rows) - 1), (-1, len(rows) - 1), BLUE_L)]), Spacer(1, 2 * mm)]
 S += [*bullets(['Jatuh tempo 7 hari sejak invoice. Pembayaran ke rekening: ' + (PENYEDIA['rekening'] or 'akan dicantumkan pada invoice') + '.',
                 'Keterlambatan lebih dari 14 hari menghentikan pekerjaan sementara sampai pembayaran diterima.',
                 'Domain dan sertifikat SSL dibayar langsung oleh MEC ke penyedia dan tidak ikut dipotong pajak jasa.'])]
@@ -453,9 +459,9 @@ terms = [
     ('Revisi', 'Termasuk 2 putaran revisi kecil pada tahap peninjauan (teks, warna, urutan, penggantian foto). Perubahan struktur, desain ulang, atau halaman baru dianggap perubahan lingkup.'),
     ('Perubahan lingkup', f'Dikerjakan setelah ada estimasi tertulis yang disetujui; ditagih per paket tetap atau Rp {TARIF_PERUBAHAN:,.0f}/jam'.replace(',', '.') + '.'),
     ('Tanggung jawab pemesan', 'Menyediakan bahan tepat waktu, menunjuk satu penanggung jawab, dan memberi umpan balik maksimal 3 hari kerja. Keterlambatan menggeser jadwal.'),
-    ('Kepemilikan', 'Setelah pelunasan, MEC memiliki situs, isi, dan kode sumber. Domain dan akun atas nama MEC sejak awal. Komponen pihak ketiga (Astro, Tailwind, font Archivo/Inter, dll.) tetap tunduk pada lisensi sumber terbuka masing-masing.'),
+    ('Kepemilikan', 'Setelah pelunasan, MEC memiliki situs, isi, dan kode sumber. Domain dan akun atas nama MEC sejak awal. Komponen pihak ketiga (Astro, Tailwind, font sumber terbuka, dll.) tetap tunduk pada lisensi sumber terbuka masing-masing.'),
     ('Garansi', f'Perbaikan kesalahan fungsi hasil pekerjaan ini gratis selama {GARANSI_HARI} hari sejak tayang. Tidak mencakup perubahan konten/desain atau gangguan layanan pihak ketiga.'),
-    ('Kinerja & SEO', 'Skor Lighthouse (98–100) diukur pada build produksi kondisi lab. Hasil di situs online dapat bervariasi menurut jaringan dan hosting. Kami tidak menjamin peringkat Google.'),
+    ('Kinerja & SEO', 'Target skor Lighthouse 95 ke atas diukur pada versi produksi dalam kondisi lab. Hasil di situs online dapat bervariasi menurut jaringan dan hosting. Kami tidak menjamin peringkat Google.'),
     ('Kerahasiaan', 'Informasi MEC dijaga kerahasiaannya dan tidak dipakai untuk keperluan lain.'),
     ('Pembatalan', 'Bila dibatalkan setelah pekerjaan dimulai, DP tidak dikembalikan dan pekerjaan yang sudah diserahkan ditagih sesuai tahap yang telah dicapai.'),
 ]
@@ -483,7 +489,7 @@ S += [tbl([head('Kelas', 'Kisaran pasar', 'Cakupan umum'),
 S += [Spacer(1, 2 * mm), P('Sebagian penyedia menawarkan paket jauh lebih murah (Rp 0,5–3 juta), umumnya berbasis templat dengan 5 halaman dan tanpa audit kualitas. Waktu pengerjaan acuan pasar: Profesional 4–6 minggu, Kustom 6–10 minggu. '
                                     'Biaya pemeliharaan tahunan yang lazim dianggarkan 15–25% dari biaya awal.', BODY)]
 S += [P('Cara harga ditetapkan', H2), *bullets([
-    f'Estimasi usaha {HARI_LENGKAP:.0f} hari kerja pengembang menengah–senior × tarif ±{rp(round(DAY_RATE, -3))}/hari = {rp(HARGA_LENGKAP)}. Tarif harian pasar Indonesia untuk pengembang menengah sekitar Rp 150.000–400.000/jam (Rp 1,2–3,2 juta per hari kerja 8 jam); penawaran ini berada di bawah rentang tersebut karena sebagian besar pekerjaan sudah selesai dan terstandardisasi. Angka tarif ini indikatif (acuan yang beredar di pasar), bukan tarif baku.',
+    f'Estimasi usaha {HARI_LENGKAP:.0f} hari kerja pengembang menengah–senior × tarif ±{rp(round(DAY_RATE, -3))}/hari = {rp(HARGA_LENGKAP)}. Tarif pasar Indonesia untuk pengembang menengah sekitar Rp 150.000–400.000/jam (Rp 1,2–3,2 juta per hari kerja 8 jam); tarif efektif penawaran ini (±Rp 111.000/jam) berada di bawah rentang tersebut karena desain acuan sudah tersedia sehingga tidak ada biaya perancangan visual dari nol. Angka tarif ini indikatif (acuan yang beredar di pasar), bukan tarif baku.',
     'Paket Inti dihitung dengan mengurangi komponen yang paling mahal dan paling “mewah” (animasi, layar pembuka, alat audit). Paket Lengkap+ menambahkan layanan yang lazim dibutuhkan agar situs benar-benar hidup: pemasangan, konten awal, dan pemeliharaan.',
     'Angka pasar bersifat indikatif dan berubah menurut vendor; pengecekan ulang disarankan sebelum keputusan akhir.'])]
 S += [P('Sumber referensi', H2), P('Majapahit Teknologi — Jasa Pembuatan Website Company Profile 2026 (majapahit.id) · Ascendweb — Biaya Jasa Pembuatan Website Profesional 2026 (ascendweb.id) · '
