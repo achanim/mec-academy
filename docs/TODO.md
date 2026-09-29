@@ -1,7 +1,7 @@
 # TODO — MEC Academy
 
 Diperbarui: 2026-09-29 · Branch: `claude/new-repo-infra-tech-stack-e62imy`
-Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · Pagefind terindeks
+Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · Pagefind terindeks · `npm run audit` lolos (0 pelanggaran; Lighthouse 32/32 pengujian memenuhi ambang)
 
 ## Selesai
 
@@ -26,6 +26,8 @@ Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · P
 **Kualitas**
 - [x] Skeleton loading + error handling (404/500, gambar rusak, video gagal/offline, Pagefind gagal, error JS global, banner offline)
 - [x] Responsive diuji di 320/360/390/820/1000/1024/1920 px — tanpa scroll horizontal; target sentuh ≥32px di HP (footer/chip/breadcrumb ≥44px)
+- [x] Lighthouse dijalankan ke 16 halaman × mobile/desktop (`reports/lighthouse-summary.md`): mobile perf 98–100, desktop 99–100, a11y/BP/SEO 100 di semua; LCP maks 2,3 dtk (mobile) / 0,9 dtk (desktop); CLS ≤ 0,003; TBT 0. Ditemukan & diperbaiki: CLS desktop 0,651 (layout pinned baru terpasang setelah JS → kini terpasang sejak paint pertama; heading dipecah saat build; font di-preload) dan urutan heading di `/modul/`
+- [x] Skrip audit disimpan di repo: `scripts/audit.mjs` (5 ukuran layar × 16 halaman: overflow, h1, alt, gambar rusak, font <12px, kontras, target sentuh WCAG 2.2, error JS/HTTP), `scripts/lighthouse.mjs` (ambang batas), job `quality` di CI, dokumentasi di README
 - [x] Audit UI/UX (`docs/UIUX-AUDIT.md`): lantai font 12px, titik fokus foto, scrim teks di atas foto, hijau aksen di latar terang, state `:active/:disabled`, judul panjang title case
 
 ## Sebagian selesai (butuh keputusan/lanjutan)
@@ -54,12 +56,14 @@ Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · P
 - [ ] Analytics (Plausible/Umami) + Google Search Console + submit sitemap
 - [ ] Form lead (Cloudflare Worker + Turnstile) bila WhatsApp saja tidak cukup
 - [ ] CSP header, Lighthouse CI budget, a11y test (axe) di CI, link-check
-- [ ] Simpan skrip audit (font/kontras/gambar/overflow) ke repo (`scripts/`) dan jalankan di CI — sekarang masih skrip sementara
+- [ ] Pantau job `quality` di CI pada push pertama (belum pernah jalan di GitHub; di CI Chrome dipakai dari `/usr/bin/google-chrome`)
 - [ ] Uptime monitoring
 
 ## Belum diverifikasi
 - [ ] Perangkat fisik: iOS Safari, Android Chrome, landscape di HP (baru Chromium dengan emulasi ukuran layar)
 - [ ] Firefox & Safari desktop (animasi pin, `color-mix`, `clip-path`)
-- [ ] Lighthouse nyata (LCP/CLS/INP) — angka performa sejauh ini estimasi dari bobot aset, bukan hasil Lighthouse
-- [ ] Kontras teks di atas foto diukur per piksel (sekarang hanya ditambah scrim + pengecekan visual)
+- [ ] Data pengguna nyata (CrUX/RUM, termasuk INP) — Lighthouse hanya data lab dengan throttling simulasi dan **melewati layar intro** (user-agent headless dianggap crawler); LCP pengunjung asli bisa berbeda karena ada intro
+- [ ] Lighthouse terhadap situs yang sudah online setelah deploy: `AUDIT_URL=https://domain npm run audit:lh`
+- [ ] Kontras teks di atas foto diukur per piksel (skrip audit hanya mengukur latar polos; teks di atas foto: scrim + pengecekan visual)
+- [ ] Peringatan audit tersisa (5): foto Putra Perkasa berorientasi potret terpotong 63–67% di grid 3:2; beberapa foto di-upscale karena sumber kecil (butuh foto asli)
 - [ ] Uji Search Console "Live Test" untuk memastikan intro tidak menutupi konten saat dirender Googlebot

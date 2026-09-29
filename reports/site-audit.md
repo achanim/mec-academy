@@ -7,15 +7,9 @@ Pemeriksaan: overflow horizontal, satu <h1>, alt gambar, gambar rusak, teks < 12
 ## Pelanggaran (0)
 Tidak ada.
 
-## Peringatan (11)
+## Peringatan (5)
 - /: event-ppa.mTGSgS42_Ztrgg8.webp terpotong 63%
 - /: event-komatsu.C8BaAQbN_1VG6zS. di-upscale (0.96× piksel per CSS px)
-- /instruktur/: trainer-chandra.DXOaJbE9_ZhS36 terpotong 61%
-- /instruktur/: trainer-andy.BF1bsFm2_1qWQF1.w terpotong 54%
-- /instruktur/: trainer-saifullah.DDaMyJr8_1q7 terpotong 54%
-- /instruktur/: trainer-nur.Db-NaQgz_1p22tM.we terpotong 54%
-- /instruktur/: trainer-erik.BenucoCc_tSkkc.we terpotong 54%
-- /instruktur/: trainer-johan.BHNAru1U_ZIq6kz. terpotong 61%
 - /industri/: event-ppa.mTGSgS42_Ztrgg8.webp terpotong 67%
 - /artikel/: classroom.DxQUomo4_1hVgX8.webp di-upscale (0.84× piksel per CSS px)
 - /artikel/tahapan-belajar-basic-mechanic-course/: classroom.DxQUomo4_oLBYT.webp di-upscale (0.98× piksel per CSS px)

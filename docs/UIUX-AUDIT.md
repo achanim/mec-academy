@@ -98,3 +98,22 @@ Prioritas: **P1** = pengaruh besar ke keterbacaan/konversi/SEO · **P2** = teras
 | E3 | ◐ | FAQ (`/faq/` + ringkasan di beranda) dan chip mitra industri. Testimoni/logo klien belum ada datanya |
 | E4–E6 | ✅ | Ikon + tooltip kontrol gerak, label dot bab, bar status ≥12px |
 | G1 | ✅ | Font mono 147 KB → 8,6 KB |
+
+## Hasil ukur setelah perbaikan (2026-09-29)
+
+Lighthouse 13.5 terhadap build produksi, 16 halaman × mobile/desktop (`reports/lighthouse-summary.md`), dan `npm run audit:site` (`reports/site-audit.md`).
+
+| | Mobile | Desktop |
+|---|---|---|
+| Performa | 98–100 | 99–100 |
+| Aksesibilitas / Best practices / SEO | 100 / 100 / 100 | 100 / 100 / 100 |
+| LCP terburuk | 2,3 dtk | 0,9 dtk |
+| CLS terburuk | 0,001 | 0,003 |
+| TBT | 0 ms | 0 ms |
+
+Audit situs: 0 pelanggaran (overflow, h1, alt, gambar rusak, font <12px, kontras, target sentuh, error JS) di 5 ukuran layar; 5 peringatan foto (lihat TODO).
+
+Temuan dan perbaikan dari pengukuran ini:
+- **CLS desktop 0,651 → 0,003.** Penyebab berlapis: (1) layout pinned baru dipasang JS setelah paint pertama; (2) mengukur `offsetHeight` di tengah proses juga tercatat sebagai shift; (3) font mono belum di-preload dan berganti saat termuat; (4) kondisi mode awal di `<head>` memakai `pointer:fine`, padahal Chrome headless baru (dipakai Lighthouse) melaporkan `pointer:none` sementara JS tetap mengaktifkan animasi. Kini mode awal dipasang dari `<head>` dengan kondisi yang sama dengan JS, heading dipecah saat build, dan font di-preload.
+- **Aksesibilitas `/modul/` 98 → 100:** urutan heading (`h1` → `h3`) diperbaiki.
+- Batasan: Lighthouse melewati layar intro; LCP pengunjung nyata (yang melihat intro) perlu diukur dengan data lapangan setelah deploy.
