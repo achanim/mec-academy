@@ -3,7 +3,8 @@
 // (tanpa layout shift) dan teks tetap ada di HTML untuk SEO. <em> => aksen (.hl), <br /> dipertahankan.
 interface Props { tag?: 'h1' | 'h2' | 'h3'; class?: string; [k: string]: unknown }
 const { tag: Tag = 'h2', class: cls, ...rest } = Astro.props;
-const html = (await Astro.slots.render('default')).trim();
+// Mode dev Astro menambahkan atribut data-astro-source-* pada <br>/<em>; dibuang agar tidak ikut terbaca sebagai teks
+const html = (await Astro.slots.render('default')).replace(/<(br|em)\b[^>]*?\/?>/gi, (_, t) => (t.toLowerCase() === 'br' ? '<br />' : '<em>')).trim();
 const plain = html.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 let n = 0;
 const words = (text: string, hl: boolean) =>
