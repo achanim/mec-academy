@@ -2,7 +2,7 @@ import content from '../data/content.json';
 
 export const site = {
   name: 'MEC Academy',
-  url: 'https://mecacademy.id',
+  url: 'https://malangeducationcenter.com',
   description:
     'Basic Mechanic Course MEC Academy: praktik komponen, instruktur industri, dan pembentukan karakter untuk calon mekanik alat berat di Malang.',
   registerMessage:

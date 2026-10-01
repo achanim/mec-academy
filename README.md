@@ -18,7 +18,7 @@ Untuk melihat versi production (termasuk pencarian artikel): `npm run build && n
 1. Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git → pilih repo ini.
 2. Build command: `npm run build` · Output directory: `dist` · Node version: `22` (env `NODE_VERSION=22`).
 3. Setiap PR otomatis dapat URL preview; merge ke `main` = production.
-4. Ganti domain placeholder `mecacademy.id` di `astro.config.mjs`, `src/lib/site.ts`, `public/robots.txt`.
+4. Domain sudah `malangeducationcenter.com` (astro.config.mjs, src/lib/site.ts, public/robots.txt). Panduan deploy ke Rumahweb: `docs/DEPLOY.md`.
 
 ## Perintah
 ```bash

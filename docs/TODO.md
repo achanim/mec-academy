@@ -38,7 +38,7 @@ Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · P
 - [ ] **Bukti sosial** (audit E3) — FAQ & chip mitra sudah ada; testimoni & logo mitra belum ada datanya
 
 ## Menunggu data / keputusan dari klien
-- [ ] Domain final → ganti placeholder `mecacademy.id` di `astro.config.mjs`, `src/lib/site.ts`, `public/robots.txt`
+- [x] Domain: `malangeducationcenter.com` (sudah dipasang di config)
 - [ ] **Foto asli resolusi tinggi dari MEC** (foto lebar ≥1600px, potret instruktur ≥600px) — sumber sekarang thumbnail PDF (475–734px), buram di layar retina (audit C2). Setelah masuk: jalankan ulang `npm run extract`/ganti file di `src/assets/images/`
 - [ ] Deskripsi/tujuan/materi **12 modul** (baru 4 modul punya deskripsi; sisanya memakai teks umum + tombol "Tanya silabus")
 - [ ] Konfirmasi **pengelompokan 16 modul** (Dasar / Sistem penggerak / Kemudi & roda / Perawatan) — ini pengelompokan tim web, bukan dari company profile
@@ -49,7 +49,7 @@ Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · P
 - [ ] Multi-bahasa (EN)? — putuskan sebelum struktur URL dikunci
 
 ## Teknis berikutnya
-- [ ] Deploy Cloudflare Pages (connect repo, `NODE_VERSION=22`), DNS, redirect dari domain lama
+- [ ] Deploy ke hosting Rumahweb (cPanel) — langkah di `docs/DEPLOY.md`; `public/.htaccess` & workflow `deploy-rumahweb.yml` sudah disiapkan
 - [ ] CMS editor artikel (Keystatic/Decap) — butuh keputusan hosting & login GitHub
 - [ ] OG image dinamis per artikel (Satori) + OG default yang proper (sekarang crop hero)
 - [ ] Riset keyword + kalender editorial; tulis 5–10 artikel awal per pilar topik
