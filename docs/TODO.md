@@ -49,7 +49,8 @@ Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · P
 - [ ] Multi-bahasa (EN)? — putuskan sebelum struktur URL dikunci
 
 ## Teknis berikutnya
-- [ ] Deploy ke hosting Rumahweb (cPanel) — langkah di `docs/DEPLOY.md`; `public/.htaccess` & workflow `deploy-rumahweb.yml` sudah disiapkan
+- [x] Pesan WhatsApp dari website otomatis berisi "Saya menemukan MEC Academy lewat website" + halaman asal
+- [ ] **R&D deploy** ke Rumahweb (cPanel), belum diputuskan/dijalankan — hasil riset di `docs/DEPLOY.md`; `public/.htaccess` & workflow `deploy-rumahweb.yml` disiapkan. Situs sekarang masih di Hostinger Website Builder; perlu cek registrar & email domain dulu
 - [ ] CMS editor artikel (Keystatic/Decap) — butuh keputusan hosting & login GitHub
 - [ ] OG image dinamis per artikel (Satori) + OG default yang proper (sekarang crop hero)
 - [ ] Riset keyword + kalender editorial; tulis 5–10 artikel awal per pilar topik

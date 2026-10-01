@@ -92,3 +92,12 @@ if (loader) {
   document.getElementById('replay-loader')?.addEventListener('click', open);
   if (root.classList.contains('intro-pending')) progress();
 }
+
+// Tambahkan halaman asal ke pesan WhatsApp (mis. "Halaman: /program/basic-mechanic-course/modul/hydraulic-system/")
+document.querySelectorAll<HTMLAnchorElement>('a[href^="https://wa.me/"]').forEach((a) => {
+  try {
+    const u = new URL(a.href);
+    const t = u.searchParams.get('text');
+    if (t && !t.includes('Halaman:')) { u.searchParams.set('text', `${t}\nHalaman: ${location.pathname}`); a.href = u.toString(); }
+  } catch { /* biarkan tautan apa adanya */ }
+});

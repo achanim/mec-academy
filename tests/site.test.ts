@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { slugify, modules } from '../src/lib/site';
+import { slugify, modules, waLink } from '../src/lib/site';
 
 describe('slugify', () => {
   it('normalizes module titles', () => {
@@ -11,5 +11,12 @@ describe('modules', () => {
   it('has 16 unique slugs', () => {
     expect(modules).toHaveLength(16);
     expect(new Set(modules.map((m) => m.slug)).size).toBe(16);
+  });
+});
+describe('waLink', () => {
+  it('menambahkan penanda sumber website pada pesan', () => {
+    const text = new URL(waLink('Halo')).searchParams.get('text')!;
+    expect(text.startsWith('Halo')).toBe(true);
+    expect(text).toContain('lewat website');
   });
 });
