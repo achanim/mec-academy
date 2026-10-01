@@ -27,14 +27,14 @@ KLIEN = 'MEC Academy'
 KLIEN_ENTITAS = 'CV MEC Academy'
 KLIEN_ALAMAT = 'Jl. Jatisari No. 07, Patuksari, Desa Plaosan, Kec. Wonosari, Kab. Malang, Jawa Timur'
 PENYEDIA = {'nama': 'Achmad Hanim', 'npwp': '', 'rekening': 'BCA 4400198034 a/n Achmad Hanim'}
-TARIF_PERUBAHAN = 150_000
+TARIF_HARIAN = 900_000
 GARANSI_HARI = 14
 TERMIN = [('T1', 'Persetujuan proposal & mulai pekerjaan', 50), ('T2', 'Serah terima & tayang', 50)]
 
 # (kode, pekerjaan & hasil, hari, biaya)
 ITEMS = [
     ('A', 'Persiapan & pemindahan isi dari desain contoh', 'Foto diubah ke format ringan, font, dan seluruh teks dipindahkan; struktur proyek disiapkan.', 1.0, 900_000),
-    ('B', 'Landing page & dashboard (beranda)', 'Layar pembuka “klik untuk mulai” dan beranda 12 bagian sesuai desain: tata letak, warna, huruf, dan isi.', 3.0, 2_700_000),
+    ('B', 'Beranda 12 bagian', 'Beranda sesuai desain: tata letak, warna, huruf, dan isi.', 3.0, 2_700_000),
     ('C', 'Animasi sesuai desain', 'Animasi gulir, zoom foto utama, daftar yang bergeser, dan tab mesin, dibuat ringan agar tetap lancar di HP.', 2.0, 1_800_000),
     ('D', 'Dialog / modal isi', '16 modul pelatihan, profil instruktur, fasilitas + galeri, tahapan seleksi, FAQ, dan kontak dalam bentuk dialog, seperti pada desain contoh.', 2.0, 1_800_000),
     ('E', 'Tampilan HP, tablet & laptop', 'Penyesuaian ukuran layar dan pengujian di perangkat umum.', 1.0, 900_000),
@@ -43,14 +43,14 @@ ITEMS = [
 ]
 HARGA = sum(i[4] for i in ITEMS); HARI = sum(i[3] for i in ITEMS)
 assert HARGA == 9_000_000 and HARI == 10.0 and HARGA < 10_000_000
-assert sum(t[2] for t in TERMIN) == 100
+assert sum(t[2] for t in TERMIN) == 100 and HARGA == TARIF_HARIAN * HARI
 rp = lambda n: 'Rp ' + f'{n:,.0f}'.replace(',', '.')
 ADDONS = [
     ('Analitik dasar: Google Analytics 4 + Search Console', 'Sekali', 'Rp 1.000.000'),
     ('Formulir pendaftaran online (ke WhatsApp/email)', 'Sekali', 'Rp 2.500.000'),
     ('Pemeliharaan bulanan (perbaikan kecil, cadangan)', 'Per bulan', 'Rp 500.000'),
     ('Sesi pelatihan tambahan (2 jam)', 'Per sesi', 'Rp 500.000'),
-    ('Pekerjaan di luar lingkup', 'Per jam', rp(TARIF_PERUBAHAN)),
+    ('Pekerjaan di luar lingkup', 'Per hari kerja', rp(TARIF_HARIAN)),
 ]
 
 
@@ -121,7 +121,7 @@ def kpi(items):
 
 
 def gantt():
-    rows = [('Kickoff & persiapan', 0, 1), ('Landing & beranda', 1, 4), ('Animasi', 4, 6), ('Dialog / modal isi', 6, 8),
+    rows = [('Kickoff & persiapan', 0, 1), ('Beranda', 1, 4), ('Animasi', 4, 6), ('Dialog / modal isi', 6, 8),
             ('Responsif, SEO, pengujian', 8, 9.5), ('MEC meninjau & revisi kecil', 7, 10), ('Pemasangan & serah terima', 9.5, 10)]
     lw = 135; nd = 10; cw_ = (CW - lw) / nd; rh = 18
     d = Drawing(CW, rh * (len(rows) + 1) + 6); top = rh * len(rows) + 4
@@ -153,12 +153,12 @@ def cover(c, d):
     for r, a in [(150, .5), (105, .5), (62, .5)]:
         c.setStrokeColor(NAVY2); c.setLineWidth(1); c.circle(W - 40 * mm, H - 48 * mm, r, stroke=1, fill=0)
     c.setFillColor(BLUE); c.rect(ML, H - 46 * mm, 22 * mm, 1.6 * mm, stroke=0, fill=1)
-    c.setFillColor(colors.HexColor('#9DB4E8')); c.setFont('Inter-SB', 8.5); c.drawString(ML, H - 36 * mm, 'PROPOSAL PENGEMBANGAN WEBSITE · PAKET RINGKAS')
+    c.setFillColor(colors.HexColor('#9DB4E8')); c.setFont('Inter-SB', 8.5); c.drawString(ML, H - 36 * mm, 'PROPOSAL PENGEMBANGAN WEBSITE')
     c.setFillColor(WHITE); c.setFont('Inter-B', 36); c.drawString(ML, H - 68 * mm, 'Website')
     c.drawString(ML, H - 83 * mm, KLIEN)
     c.setFont('Inter', 12.5); c.setFillColor(colors.HexColor('#C7D4EA'))
-    c.drawString(ML, H - 100 * mm, 'Satu halaman sesuai desain, di bawah Rp 10 juta,')
-    c.drawString(ML, H - 107 * mm, 'selesai sekitar dua minggu')
+    c.drawString(ML, H - 100 * mm, '')
+    c.drawString(ML, H - 107 * mm, '')
     # meta
     y0 = H * 0.36 - 16 * mm
     rows = [('Disiapkan untuk', f'{KLIEN_ENTITAS}\n{KLIEN_ALAMAT}'), ('Disiapkan oleh', PENYEDIA['nama']),
@@ -195,10 +195,10 @@ def sec(num, title): return [P(f'BAGIAN {num}', EYEBROW), P(title, H1)]
 S += sec('1', 'Ringkasan')
 S += [P(f'{KLIEN} memerlukan website yang menampilkan program <b>Basic Mechanic Course (BMC)</b> persis seperti desain contoh yang sudah disiapkan. '
         'Proposal ini menawarkan versi yang fokus: <b>hanya yang ada di desain</b>, tanpa fitur tambahan, dengan harga di bawah Rp 10 juta dan waktu sekitar dua minggu.', LEAD), Spacer(1, 4 * mm)]
-S += [kpi([('Rp 9 jt', 'harga tetap, seluruh pekerjaan'), ('±2 minggu', '10 hari kerja sejak bahan lengkap'), ('1 + dialog', 'satu halaman, detail dalam dialog'), ('2 × revisi', 'revisi kecil sebelum serah terima')]), Spacer(1, 4 * mm)]
+S += [kpi([('Rp 9 jt', 'harga tetap, seluruh pekerjaan'), ('±2 minggu', '10 hari kerja sejak bahan lengkap'), ('1 + dialog', 'beranda, detail dalam dialog'), ('2 × revisi', 'revisi kecil sebelum serah terima')]), Spacer(1, 4 * mm)]
 S += [callout('<b>Prinsipnya sederhana:</b> yang Anda lihat di desain contoh adalah yang Anda terima. Hal-hal yang tidak ada di desain, seperti blog, halaman terpisah untuk setiap modul, atau pencarian, tidak termasuk di paket ini (lihat Bagian 5).', 'info')]
 S += [P('Yang Anda dapatkan', H2), *bullets([
-    '<b>Layar pembuka</b> “klik untuk mulai” dan <b>beranda 12 bagian</b> sesuai desain.',
+    '<b>Beranda 12 bagian</b> sesuai desain.',
     '<b>Animasi</b> utama seperti di desain, dibuat ringan agar nyaman di HP.',
     '<b>16 modul pelatihan</b>, profil instruktur, fasilitas + galeri, tahapan seleksi, FAQ, dan kontak, semuanya dalam <b>dialog</b> seperti desain contoh.',
     '<b>Tampilan HP, tablet, dan laptop</b>, serta pengaturan dasar agar mudah dibagikan dan ditemukan.',
@@ -207,7 +207,7 @@ S += [P('Yang Anda dapatkan', H2), *bullets([
 # ---- 2 Ruang lingkup ----
 S += [PageBreak()] + sec('2', 'Ruang lingkup')
 inc = [P('<b>Termasuk</b>', TCB)] + bullets([
-    'Satu halaman web dengan layar pembuka dan 12 bagian beranda',
+    'Satu halaman web dengan 12 bagian beranda',
     'Animasi gulir, zoom foto utama, daftar bergeser, tab mesin',
     'Dialog untuk 16 modul, instruktur, fasilitas/galeri, tahapan, FAQ, kontak',
     'Tampilan responsif (HP, tablet, laptop)',
@@ -241,7 +241,7 @@ rows.append([P('', TC), Paragraph('<b>TOTAL</b>', PS('tt', fontName='Inter-B', f
              Paragraph(f'<b>{rp(HARGA)}</b>', PS('tt3', fontName='Inter-B', fontSize=9, textColor=WHITE, alignment=TA_RIGHT))])
 S += [Spacer(1, 2 * mm), tbl(rows, [CW * 0.08, CW * 0.62, CW * 0.11, CW * 0.19], extra=[('BACKGROUND', (0, len(rows) - 1), (-1, len(rows) - 1), NAVY)], pad=4.5)]
 S += [P('Ke mana uang dialokasikan', H2), bar(), Spacer(1, 1 * mm),
-      P(f'Bobot terbesar ada pada <b>landing + beranda ({round(100 * ITEMS[1][4] / HARGA)}%)</b>, <b>animasi ({round(100 * ITEMS[2][4] / HARGA)}%)</b>, dan <b>dialog ({round(100 * ITEMS[3][4] / HARGA)}%)</b>: tiga hal yang membentuk tampilan sesuai desain. '
+      P(f'Bobot terbesar ada pada <b>beranda ({round(100 * ITEMS[1][4] / HARGA)}%)</b>, <b>animasi ({round(100 * ITEMS[2][4] / HARGA)}%)</b>, dan <b>dialog ({round(100 * ITEMS[3][4] / HARGA)}%)</b>: tiga hal yang membentuk tampilan sesuai desain. '
         f'Rata-rata ±{rp(HARGA / HARI)} per hari kerja.', BODY)]
 
 # ---- 4 Jadwal, termin, pajak ----
@@ -255,10 +255,6 @@ rows.append([P('', TC), P('<b>Total</b>', TCB), Paragraph('<b>100%</b>', TCC), P
 S += [tbl(rows, [CW * 0.1, CW * 0.55, CW * 0.1, CW * 0.25], extra=[('BACKGROUND', (0, len(rows) - 1), (-1, len(rows) - 1), BLUE_L)]), Spacer(1, 2 * mm)]
 S += [*bullets([f'Jatuh tempo 7 hari sejak invoice. Pembayaran ke rekening: {PENYEDIA["rekening"]}.',
                 'Perpanjangan domain dan hosting tetap dibayar MEC langsung ke penyedianya, di luar tagihan ini.'])]
-S += [P('Pajak', H2), *bullets([
-    'Penyedia jasa <b>bukan PKP</b>, sehingga <b>tidak ada PPN</b>.',
-    'Pemesan berbadan usaha lazimnya memotong <b>PPh Pasal 23</b> (2% dari nilai jasa; <b>4% bila penyedia tanpa NPWP aktif</b>) dan menerbitkan bukti potong. Pada paket ini 4% setara ' + rp(HARGA * 4 // 100) + ' dari total.',
-    'Perjanjian tertulis di atas Rp 5 juta dikenai bea meterai Rp 10.000 per dokumen, ditanggung pemesan kecuali disepakati lain.'])]
 
 # ---- 5 Batasan & peningkatan ----
 S += [PageBreak()] + sec('5', 'Yang perlu diketahui dan pilihan peningkatan')
@@ -281,7 +277,7 @@ S += [tbl(rows, [CW * 0.58, CW * 0.14, CW * 0.28])]
 S += [PageBreak()] + sec('6', 'Ketentuan dan persetujuan')
 terms = [('Harga & masa berlaku', f'Harga dalam Rupiah dan tetap selama lingkup tidak berubah. Proposal berlaku {BERLAKU}.'),
          ('Revisi', 'Dua putaran revisi kecil (teks, warna, urutan, penggantian foto). Perubahan struktur atau tambahan bagian dianggap perubahan lingkup.'),
-         ('Perubahan lingkup', f'Dikerjakan setelah ada estimasi tertulis yang disetujui, atau dengan tarif Rp {TARIF_PERUBAHAN:,.0f}/jam.'.replace(',', '.')),
+         ('Tarif & perubahan lingkup', f'Pekerjaan dihitung dengan tarif harian {rp(TARIF_HARIAN)} per hari selama {HARI:.0f} hari kerja. Perubahan di luar lingkup dikerjakan setelah ada estimasi tertulis yang disetujui, dengan tarif harian yang sama.'),
          ('Tanggung jawab pemesan', 'Menyediakan bahan tepat waktu dan memberi umpan balik maksimal 2 hari kerja. Keterlambatan menggeser jadwal.'),
          ('Kepemilikan', 'Setelah pelunasan, MEC memiliki situs, isi, dan kode sumber. Komponen pihak ketiga (font, pustaka) tunduk pada lisensi sumber terbukanya.'),
          ('Garansi', f'Perbaikan kesalahan fungsi hasil pekerjaan ini gratis selama {GARANSI_HARI} hari sejak tayang; tidak mencakup perubahan konten/desain atau gangguan layanan pihak ketiga.'),
