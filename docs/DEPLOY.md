@@ -40,3 +40,19 @@ Peta redirect alamat lama (perlu dikonfirmasi):
 
 ## Catatan branch Paket Ringkas
 Di branch `claude/proposal-paket-ringkas`, `.htaccess` mengalihkan semua alamat lama dan alamat multi-halaman ke beranda + dialog (hash ikut dibawa lewat flag `NE`). Peta di atas (`/alumni` → `/industri/` dan seterusnya) berlaku untuk branch multi-halaman; di branch ini tujuannya `/#alumni`, `/#kontak`, `/#program`, dst.
+
+## Temuan dari akun Rumahweb (2026-10-02, dari screenshot client area & cPanel)
+- **DNS sekarang** (cPanel > Track DNS): `A malangeducationcenter.com` = `179.61.189.140` dan `191.101.228.146` (TTL 60 dtk, IP Hostinger); `MX` = `mx1.hostinger.com` (5) dan `mx2.hostinger.com` (10); NS = `ns1/ns2.dns-parking.com`. Jadi **email domain ini ada di Hostinger** dan DNS dikelola di Hostinger, bukan Rumahweb.
+- **Managed DNS Rumahweb** untuk domain ini belum didaftarkan (halaman DNS meminta klik REGISTER dan memperingatkan bisa mengganggu hosting).
+- **Hosting di akun Rumahweb (2 layanan):**
+  1. `Unlimited M` untuk `malangeducationcentreacademy.my.id` (portal assessment): Rp 110.000/bulan, aktif, **jatuh tempo 2026-10-19, Auto Renew OFF** → kalau tidak dibayar, portal assessment bisa mati.
+  2. `Unlimited M (Trial)` untuk `malangeducationcenter.com`: Rp 0, "Free Account", jatuh tempo N/A. Batas masa trial belum diketahui.
+- Server cPanel: `batanghari.iixcp.rumahweb.net`.
+
+### Rekomendasi cutover
+1. **Jangan pindah nameserver.** Biarkan DNS di Hostinger dan hanya **ubah A record** `malangeducationcenter.com` (dan `www`) ke IP hosting Rumahweb. MX/SPF/DKIM tetap utuh, email tidak terganggu. Memindah NS ke Rumahweb berarti menyalin semua record email dan menanggung risiko yang diperingatkan halaman Managed DNS.
+2. **Uji dulu di trial** lewat `hosts` file atau URL sementara cPanel (IP server ada di halaman cPanel), tanpa menyentuh DNS.
+3. **Putuskan hosting jangka panjang:** (a) tambahkan domain sebagai *addon domain* di `Unlimited M` berbayar (tanpa biaya baru, tetapi satu akun dengan portal assessment), atau (b) ubah trial menjadi paket berbayar sendiri. Cek dulu batas dan masa trial.
+4. **SSL:** situs Hostinger mengirim HSTS (`max-age=63072000; includeSubDomains; preload`). Setelah A record pindah, jalankan *Run AutoSSL* di cPanel (SSL/TLS Status) **segera** supaya sertifikat terbit; kalau terlambat, pengunjung yang sudah menyimpan HSTS akan melihat error sertifikat. Lakukan di jam sepi.
+5. **TTL sudah 60 detik**, jadi cutover dan rollback (kembalikan A record lama) cepat.
+6. **Bayar atau aktifkan Auto Renew hosting portal assessment sebelum 19 Okt 2026.**
