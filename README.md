@@ -39,12 +39,11 @@ Jalankan `npm run build` dulu (skrip menyajikan hasil build lewat `astro preview
 - Opsi: `AUDIT_PAGES=/,/faq/` untuk halaman tertentu, `AUDIT_URL=https://situs-live` untuk menguji situs yang sudah online.
 - Hasil: `reports/site-audit.md` dan `reports/lighthouse-summary.md` (JSON mentah di `reports/lighthouse/`, tidak di-commit).
 - Ambang batas ada di `scripts/lighthouse.mjs` (`BUDGET`) dan `scripts/audit.mjs` (`MIN_FONT`, `MIN_TOUCH`). Melewati ambang → exit code 1, dan job `quality` di CI gagal.
-- Lighthouse melewati layar intro karena user-agent headless dianggap crawler; pengunjung nyata tetap melihat intro.
 
 ## Struktur
 - `src/data/*.json` — konten hasil ekstraksi preview (modul, instruktur, fasilitas, dst.)
-- `src/content/articles/` — artikel MDX (schema di `src/content.config.ts`)
+- `src/components/Dialogs.astro` + `src/scripts/dialogs.ts` — seluruh detail (modul, instruktur, fasilitas, tahapan, FAQ, kontak) sebagai dialog; tautan langsung `/#modul-<slug>`, `/#instruktur-<nama>`, `/#fasilitas`, `/#tahapan`, `/#faq`, `/#kontak`
 - `src/assets/` — gambar & font woff2
-- `public/_headers`, `_redirects`, `robots.txt` — konfigurasi Cloudflare Pages
+- `public/.htaccess` (hosting cPanel/Apache), `_headers`, `_redirects` (Cloudflare/Netlify), `robots.txt`
 
-Menambah artikel: buat file `.mdx` di `src/content/articles/`, isi frontmatter, commit.
+**Branch ini (`claude/proposal-paket-ringkas`) = Paket Ringkas:** satu halaman (beranda 12 bagian) + dialog, tanpa layar intro, blog, pencarian, dan halaman terpisah, sesuai proposal Rp 9 jt. Versi multi-halaman (blog, SEO per modul) ada di branch `claude/new-repo-infra-tech-stack-e62imy`.

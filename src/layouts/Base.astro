@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Loader from '../components/Loader.astro';
 import fontDisplay from '../assets/fonts/ArchivoNarrow-700.woff2?url';
 import fontBody from '../assets/fonts/Archivo-400.woff2?url';
 import fontBold from '../assets/fonts/Archivo-700.woff2?url';
@@ -30,7 +29,6 @@ const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [prop
     <meta name="theme-color" content="#265154" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    {home && <script is:inline>try{if(!sessionStorage.getItem('mec-intro')&&!/bot|crawl|spider|slurp|lighthouse|pagespeed|headless|prerender/i.test(navigator.userAgent))document.documentElement.classList.add('intro-pending')}catch(e){}</script>}
     <link rel="preload" as="font" type="font/woff2" href={fontDisplay} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={fontBody} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={fontBold} crossorigin />
@@ -39,7 +37,6 @@ const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [prop
     <Seo {...props} jsonLd={[orgLd, ...extra]} />
   </head>
   <body>
-    {home && <Loader />}
     <Header home={home} />
     <main id="main" class={home ? '' : 'pt-20'}><slot /></main>
     {footer && <Footer />}

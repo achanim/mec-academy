@@ -1,0 +1,112 @@
+---
+// Seluruh detail (modul, instruktur, fasilitas, tahapan, FAQ, kontak) disajikan sebagai dialog di beranda,
+// sesuai desain contoh. Isi disimpan di <template> (tidak dimuat browser sampai dibuka) dan diisikan ke satu <dialog>
+// oleh src/scripts/dialogs.ts. Tautan langsung: /#modul-hydraulic-system, /#instruktur-nur-wiranto, /#fasilitas, dst.
+import { Image, getImage } from 'astro:assets';
+import { img, pos } from '../lib/images';
+import { modules, slugify, site, waLink } from '../lib/site';
+import { moduleGroups } from '../lib/modules';
+import { systems } from '../data/systems';
+import { faq } from '../data/faq';
+import content from '../data/content.json';
+import gallery from '../data/gallery.json';
+import ModuleGroups from './ModuleGroups.astro';
+const gal = await Promise.all(gallery.map(async (g) => ({ ...g, full: (await getImage({ src: img(g.asset), width: 1600, format: 'webp' })).src })));
+const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('MEC Academy, Jl. Jatisari No. 07, Plaosan, Wonosari, Malang')}`;
+const steps = [
+  ['Hubungi tim MEC', 'Tanyakan jadwal, biaya, persyaratan, dan alur seleksi lewat WhatsApp atau email.'],
+  ['Ikuti seleksi', content.stages[0].items.join(' · ') + '.'],
+  ['Mulai belajar', 'In-class training, lalu On the Job Training untuk praktik di lapangan.'],
+];
+---
+<dialog id="sheet" class="sheet" aria-labelledby="sheet-title">
+  <div class="sheet-bar"><span class="eyebrow" id="sheet-eyebrow"></span><button type="button" class="close-dialog" aria-label="Tutup">×</button></div>
+  <div class="sheet-body" id="sheet-body"></div>
+</dialog>
+<dialog id="lightbox" class="lightbox" aria-label="Foto kegiatan"><button type="button" class="close-dialog" aria-label="Tutup">×</button><img alt="" /><p></p></dialog>
+
+<!-- Semua modul -->
+<template id="t-program" data-eyebrow="Basic Mechanic Course" data-title="16 modul pembelajaran">
+  <p class="sheet-lead">Dari dasar keselamatan sampai sistem penggerak dan perawatan. Pilih modul untuk melihat ringkasannya.</p>
+  <ModuleGroups headingTag="h3" />
+</template>
+
+<!-- Per modul -->
+{modules.map((m, i) => {
+  const sys = systems.find((s) => s.slug === m.slug);
+  const group = moduleGroups.find((g) => g.items.some((x) => x.slug === m.slug))!;
+  const prev = modules[i - 1]; const next = modules[i + 1];
+  return (
+    <template id={`t-modul-${m.slug}`} data-eyebrow={`Modul ${String(m.n).padStart(2, '0')} / ${modules.length} · ${group.title}`} data-title={m.title}>
+      <div class="module-detail">
+        <div>
+          <p class="sheet-lead">{sys?.description ?? `Modul ${m.title} pada Basic Mechanic Course MEC Academy, dipelajari bersama instruktur berpengalaman industri.`}</p>
+          <p class="mt-4 text-sage">{m.title} adalah modul ke-{m.n} dari {modules.length} modul Basic Mechanic Course, di kelompok <b>{group.title}</b> ({group.note.toLowerCase()}). Materi dipelajari melalui kelas dan praktik bersama instruktur.</p>
+          <p class="mt-4 text-sage">Silabus rinci dan urutan materi dijelaskan langsung oleh tim MEC. Tanyakan sebelum mendaftar.</p>
+          <div class="mt-8 flex flex-wrap gap-4"><a class="btn" href={waLink(`Halo MEC Academy, saya ingin bertanya tentang materi modul ${m.title} di program BMC.`)} target="_blank" rel="noopener">Tanya silabus modul <span aria-hidden="true">↗</span></a><a class="text-link" href="/#program" data-open="program">Semua modul</a></div>
+        </div>
+        {sys && <Image src={img(sys.image)} alt={sys.alt} widths={[640, 960]} sizes="(min-width:900px) 40vw, 90vw" loading="lazy" class="module-photo" style={pos(sys.image)} />}
+      </div>
+      <nav class="module-nav" aria-label="Modul sebelum dan sesudah">
+        {prev ? <a href={`/#modul-${prev.slug}`} data-open={`modul-${prev.slug}`}><small>← Sebelumnya</small><b>{prev.title}</b></a> : <span></span>}
+        {next ? <a href={`/#modul-${next.slug}`} data-open={`modul-${next.slug}`} class="text-right"><small>Berikutnya →</small><b>{next.title}</b></a> : <span></span>}
+      </nav>
+    </template>
+  );
+})}
+
+<!-- Per instruktur -->
+{content.instructors.map((p) => (
+  <template id={`t-instruktur-${slugify(p.name)}`} data-eyebrow="Instruktur MEC Academy" data-title={p.name}>
+    <div class="trainer-detail">
+      <Image src={img(p.asset)} alt={p.name} widths={[320, 640]} sizes="(min-width:900px) 280px, 70vw" loading="lazy" class="trainer-detail-photo" />
+      <div>
+        <p class="sheet-lead">Pengalaman: {p.role} — {p.company}</p>
+        <h3 class="mb-3 mt-8 text-2xl">Kompetensi & sertifikasi</h3>
+        <ul class="flex flex-wrap gap-3">{p.credentials.map((c) => <li class="border border-line px-4 py-2 text-sm">{c}</li>)}</ul>
+        <p class="mt-6 text-sm text-sage">Riwayat pekerjaan ditulis sebagai pengalaman, bukan pekerjaan aktif. Sumber: company profile MEC Academy 2026.</p>
+        <div class="mt-8"><a class="btn" href={waLink()} target="_blank" rel="noopener">Daftar BMC <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </div>
+  </template>
+))}
+
+<!-- Fasilitas & galeri -->
+<template id="t-fasilitas" data-eyebrow="Learn by doing" data-title="Fasilitas & galeri kegiatan">
+  <ul class="mb-10 grid gap-x-8 md:grid-cols-2">{content.facilities.map((f) => <li class="border-b border-line py-3">{f}</li>)}</ul>
+  <h3 class="mb-4 text-2xl">Galeri kegiatan</h3>
+  <ul class="gallery-grid">
+    {gal.map((g) => <li><button type="button" class="gallery-btn" data-full={g.full} data-caption={g.caption} aria-label={`Perbesar foto: ${g.caption}`}><Image src={img(g.asset)} alt={g.caption} widths={[320, 480]} sizes="(min-width:768px) 22vw, 45vw" loading="lazy" /></button></li>)}
+  </ul>
+</template>
+
+<!-- Tahapan -->
+<template id="t-tahapan" data-eyebrow="Perjalananmu di MEC" data-title="Tahapan seleksi & pelatihan">
+  <ol class="grid gap-8 md:grid-cols-3">
+    {content.stages.map((s, i) => (
+      <li class="border-t-2 border-gold pt-5"><span class="font-mono text-gold">0{i + 1}</span><h3 class="mt-2 text-2xl">{s.name}</h3>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-sage">{s.items.map((it) => <li>{it}</li>)}</ul></li>
+    ))}
+  </ol>
+  <p class="mt-8 text-sm text-sage">Akun assessment online diberikan oleh tim assessor MEC. Masuk lewat <a class="text-gold underline" href={site.assessmentUrl} target="_blank" rel="noopener">portal assessment</a>.</p>
+</template>
+
+<!-- FAQ -->
+<template id="t-faq" data-eyebrow="FAQ" data-title="Pertanyaan yang sering muncul">
+  <div class="max-w-3xl">{faq.map((f) => <details class="faq"><summary>{f.q}<span aria-hidden="true">+</span></summary><p>{f.a}</p></details>)}</div>
+  <div class="mt-8 flex flex-wrap items-center gap-6"><p class="text-sage">Belum terjawab?</p><a class="btn" href={waLink('Halo MEC Academy, saya punya pertanyaan tentang program BMC.')} target="_blank" rel="noopener">Tanya tim MEC <span aria-hidden="true">↗</span></a></div>
+</template>
+
+<!-- Kontak -->
+<template id="t-kontak" data-eyebrow="Langkah berikutnya" data-title="Kontak & konsultasi">
+  <div class="contact-cards">
+    <a href={waLink()} target="_blank" rel="noopener"><small>WhatsApp</small><b>{site.phone}</b><span>Chat untuk jadwal & pendaftaran ↗</span></a>
+    <a href={`tel:${site.phone.replace(/\s/g, '')}`}><small>Telepon</small><b>{site.phone}</b><span>Hubungi langsung ↗</span></a>
+    <a href={`mailto:${site.email}`}><small>Email</small><b>{site.email}</b><span>Kirim pertanyaan ↗</span></a>
+    <a href={maps} target="_blank" rel="noopener"><small>Alamat</small><b>Plaosan, Wonosari, Malang</b><span>{site.address} Buka peta ↗</span></a>
+  </div>
+  <h3 class="mb-4 mt-10 text-2xl">Cara mendaftar</h3>
+  <ol class="grid gap-6 md:grid-cols-3">
+    {steps.map(([t, d], i) => <li class="border-t-2 border-gold pt-4"><span class="font-mono text-xs text-gold">0{i + 1}</span><h4 class="mt-2 text-xl">{t}</h4><p class="mt-2 text-sm text-sage">{d}</p></li>)}
+  </ol>
+</template>

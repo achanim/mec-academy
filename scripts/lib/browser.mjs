@@ -34,8 +34,4 @@ export async function ensureServer() {
   throw new Error('Server preview tidak naik. Jalankan `npm run build` dulu.');
 }
 
-export const PAGES = [
-  '/', '/program/basic-mechanic-course/', '/program/basic-mechanic-course/modul/', '/program/basic-mechanic-course/modul/basic-safety/',
-  '/tahapan-seleksi/', '/fasilitas/', '/instruktur/', '/instruktur/chandra-choirulyanto/', '/industri/', '/sumber/', '/tentang/',
-  '/assessment/', '/kontak/', '/faq/', '/artikel/', '/artikel/tahapan-belajar-basic-mechanic-course/',
-];
+export const PAGES = ['/'];   // paket ringkas: satu halaman (404 sengaja noindex)

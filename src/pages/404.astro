@@ -6,16 +6,15 @@ import { modules, waLink } from '../lib/site';
   <section class="wrap py-24 md:py-32">
     <p class="eyebrow mb-4">Error 404</p>
     <h1 class="max-w-3xl text-6xl md:text-8xl">Halaman tidak ditemukan.</h1>
-    <p class="mt-6 max-w-xl text-lg text-sage">Alamat yang kamu buka mungkin salah ketik atau sudah dipindahkan. Coba mulai dari salah satu halaman berikut.</p>
+    <p class="mt-6 max-w-xl text-lg text-sage">Alamat yang kamu buka mungkin salah ketik atau sudah dipindahkan. Coba mulai dari beranda atau salah satu pilihan berikut.</p>
     <div class="mt-8 flex flex-wrap gap-4">
       <a class="btn" href="/">Ke beranda</a>
-      <a class="btn btn-ghost" href="/program/basic-mechanic-course/">Program BMC</a>
-      <a class="btn btn-ghost" href="/artikel/">Artikel</a>
+      <a class="btn btn-ghost" href="/#program">Program BMC</a>
       <a class="btn btn-ghost" href={waLink('Halo MEC Academy, saya menemukan halaman yang tidak bisa dibuka.')} target="_blank" rel="noopener">Hubungi kami</a>
     </div>
     <h2 class="mb-4 mt-16 text-3xl">Modul populer</h2>
     <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-      {modules.slice(4, 8).map((m) => <li><a class="block border border-line p-4 hover:border-gold" href={`/program/basic-mechanic-course/modul/${m.slug}/`}>{m.title}</a></li>)}
+      {modules.slice(4, 8).map((m) => <li><a class="block border border-line p-4 hover:border-gold" href={`/#modul-${m.slug}`}>{m.title}</a></li>)}
     </ul>
   </section>
 </Base>

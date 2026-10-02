@@ -37,3 +37,6 @@ Peta redirect alamat lama (perlu dikonfirmasi):
 - Server Rumahweb umumnya LiteSpeed (kompatibel `.htaccess`); kalau ternyata Nginx murni, aturan redirect/cache perlu dipindah ke konfigurasi lain.
 - `/alumni` dialihkan ke `/industri/` karena belum ada halaman alumni sendiri; ganti bila ingin tujuan lain.
 - Batas "unlimited" pada paket murah umumnya ada kebijakan pemakaian wajar; situs statis ringan jauh di bawah batas itu.
+
+## Catatan branch Paket Ringkas
+Di branch `claude/proposal-paket-ringkas`, `.htaccess` mengalihkan semua alamat lama dan alamat multi-halaman ke beranda + dialog (hash ikut dibawa lewat flag `NE`). Peta di atas (`/alumni` → `/industri/` dan seterusnya) berlaku untuk branch multi-halaman; di branch ini tujuannya `/#alumni`, `/#kontak`, `/#program`, dst.

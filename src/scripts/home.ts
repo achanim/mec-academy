@@ -247,7 +247,6 @@ function playIntro() {
   root.classList.add('intro');
   setTimeout(() => root.classList.remove('intro'), 2000);
 }
-addEventListener('mec:enter', playIntro);
-if (!root.classList.contains('intro-pending')) playIntro();
+playIntro();
 
 safeSetup();

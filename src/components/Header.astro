@@ -4,34 +4,31 @@ import { img } from '../lib/images';
 import { site, waLink } from '../lib/site';
 interface Props { home?: boolean }
 const { home = false } = Astro.props;
-const nav = [
-  ['/tentang/', 'Tentang'],
-  ['/program/basic-mechanic-course/', 'Program'],
-  ['/fasilitas/', 'Fasilitas'],
-  ['/#alumni', 'Alumni'],
-  ['/artikel/', 'Artikel'],
-  ['/assessment/', 'Assessment'],
+// [href, label, deskripsi, kunci dialog?]. Dialog dibuka lewat data-open (lihat src/scripts/dialogs.ts)
+const A = site.assessmentUrl;
+const nav: [string, string, string?][] = [
+  ['/#about', 'Tentang'], ['/#program', 'Program', 'program'], ['/#fasilitas', 'Fasilitas', 'fasilitas'],
+  ['/#alumni', 'Alumni'], [A, 'Assessment'],
 ];
-const menuItems = [
+const menuItems: [string, string, string, string?][] = [
   ['/', 'Beranda', 'Mulai dari awal'],
-  ['/tentang/', 'Tentang', 'Sejarah, visi & tim'],
-  ['/program/basic-mechanic-course/', 'Program', 'Basic Mechanic Course'],
-  ['/fasilitas/', 'Fasilitas', 'Workshop & galeri kegiatan'],
+  ['/#about', 'Tentang', 'Sejarah & identitas MEC'],
+  ['/#program', 'Program', '16 modul Basic Mechanic Course', 'program'],
+  ['/#tahapan', 'Tahapan seleksi', 'Dari assessment sampai OJT', 'tahapan'],
+  ['/#fasilitas', 'Fasilitas', 'Workshop & galeri kegiatan', 'fasilitas'],
+  ['/#instructors', 'Instruktur', 'Pengalaman industri'],
+  ['/#industry', 'Industri', 'Kunjungan & kegiatan bersama'],
   ['/#alumni', 'Alumni', 'Dari pelatihan ke industri'],
-  ['/artikel/', 'Artikel', 'Wawasan seputar alat berat'],
-  ['/assessment/', 'Assessment', 'Portal ujian online'],
-  ['/instruktur/', 'Instruktur', 'Pengalaman industri'],
-  ['/industri/', 'Industri', 'Kunjungan & kerja sama'],
-  ['/kontak/', 'Kontak', 'Jadwal, biaya, persyaratan'],
+  [A, 'Assessment', 'Portal ujian online'],
+  ['/#kontak', 'Kontak', 'Jadwal, biaya, persyaratan', 'kontak'],
 ];
-const path = Astro.url.pathname;
 ---
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-5 focus:z-[1000] focus:bg-gold focus:text-ink focus:p-3">Langsung ke konten</a>
 <header class="site-header">
   <div class="site-header-inner">
     <a href="/" class="logo-frame" aria-label={`${site.name} — beranda`}><Image src={img('logo')} alt="MEC Academy" width={105} height={57} loading="eager" /></a>
     <nav class="desktop-nav" aria-label="Navigasi utama">
-      {nav.map(([href, label]) => <a href={href} aria-current={href.startsWith('/#') ? undefined : path.startsWith(href) ? 'page' : undefined}>{label}</a>)}
+      {nav.map(([href, label, key]) => <a href={href} data-open={key} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined}>{label}</a>)}
     </nav>
     <div class="header-actions">
       {home && <button class="motion-control" type="button" id="motion-toggle" aria-pressed="false" aria-label="Aktifkan mode tenang, kurangi animasi" title="Kurangi animasi (mode tenang)"><i aria-hidden="true">◐</i><em>Gerak <span>aktif</span></em></button>}
@@ -44,8 +41,8 @@ const path = Astro.url.pathname;
   <div class="menu-inner">
     <nav aria-label="Menu">
       <ul class="menu-grid">
-        {menuItems.map(([href, label, desc], i) => (
-          <li style={`--i:${i}`}><a href={href}><span class="menu-no">{String(i + 1).padStart(2, '0')}</span><b>{label}</b><small>{desc}</small><i aria-hidden="true">↗</i></a></li>
+        {menuItems.map(([href, label, desc, key], i) => (
+          <li style={`--i:${i}`}><a href={href} data-open={key} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined}><span class="menu-no">{String(i + 1).padStart(2, '0')}</span><b>{label}</b><small>{desc}</small><i aria-hidden="true">↗</i></a></li>
         ))}
       </ul>
     </nav>

@@ -11,13 +11,23 @@ RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^ https://malangeducationcenter.com%{REQUEST_URI} [L,R=301]
 
-# 2. Alamat lama (situs Hostinger/Zyro) -> alamat baru
-RewriteRule ^organisasi/?$     /tentang/ [L,R=301]
-RewriteRule ^galeri/?$         /fasilitas/ [L,R=301]
-RewriteRule ^alumni/?$         /industri/ [L,R=301]
-RewriteRule ^hubungi-kami/?$   /kontak/ [L,R=301]
-RewriteRule ^learning/?$       /program/basic-mechanic-course/ [L,R=301]
-# /assessment sudah sama; garis miring penutup ditambahkan otomatis oleh Apache (mod_dir)
+# 2. Alamat lama (situs Hostinger/Zyro dan struktur multi-halaman) -> beranda + dialog (hash ikut dibawa: NE)
+RewriteRule ^organisasi/?$                       /#about [L,R=301,NE]
+RewriteRule ^galeri/?$                           /#fasilitas [L,R=301,NE]
+RewriteRule ^alumni/?$                           /#alumni [L,R=301,NE]
+RewriteRule ^hubungi-kami/?$                     /#kontak [L,R=301,NE]
+RewriteRule ^learning/?$                         /#program [L,R=301,NE]
+RewriteRule ^program/basic-mechanic-course/modul/([a-z0-9-]+)/?$ /#modul-$1 [L,R=301,NE]
+RewriteRule ^program(/.*)?$                      /#program [L,R=301,NE]
+RewriteRule ^instruktur/([a-z0-9-]+)/?$          /#instruktur-$1 [L,R=301,NE]
+RewriteRule ^instruktur/?$                       /#instructors [L,R=301,NE]
+RewriteRule ^tahapan-seleksi/?$                  /#tahapan [L,R=301,NE]
+RewriteRule ^fasilitas/?$                        /#fasilitas [L,R=301,NE]
+RewriteRule ^faq/?$                              /#faq [L,R=301,NE]
+RewriteRule ^kontak/?$                           /#kontak [L,R=301,NE]
+RewriteRule ^tentang/?$                          /#about [L,R=301,NE]
+RewriteRule ^industri/?$                         /#industry [L,R=301,NE]
+RewriteRule ^(sumber|assessment|artikel)(/.*)?$  / [L,R=301]
 </IfModule>
 
 # 3. Halaman error
