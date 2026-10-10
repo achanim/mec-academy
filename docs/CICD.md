@@ -7,7 +7,7 @@ Branch lain (`dev`, `main`, PR) hanya menjalankan CI (`ci.yml`), tidak deploy.
 ## Setup sekali (±10 menit, hanya pemilik repo)
 1. **Buat akun FTP khusus** di cPanel trial (*FTP Accounts*), **bukan** kata sandi cPanel utama:
    - Username mis. `deploy@malangeducationcenter.com`, kata sandi acak kuat.
-   - **Directory: `public_html`** (agar akun ini hanya bisa menyentuh folder situs, tidak `arsip/`, email, atau berkas lain).
+   - **Directory: `public_html`** (agar akun ini hanya bisa menyentuh folder situs, tidak `arsip/`, email, atau berkas lain). Karena akun dibatasi ke `public_html`, root FTP-nya adalah `public_html` itu sendiri, sehingga workflow memakai `server-dir: ./` (bukan `public_html/`, yang akan membuat `public_html/public_html`).
    - Buka *Configure FTP Client* di baris akun itu: catat **hostname server FTP** (pakai hostname, bukan IP, supaya sertifikat FTPS cocok).
 2. Di GitHub: **Settings > Secrets and variables > Actions > New repository secret**, tambahkan:
    - `FTP_SERVER` = hostname FTP dari langkah 1

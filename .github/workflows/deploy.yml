@@ -49,7 +49,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./dist/
-          server-dir: public_html/
+          server-dir: ./   # akun FTP dibatasi ke public_html, jadi root FTP = public_html (jangan tulis public_html/ lagi)
           state-name: .ftp-deploy-sync-state.json
       - name: Uji asap setelah deploy (situs hidup)
         run: |
