@@ -367,5 +367,27 @@
     "Riwayat pekerjaan instruktur ditulis sebagai pengalaman, bukan pekerjaan aktif saat ini.",
     "Nama perusahaan pada kegiatan menunjukkan dokumentasi kunjungan atau penyerahan komponen, bukan jaminan penempatan kerja.",
     "Nomor telepon dan email contoh pada gambar kartu tidak dipakai sebagai kontak website."
-  ]
+  ],
+  "requirements": {
+    "source": "Situs MEC saat ini (malangeducationcenter.com/syarat-in-class), Okt 2026; konfirmasi MEC sebelum dipublikasikan ulang",
+    "admin": [
+      "Pendidikan minimal SMA / SMK / sederajat",
+      "Sehat jasmani dan rohani",
+      "Tidak buta warna, tidak berkacamata, tidak bertato",
+      "Tinggi badan minimal 163 cm",
+      "Usia maksimal 23 tahun pada tahun pendaftaran"
+    ],
+    "inclass": [
+      "Lolos seleksi administrasi",
+      "Lolos seleksi potensi akademik calon siswa",
+      "Mengikuti bintalsik (pembinaan mental dan sikap)",
+      "Mengikuti materi pembelajaran selama 3 bulan"
+    ],
+    "ojt": [
+      "Telah menyelesaikan in-class training",
+      "Lolos assessment teori dan praktik",
+      "Menyelesaikan syarat administrasi",
+      "Mengikuti OJT selama 3–6 bulan di tempat yang ditentukan"
+    ]
+  }
 }
