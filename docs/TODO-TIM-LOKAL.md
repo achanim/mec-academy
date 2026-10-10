@@ -38,12 +38,12 @@ Urutan dan alasannya ada di dokumen migrasi §4. Tiap langkah: minta persetujuan
 - [ ] Unduh berkas + ekspor database **`admin.`** dan **`belajar.`** sebagai arsip terenkripsi, simpan **di luar repo** (Drive MEC/disk lokal terenkripsi). Periksa ukuran; **jangan buka `.env`**. Jangan dipindah dan jangan dimatikan sebelum diperintahkan.
 - [ ] Jalankan `node scripts/backup-old-site.mjs` → `backup/hostinger-site/` (folder ini di `.gitignore`); salin ke Drive; periksa `LAPORAN.txt`.
 
-**C1. Hosting (prasyarat nameserver)**
-- [ ] Atas keputusan pemilik: (a) tambahkan `.com` sebagai addon domain di `Unlimited M`, atau (b) upgrade trial. **Jangan** menukar domain portal `.my.id` ke trial.
-- [ ] Aktifkan Auto Renew pada paket yang dipakai (jika disetujui).
+**C1. Hosting (keputusan pemilik 11 Okt)**
+- [x] Situs `.com` tetap di akun **trial**; **tanpa addon** di `Unlimited M`. Jangan menutup/menghapus trial.
+- [ ] Buka tiket Rumahweb: apakah Free Account boleh dipakai produksi, kapan berakhir, apa konsekuensinya untuk email.
 
 **C2. Situs**
-- [ ] Build dari branch `dev` (`npm install && npm run build`), unggah isi `dist/` ke `public_html/` domain `.com` (termasuk `.htaccess`, berkas tersembunyi).
+- [x] Build branch **`staging`** terpasang di trial dan lolos uji via IP. Perbarui dengan `git pull` + build ulang karena `staging` kini memuat persyaratan peserta, unggah isi `dist/` ke `public_html/` domain `.com` (termasuk `.htaccess`, berkas tersembunyi).
 - [ ] Uji lewat file `hosts` (IP server → domain) tanpa menyentuh DNS: semua dialog, tautan WhatsApp, redirect lama.
 
 **C3. Email tahap 1 (persiapan)**

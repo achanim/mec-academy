@@ -38,7 +38,11 @@ NS     ns1/ns2.dns-parking.com
 Tidak ada AAAA manual (yang terlihat di pencarian publik hanya hasil ALIAS), tidak ada TXT verifikasi Google, tidak ada record `belajar`.
 
 ## 2. Prasyarat H0 (harus selesai SEBELUM nameserver diganti)
-- [ ] **Hosting situs `.com` = addon domain di `Unlimited M` berbayar** (hasil cek: kuota addon tidak terbatas; paket trial **tidak bisa di-upgrade**, jalur lain hanya membeli paket baru lewat Order). Sebelum menutup trial, periksa isi akun trial (File Manager, ±374 MB terpakai). Jika addon ditolak karena `.com` masih terikat trial: tiket Rumahweb, atau tutup trial atas persetujuan pemilik. Karena situs, email, dan portal berbagi satu paket, **aktifkan Auto Renew** (jatuh tempo 19 Nov).
+- **Keputusan pemilik (11 Okt):** situs `.com` **tetap di akun trial** (`Unlimited M (Trial)`, server trial), **tanpa addon**; build yang dipasang adalah branch **`staging`** (multi-halaman), bukan `dev`.
+  - Risiko yang diterima: trial **tidak bisa di-upgrade**, masa berlaku tidak tertulis, dan **email 9 kotak surat juga akan berada di akun trial**. Mitigasi: (a) simpan salinan lokal `dist/` + arsip supaya bisa dipasang ulang di paket lain dalam hitungan menit; (b) buka tiket Rumahweb: apakah Free Account boleh dipakai produksi dan kapan berakhir; (c) pertahankan Hostinger (perpanjangan 1 bulan) sampai jawaban tiket jelas.
+  - Target IP zona DNS = IP server **trial** (bukan IP `Unlimited M`). Jangan menutup atau menghapus akun trial.
+  - Konsekuensi proposal: Paket Ringkas yang ditandatangani menyebut satu halaman; build `staging` memuat blog dan halaman terpisah. Pemilik sudah mengetahui dan memilih ini.
+- [ ] Aktifkan Auto Renew `Unlimited M` (portal `.my.id`) hanya untuk portal; tidak terkait situs `.com` lagi.
 - [ ] **Jaring pengaman:** perpanjangan Hostinger 1 bulan tersedia (sampai 15 Nov); pembayaran ditangani pemilik. Jika diambil, migrasi bisa dilakukan lebih tenang; urutan langkah tetap sama.
 - [ ] Catat **IP server** hosting, dan isi **Nameserver Setting** Rumahweb (client zone > Domain > Nameserver Setting) yang akan dipakai.
 - [ ] **Arsipkan `admin.` dan `belajar.` sebelum Selasa 13 Okt**, apa pun keputusannya: ekspor database + unduh berkas dari hPanel, simpan **terenkripsi dan offline/Drive MEC**, **jangan masuk repo git**, jangan membuka `.env` (memuat kredensial; ganti sandi DB bila arsip pernah dibagikan). Backup harian Hostinger ikut hilang saat paket berakhir.
