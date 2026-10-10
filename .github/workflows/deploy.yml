@@ -1,0 +1,62 @@
+name: Deploy (staging → Rumahweb)
+
+# Setiap push ke branch `staging` (dan tombol manual) membangun situs lalu mengunggahnya lewat FTPS ke public_html.
+# Rahasia (Settings > Secrets and variables > Actions): FTP_SERVER, FTP_USERNAME, FTP_PASSWORD.
+# Panduan dan rollback: docs/CICD.md
+on:
+  push:
+    branches: [staging]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false   # jangan memotong unggahan yang sedang berjalan
+
+permissions:
+  contents: read
+
+env:
+  SITE_URL: https://malangeducationcenter.com
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx astro check
+      - run: npm test
+      - run: npm run build
+      - name: Pastikan build memuat .htaccess dan beranda
+        run: test -f dist/.htaccess && test -f dist/index.html
+      - uses: actions/upload-artifact@v4
+        with: { name: dist, path: dist, include-hidden-files: true, retention-days: 14 }
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production   # opsional: tambahkan "Required reviewers" di Settings > Environments agar perlu persetujuan
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: dist, path: dist }
+      - name: Unggah ke Rumahweb (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: public_html/
+          state-name: .ftp-deploy-sync-state.json
+      - name: Uji asap setelah deploy (situs hidup)
+        run: |
+          for i in 1 2 3 4 5; do
+            code=$(curl -s -o /tmp/home.html -w '%{http_code}' "$SITE_URL/") && [ "$code" = 200 ] && grep -q "MEC Academy" /tmp/home.html && break
+            echo "percobaan $i gagal (HTTP $code), ulangi..."; sleep 10
+          done
+          [ "$code" = 200 ] && grep -q "MEC Academy" /tmp/home.html
+          r=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$SITE_URL/organisasi/"); echo "redirect lama: $r"
+          echo "$r" | grep -q '^301 '
