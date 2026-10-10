@@ -38,7 +38,8 @@ NS     ns1/ns2.dns-parking.com
 Tidak ada AAAA manual (yang terlihat di pencarian publik hanya hasil ALIAS), tidak ada TXT verifikasi Google, tidak ada record `belajar`.
 
 ## 2. Prasyarat H0 (harus selesai SEBELUM nameserver diganti)
-- [ ] **Jadikan hosting Rumahweb berbayar.** Sekarang situs utama hanya di `Unlimited M (Trial)` gratis tanpa jatuh tempo; jangan memindahkan DNS ke layanan trial yang bisa berubah. Pilihan: ubah trial menjadi paket berbayar, atau tambahkan domain ke `Unlimited M` milik portal assessment.
+- [ ] **Hosting situs `.com` = addon domain di `Unlimited M` berbayar** (hasil cek: kuota addon tidak terbatas; paket trial **tidak bisa di-upgrade**, jalur lain hanya membeli paket baru lewat Order). Sebelum menutup trial, periksa isi akun trial (File Manager, ±374 MB terpakai). Jika addon ditolak karena `.com` masih terikat trial: tiket Rumahweb, atau tutup trial atas persetujuan pemilik. Karena situs, email, dan portal berbagi satu paket, **aktifkan Auto Renew** (jatuh tempo 19 Nov).
+- [ ] **Jaring pengaman:** perpanjangan Hostinger 1 bulan tersedia (sampai 15 Nov); pembayaran ditangani pemilik. Jika diambil, migrasi bisa dilakukan lebih tenang; urutan langkah tetap sama.
 - [ ] Catat **IP server** hosting, dan isi **Nameserver Setting** Rumahweb (client zone > Domain > Nameserver Setting) yang akan dipakai.
 - [ ] **Arsipkan `admin.` dan `belajar.` sebelum Selasa 13 Okt**, apa pun keputusannya: ekspor database + unduh berkas dari hPanel, simpan **terenkripsi dan offline/Drive MEC**, **jangan masuk repo git**, jangan membuka `.env` (memuat kredensial; ganti sandi DB bila arsip pernah dibagikan). Backup harian Hostinger ikut hilang saat paket berakhir.
 - [ ] Keputusan MEC (pertanyaan terbuka): (a) apakah `belajar.` masih dipakai/direncanakan; (b) siapa pemegang lisensi skrip komersialnya (bukti beli, kunci lisensi, apakah boleh dipasang di server lain); (c) `admin.` setuju dimatikan.
@@ -105,7 +106,7 @@ Sebelum batas: kembalikan NS ke `ns1/ns2.dns-parking.com` (zona Hostinger masih 
 | Hosting Rumahweb masih trial saat NS dipindah | jadikan berbayar di H0 sebelum menyentuh nameserver |
 | SSL telat terbit setelah NS pindah (HSTS) | Run AutoSSL segera; kerjakan saat sepi; jangan matikan zona Hostinger |
 | Email hilang | sinkron IMAP dua kali (H2 dan H3), syarat "kotak surat lengkap", simpan salinan lokal (`.mbox`) |
-| `belajar.` berisi data penting yang rusak (HTTP 500) | ekspor file + DB sekarang, simpan offline, putuskan bersama MEC |
+| `belajar.` berisi data penting yang rusak (HTTP 500; kemungkinan karena PHP 7.4 sudah tidak tersedia di hPanel, opsi hanya 8.2 ke atas; belum diubah) | ekspor file + DB sekarang, simpan offline, putuskan bersama MEC |
 | Record DNS tersembunyi terlewat (forwarder, formulir) | cek hPanel; belum terverifikasi |
 | Akses hPanel/cPanel telat | perpanjang Hostinger 1 bulan sebagai jaring pengaman (khusus email) |
 | Konten situs baru belum final | **tayang dulu**, perbaiki bertahap |
