@@ -28,7 +28,9 @@ const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [prop
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#265154" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {home && <script is:inline>try{if(!sessionStorage.getItem('mec-intro')&&!/bot|crawl|spider|slurp|lighthouse|pagespeed|headless|prerender/i.test(navigator.userAgent))document.documentElement.classList.add('intro-pending')}catch(e){}</script>}
     <link rel="preload" as="font" type="font/woff2" href={fontDisplay} crossorigin />
