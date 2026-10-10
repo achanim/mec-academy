@@ -27,6 +27,9 @@ RewriteRule ^faq/?$                              /#faq [L,R=301,NE]
 RewriteRule ^kontak/?$                           /#kontak [L,R=301,NE]
 RewriteRule ^tentang/?$                          /#about [L,R=301,NE]
 RewriteRule ^industri/?$                         /#industry [L,R=301,NE]
+RewriteRule ^syarat-in-class/?$                  /#tahapan [L,R=301,NE]
+# Halaman contoh bawaan templat Hostinger yang ikut terindeks (produk dll.) -> 410 Gone agar keluar dari indeks Google
+RewriteRule ^(classic-cap-hpeszv|creative-course-session|face-serum-gxrcld|group-fitness-class|handmade-vase-slowpy|hand-soap-giguos|individual-coaching-session|intro-language-tutoring-session|set-of-plates-cxlzwx|sunglasses-iubjnq|wooden-chair-mopukh|wool-sweater-lortoo|the-first-90-days-postpartum-.*)/?$ - [G,L]
 RewriteRule ^(sumber|assessment|artikel)(/.*)?$  / [L,R=301]
 </IfModule>
 
