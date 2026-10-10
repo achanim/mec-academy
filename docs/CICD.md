@@ -1,36 +1,39 @@
-# CI/CD: auto-deploy `staging` → Rumahweb
+# CI/CD: deploy `staging` → Rumahweb
 
-Alur: **push ke `staging`** → GitHub Actions menjalankan `astro check`, tes, dan build → mengunggah `dist/` lewat **FTPS** ke `public_html/` akun Rumahweb → uji asap pada situs hidup (beranda 200 dan redirect lama 301).
-Workflow: `.github/workflows/deploy.yml` (tombol manual juga ada: Actions > *Deploy (staging → Rumahweb)* > Run workflow).
-Branch lain (`dev`, `main`, PR) hanya menjalankan CI (`ci.yml`), tidak deploy.
+**Status:** FTPS dari GitHub Actions **gagal** (login berhasil, tetapi *"Timeout when trying to open data connection"*: port data pasif diblokir firewall Rumahweb; SFTP/SSH 22/2222 tertutup). Rancangan baru memakai **cPanel API lewat HTTPS (port 2083)**. Belum diuji di server Rumahweb: anggap **eksperimental** sampai satu run berhasil.
 
-## Setup sekali (±10 menit, hanya pemilik repo)
-1. **Buat akun FTP khusus** di cPanel trial (*FTP Accounts*), **bukan** kata sandi cPanel utama:
-   - Username mis. `deploy@malangeducationcenter.com`, kata sandi acak kuat.
-   - **Directory: `public_html`** (agar akun ini hanya bisa menyentuh folder situs, tidak `arsip/`, email, atau berkas lain). Karena akun dibatasi ke `public_html`, root FTP-nya adalah `public_html` itu sendiri, sehingga workflow memakai `server-dir: ./` (bukan `public_html/`, yang akan membuat `public_html/public_html`).
-   - Buka *Configure FTP Client* di baris akun itu: catat **hostname server FTP** (pakai hostname, bukan IP, supaya sertifikat FTPS cocok).
-2. Di GitHub: **Settings > Secrets and variables > Actions > New repository secret**, tambahkan:
-   - `FTP_SERVER` = hostname FTP dari langkah 1
-   - `FTP_USERNAME` = nama akun FTP
-   - `FTP_PASSWORD` = kata sandinya
-3. (Opsional, disarankan) **Settings > Environments > `production` > Required reviewers**: deploy menunggu persetujuanmu. Tanpa ini, setiap push ke `staging` langsung tayang.
-4. Uji: Actions > *Deploy (staging → Rumahweb)* > *Run workflow* (branch `staging`). Hasil yang benar: ketiga job hijau, langkah "Uji asap" lolos.
+## Cara kerja (`.github/workflows/deploy.yml`)
+Push ke `staging` → `build` (astro check, tes, build, buat `dist.zip`, simpan sebagai artefak `dist-zip` 30 hari) → `deploy` (bila secret lengkap):
+1. cek koneksi + token (`Fileman/list_files`), gagal cepat bila port 2083 tertutup atau token salah;
+2. unggah `dist.zip` ke `public_html/_deploy-dist.zip` (`Fileman/upload_files`);
+3. ekstrak di server (API2 `Fileman::fileop op=extract`) dan hapus zip (`op=unlink`);
+4. uji asap: beranda 200 dan memuat "MEC Academy", `/organisasi/` 301, zip sisa 404.
 
-Jika unggahan gagal di tahap koneksi/sertifikat: cek hostname FTP; bila Rumahweb memakai sertifikat yang tidak cocok, tambahkan `security: loose` pada langkah FTP (kurang aman; lebih baik perbaiki hostname).
+**Tanpa secret**, job `deploy` hanya mencatat pesan di ringkasan run dan berakhir hijau. Artefak `dist-zip` tetap tersedia = **jalur manual yang sudah terbukti** (unduh, unggah lewat File Manager, ekstrak ke `public_html`).
 
-## Perilaku yang perlu diketahui
-- Aksi FTP menyimpan `.ftp-deploy-sync-state.json` di `public_html/` dan hanya mengunggah berkas yang berubah. `.htaccess` memblokir akses publik ke berkas itu. **Jangan menghapusnya** dari server (kalau hilang, unggahan berikutnya mengirim ulang semua; tidak merusak).
-- Berkas yang **dihapus dari repo/build** ikut dihapus dari `public_html/` (hanya yang tercatat di berkas status). Berkas lain di `public_html/` yang bukan dari build tidak disentuh.
-- Konkurensi: satu deploy dalam satu waktu (antrian, tidak saling memotong).
-- Artefak `dist` setiap build disimpan 14 hari di tab Actions (bisa diunduh untuk unggah manual).
-- Pekerjaan `quality` di `ci.yml` (Playwright + Lighthouse) belum pernah berjalan di GitHub; bila gagal di tahap Chrome, itu tidak menghentikan deploy karena workflow deploy terpisah.
+## Setup (pemilik; ±10 menit)
+1. cPanel > **Security > Manage API Tokens > Create**: nama `github-deploy`, **isi tanggal kedaluwarsa** (mis. 90 hari). **Token tampil sekali**: salin langsung.
+2. GitHub > Settings > Secrets and variables > Actions, tambahkan:
+   - `CPANEL_HOST`: hostname cPanel server trial (tanpa `https://` dan tanpa port; sama seperti di URL cPanel)
+   - `CPANEL_USER`: username cPanel akun trial
+   - `CPANEL_TOKEN`: token dari langkah 1
+3. (Disarankan) Settings > Environments > `production` > **Required reviewers**: tiap deploy menunggu persetujuan.
+4. Jalankan: push kecil ke `staging`, atau (setelah `deploy.yml` ada di `main`) Actions > *Run workflow*.
+
+> **Trade-off keamanan:** token cPanel mewarisi hak penuh akun (berkas, email, database), lebih luas daripada akun FTP terbatas. Karena itu: kedaluwarsa wajib, simpan hanya di GitHub Secrets, aktifkan reviewer pada environment `production`, cabut dari *Manage API Tokens* bila ragu. Jika trial berpindah paket/server, ganti `CPANEL_HOST`/`CPANEL_USER` dan buat token baru.
+
+## Tombol "Run workflow" tidak muncul
+`workflow_dispatch` hanya tampil bila berkas workflow ada di **branch default** (sekarang `main`, hanya "Initial commit"). Pilihan (keputusan pemilik): (a) gabungkan `staging` ke `main` lewat PR, atau (b) biarkan; deploy tetap otomatis lewat push ke `staging`, dan run ulang bisa lewat Actions > run lama > *Re-run all jobs*.
+
+## Jika langkah cPanel API gagal
+Setiap kegagalan menyebut langkahnya di log. Penyebab yang mungkin: port 2083 diblokir dari IP GitHub; `dir` upload menolak jalur absolut (ganti `dir` menjadi `public_html`); API2 `fileop` dinonaktifkan di server. **Fallback:** artefak `dist-zip` + unggah manual. Alternatif berikutnya bila diperlukan: cPanel *Git Version Control* (cabang `deploy` berisi hasil build, ditarik cPanel).
+
+## Perilaku
+- Ekstraksi **menimpa** berkas; berkas yang dihapus dari build **tidak** ikut terhapus di server (bersihkan manual bila perlu). `public_html` tidak dikosongkan, jadi berkas non-situs aman.
+- Satu deploy dalam satu waktu (`concurrency`), tanpa pemotongan.
+- `public/.htaccess` ikut ter-deploy; error di dalamnya bisa membuat seluruh situs 500, jadi tonton run pertama dan rollback segera bila uji asap merah.
 
 ## Rollback
-- **Cepat:** `git revert <commit>` lalu push ke `staging` → build lama otomatis tayang lagi.
-- **Manual:** unduh artefak `dist` dari run lama (tab Actions) dan unggah lewat File Manager/FTP.
-- **Darurat:** salinan lokal `dist/` dan arsip situs lama ada di laptop; unggah manual ke `public_html/`.
-
-## Keamanan
-- Kata sandi FTP hanya ada di GitHub Secrets (tidak muncul di log). Ganti bila pernah bocor.
-- Akun FTP dibatasi ke `public_html`. Jika akun trial berhenti/pindah paket, **hostname dan akun FTP harus diperbarui**, lalu secret diganti.
-- Repo ini hanya berisi kode situs: tidak ada email, arsip, `.env`, atau kredensial.
+1. **Cepat:** `git revert <commit>` lalu push ke `staging` → build lama tayang lagi (otomatis bila CI/CD aktif).
+2. **Manual:** unduh artefak `dist-zip` dari run lama (tab Actions, 30 hari) atau pakai `dist/` lokal; unggah ke `public_html` lewat File Manager, ekstrak.
+3. **Bila trial/akun hilang:** `docs/RUNBOOK-ROLLBACK.md`.

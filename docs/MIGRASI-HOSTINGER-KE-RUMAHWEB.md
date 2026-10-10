@@ -1,5 +1,22 @@
 # Rencana migrasi Hostinger → Rumahweb (batas aman: Selasa 14 Okt 2026)
 
+## Status terkini (Sabtu 10 Okt 2026, malam)
+| Item | Status |
+|---|---|
+| C0 arsip situs lama, `belajar.` (berkas + DB), `admin.` | **Selesai**, disimpan lokal di luar repo; tinggal dienkripsi (AES-256) pemilik dan disalin ke Drive MEC |
+| C3 sembilan kotak surat di cPanel trial (routing remote) | **Selesai** |
+| C4 DNS tahap 1 + nameserver ke Rumahweb, situs hidup di trial, HTTPS Let's Encrypt (s.d. 8 Jan 2027) | **Selesai** |
+| MX → Rumahweb (zona tahap 2) | **Selesai** pada ns1/ns3/ns4; ns2 menyusul; sebagian resolver masih menyimpan MX lama (maks ±4 jam) |
+| Sinkron IMAP (C5) | **Dibatalkan** (keputusan pemilik): staf memindahkan surat penting sendiri sebelum 15 Okt; surat lama di Hostinger dibiarkan hangus. Hostinger **tidak diperpanjang** |
+| `admin.` dan `belajar.` | Kosong / instalasi baru; **tidak dipindah**, akan offline bersama paket Hostinger |
+| Favicon logo MEC | Ada di `staging`; pemasangan ke server masih manual sampai CI/CD jalan |
+| CI/CD | FTPS **gagal** (port data pasif diblokir firewall Rumahweb; SFTP/SSH tertutup). Dirancang ulang lewat cPanel API (lihat `docs/CICD.md`) |
+
+Risiko tersisa: akun trial ("Free Account") tidak bisa di-upgrade, tanpa jatuh tempo tertulis, daily backup mati; **situs dan 9 email bergantung padanya**. Lihat `docs/RUNBOOK-ROLLBACK.md` dan `docs/TIKET-RUMAHWEB.md`.
+Panduan staf: `docs/PANDUAN-EMAIL-STAF.md`. Search Console: `docs/SEARCH-CONSOLE.md`.
+
+> Bagian di bawah ini adalah rencana awal (riwayat). Bila bertentangan dengan tabel status di atas, **tabel status yang berlaku**.
+
 Direvisi: 2026-10-11 berdasarkan pengecekan hPanel Hostinger dan client zone Rumahweb (read-only).
 Layanan hosting dan email Hostinger **berakhir 15 Okt** (hPanel: "4 hari lagi", auto-renew nonaktif). Pakai **14 Okt** sebagai batas aman, target selesai **Selasa 13 Okt** (H-1).
 Prinsip: **tidak ada yang tersisa di Hostinger** (situs, email, DNS, berkas, dan pihak ketiga yang bergantung padanya).
