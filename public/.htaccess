@@ -52,3 +52,8 @@ Header set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=H
 AddType application/javascript .js
 AddType font/woff2 .woff2
 </IfModule>
+
+# Berkas status CI/CD (FTP-Deploy-Action) tidak boleh diunduh publik
+<Files ".ftp-deploy-sync-state.json">
+  Require all denied
+</Files>
