@@ -37,6 +37,10 @@ Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · P
 - [ ] **Emas dipakai banyak peran** (audit B3) — eyebrow tetap emas mengikuti preview; putuskan apakah dikurangi
 - [ ] **Bukti sosial** (audit E3) — FAQ & chip mitra sudah ada; testimoni & logo mitra belum ada datanya
 
+- [x] Galeri memakai foto master 2048 px (`gallery-01` … `-20`, sebelumnya 1000 px) — commit `bc769d9`. Verifikasi 2026-10-10: `astro check` 0 error, 10 tes lolos, build 44 halaman, audit 0 pelanggaran; peringatan tetap 5 (event-ppa terpotong ×2, event-komatsu & classroom di-upscale ×3), karena galeri memang tidak termasuk peringatan.
+- [ ] Migrasi Hostinger → Rumahweb sebelum **14 Okt 2026** — rencana & checklist: `docs/MIGRASI-HOSTINGER-KE-RUMAHWEB.md`; cadangan situs lama: `node scripts/backup-old-site.mjs`
+- [ ] Persyaratan peserta dari situs lama (`/syarat-in-class`) belum ada di situs baru — konfirmasi MEC, lalu masukkan ke Tahapan/FAQ
+
 ## Menunggu data / keputusan dari klien
 - [x] Domain: `malangeducationcenter.com` (sudah dipasang di config)
 - [ ] **Foto asli resolusi tinggi dari MEC** (foto lebar ≥1600px, potret instruktur ≥600px) — sumber sekarang thumbnail PDF (475–734px), buram di layar retina (audit C2). Setelah masuk: jalankan ulang `npm run extract`/ganti file di `src/assets/images/`

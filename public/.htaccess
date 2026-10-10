@@ -17,6 +17,9 @@ RewriteRule ^galeri/?$         /fasilitas/ [L,R=301]
 RewriteRule ^alumni/?$         /industri/ [L,R=301]
 RewriteRule ^hubungi-kami/?$   /kontak/ [L,R=301]
 RewriteRule ^learning/?$       /program/basic-mechanic-course/ [L,R=301]
+RewriteRule ^syarat-in-class/?$  /tahapan-seleksi/ [L,R=301]
+# Halaman contoh bawaan templat Hostinger yang ikut terindeks (produk dll.) -> 410 Gone agar keluar dari indeks Google
+RewriteRule ^(classic-cap-hpeszv|creative-course-session|face-serum-gxrcld|group-fitness-class|handmade-vase-slowpy|hand-soap-giguos|individual-coaching-session|intro-language-tutoring-session|set-of-plates-cxlzwx|sunglasses-iubjnq|wooden-chair-mopukh|wool-sweater-lortoo|the-first-90-days-postpartum-.*)/?$ - [G,L]
 # /assessment sudah sama; garis miring penutup ditambahkan otomatis oleh Apache (mod_dir)
 </IfModule>
 

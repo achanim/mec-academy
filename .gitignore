@@ -5,3 +5,4 @@ dist
 MEC_UI_Preview.html
 reports/lighthouse/
 reports/audit.json
+backup/
