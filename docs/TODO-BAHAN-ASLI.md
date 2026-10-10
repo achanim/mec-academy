@@ -58,7 +58,7 @@ Sumber: `Company Profile MEC ACADEMY.pdf` (16 halaman). Pemetaan halaman (dari `
 - [ ] **Video company profile**: YouTube `ZV39to3Qfz8` — tautan dari pengguna; konfirmasi masih benar dan boleh disematkan.
 - [ ] **Sumber riset** `src/data/research.json` (ditinjau 2026-09-15) dan bagian "Arah vokasi 2026" di beranda (kutipan Kemenko PMK, 9 Sep 2026, serta United Tractors 3 Sep 2026): buka tautannya, pastikan masih aktif dan ringkasannya akurat.
 - [ ] **Tautan sosial** (Facebook, Instagram, LinkedIn) dari situs lama `malangeducationcenter.com`: kumpulkan URL resmi (belum ada di situs baru).
-- [ ] **Portal assessment** `malangeducationcentreacademy.my.id/assessment/`: konfirmasi URL, dan hosting-nya jatuh tempo **19 Okt 2026** (Auto Renew OFF).
+- [ ] **Portal assessment** `malangeducationcentreacademy.my.id/assessment/`: konfirmasi URL, dan hosting-nya jatuh tempo **19 Nov 2026** (Auto Renew OFF).
 - [ ] **Situs lama (Hostinger)**: salin teks/foto yang mungkin tidak ada di PDF (halaman Organisasi, Galeri, Alumni, Learning) sebelum dimatikan.
 
 ## 4. Setelah file asli masuk

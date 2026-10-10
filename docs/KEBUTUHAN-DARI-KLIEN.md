@@ -6,7 +6,7 @@ Diperbarui: 2026-10-02. Sesuai asumsi proposal Paket Ringkas: bahan diserahkan *
 1. **[Wajib] Akses DNS di Hostinger** (hPanel > Domains > DNS Zone), atau screenshot lengkap daftar record DNS (A, CNAME, MX, **TXT**). Dipakai untuk mengubah A record `malangeducationcenter.com` tanpa mengganggu email.
 2. **[Wajib] Akses hosting Rumahweb**: login cPanel (atau akun FTP) untuk paket yang dipakai, serta keputusan: trial `Unlimited M (Trial)` dijadikan berbayar, atau domain ditambahkan ke `Unlimited M` milik portal assessment.
 3. **[Wajib] Keputusan email domain**: email `@malangeducationcenter.com` ada di Hostinger. Pastikan paket Hostinger tidak dihentikan sebelum email aman.
-4. **[Urgent] Bayar / aktifkan Auto Renew** hosting `malangeducationcentreacademy.my.id` (portal assessment): jatuh tempo **19 Okt 2026**, Auto Renew sekarang OFF.
+4. **[Penting] Bayar / aktifkan Auto Renew** hosting `malangeducationcentreacademy.my.id` (portal assessment): jatuh tempo **19 Nov 2026**, Auto Renew sekarang OFF.
 5. **[Disarankan] Satu penanggung jawab** dari MEC yang memberi umpan balik maksimal 2 hari kerja.
 
 ## B. Foto & gambar
