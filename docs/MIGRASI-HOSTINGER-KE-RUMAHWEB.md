@@ -11,8 +11,8 @@ Prinsip: **tidak ada yang tersisa di Hostinger** (situs, email, DNS, berkas, dan
 | # | Komponen | Kondisi | Tindakan |
 |---|---|---|---|
 | 1 | **Situs utama** `malangeducationcenter.com` (AI/Website Builder) | 20 URL di sitemap: 8 halaman asli (`/`, `/organisasi`, `/galeri`, `/alumni`, `/hubungi-kami`, `/assessment`, `/learning`, `/syarat-in-class`) + 12 halaman contoh bawaan templat yang ikut terindeks | Cadangkan, ganti situs baru, redirect/410 (`public/.htaccess`) |
-| 2 | **Subdomain `admin.`** | WordPress (PHP 8.3), hanya "Default page"; kemungkinan tidak dipakai. DNS: ALIAS ke `connect.hostinger.com` | Konfirmasi MEC; cek isi; pindah / arahkan / matikan |
-| 3 | **Subdomain `belajar.`** | WordPress (PHP 7.4) mengembalikan **HTTP 500** (rusak). Tidak ada record DNS-nya, tetapi terdaftar sebagai website di paket | Konfirmasi MEC; **ekspor file + database** sebelum paket mati (belum diperiksa isinya); pindah / matikan |
+| 2 | **Subdomain `admin.`** | WordPress (PHP 8.3, dibuat Feb 2026), hanya "Default page"; ada database dan backup harian. DNS: ALIAS ke `connect.hostinger.com` | **Rencana: arsipkan backup, lalu matikan**; hapus `admin` dari zona baru (menunggu konfirmasi MEC) |
+| 3 | **Subdomain `belajar.`** | Skrip LMS/sekolah **komersial** (CodeIgniter 4) yang dipasang Jul 2026; **HTTP 500** (kemungkinan PHP 7.4 terlalu rendah, belum terverifikasi); tidak ada record DNS-nya (tidak pernah tayang publik); ada database + backup harian. `.env` sudah diblokir dari web (403) | **Rencana: arsipkan berkas + database (jangan dibuka, jangan ke git), jangan dipindah.** Pindah hanya bila MEC memastikan akan dipakai dan lisensinya jelas; itu bisa dikerjakan setelah deadline karena arsip sudah aman |
 | 4 | **Gambar situs lama** | 153 berkas (±60 MB) di `assets.zyrosite.com` (CDN Hostinger), hilang saat layanan mati | `node scripts/backup-old-site.mjs` |
 | 5 | **Email** (paket "Free Business Email" ikut hosting) | **9 kotak surat, total ±78 MB**, hampir semuanya di kotak surat operasional; sisanya kecil | Buat ulang di Rumahweb, salin isi (IMAP) |
 | 6 | **DNS zone** | NS `ns1/ns2.dns-parking.com` | Bangun ulang di Rumahweb (lihat §3), ganti NS |
@@ -40,7 +40,8 @@ Tidak ada AAAA manual (yang terlihat di pencarian publik hanya hasil ALIAS), tid
 ## 2. Prasyarat H0 (harus selesai SEBELUM nameserver diganti)
 - [ ] **Jadikan hosting Rumahweb berbayar.** Sekarang situs utama hanya di `Unlimited M (Trial)` gratis tanpa jatuh tempo; jangan memindahkan DNS ke layanan trial yang bisa berubah. Pilihan: ubah trial menjadi paket berbayar, atau tambahkan domain ke `Unlimited M` milik portal assessment.
 - [ ] Catat **IP server** hosting, dan isi **Nameserver Setting** Rumahweb (client zone > Domain > Nameserver Setting) yang akan dipakai.
-- [ ] Putuskan nasib `admin.` dan `belajar.` (pindah / arahkan ke situs utama / matikan) bersama MEC. Apa pun keputusannya, **cadangkan file dan database `belajar.`** dulu (File Manager + phpMyAdmin/Export).
+- [ ] **Arsipkan `admin.` dan `belajar.` sebelum Selasa 13 Okt**, apa pun keputusannya: ekspor database + unduh berkas dari hPanel, simpan **terenkripsi dan offline/Drive MEC**, **jangan masuk repo git**, jangan membuka `.env` (memuat kredensial; ganti sandi DB bila arsip pernah dibagikan). Backup harian Hostinger ikut hilang saat paket berakhir.
+- [ ] Keputusan MEC (pertanyaan terbuka): (a) apakah `belajar.` masih dipakai/direncanakan; (b) siapa pemegang lisensi skrip komersialnya (bukti beli, kunci lisensi, apakah boleh dipasang di server lain); (c) `admin.` setuju dimatikan.
 - [ ] Minta akses hPanel (ekspor formulir/analitik, daftar forwarder) bila belum.
 
 ## 3. Aturan DNS
