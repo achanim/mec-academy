@@ -1,5 +1,7 @@
 # TODO tim lokal (Claude in Chrome): cek dan eksekusi migrasi Hostinger → Rumahweb
 
+> **Status 10 Okt malam:** C0, C3, C4, dan MX selesai. **C5 (IMAP) dibatalkan**: staf memindahkan surat sendiri (lihat `docs/PANDUAN-EMAIL-STAF.md`). Sisa kerja lokal di bagian "Sisa" paling bawah.
+
 Konteks lengkap: `docs/MIGRASI-HOSTINGER-KE-RUMAHWEB.md` (inventaris, aturan DNS, jadwal, verifikasi). Dokumen ini hanya daftar kerja untuk sesi lokal yang bisa membuka hPanel Hostinger dan client zone/cPanel Rumahweb lewat browser.
 Batas: Hostinger berakhir **15 Okt**, pakai **Selasa 14 Okt** sebagai batas aman, target selesai **13 Okt**.
 
@@ -55,10 +57,10 @@ Urutan dan alasannya ada di dokumen migrasi §4. Tiap langkah: minta persetujuan
 - [x] Ganti nameserver (Nameserver Setting) ke NS Rumahweb; catat waktunya.
 - [x] Segera **Run AutoSSL** (cPanel → SSL/TLS Status) sampai gembok hijau (situs lama mengirim HSTS).
 
-**C5. Email tahap 2 (Senin 12 Okt)**
-- [ ] Salin isi semua kotak surat via IMAP (sumber `imap.hostinger.com:993`) ke server mail Rumahweb. **Syarat lanjut:** jumlah pesan per folder sama di ke-9 kotak surat.
-- [ ] Ubah MX ke server mail Rumahweb; SPF baru `v=spf1 +a +mx +ip4:<IP server> ~all`; aktifkan DKIM; hapus CNAME DKIM/autodiscover/autoconfig Hostinger.
-- [ ] Uji kirim/terima dua arah (Gmail, Outlook); cek skor mail-tester; bantu staf mengatur ulang klien email.
+**C5. ~~Email tahap 2 / sinkron IMAP~~: DIBATALKAN (keputusan pemilik)**
+- MX sudah dipindah ke Rumahweb (zona tahap 2). Surat lama di Hostinger tidak disalin oleh tim; **staf memindahkan surat penting sendiri sebelum 15 Okt** (Thunderbird/forward).
+- [ ] Atur sandi 9 kotak surat dan kirim pengumuman ke staf (`docs/PANDUAN-EMAIL-STAF.md`).
+- [ ] Uji kirim/terima dua arah (Gmail, Outlook), cek mail-tester; pastikan ns2 sinkron dan tak ada surat terdampar.
 
 **C6. Penutupan (Selasa 13 Okt)**
 - [ ] Sinkron IMAP susulan; ekspor terakhir dari Hostinger (formulir, forwarder, analitik).
@@ -89,3 +91,11 @@ Hasil: <angka/status; tanpa nama kotak surat, sandi, isi .env>
 Status: OK | perlu keputusan | blokir
 Butuh persetujuan: <langkah C berikutnya + alasan>
 ```
+
+## Sisa (diperbarui 10 Okt malam)
+- [ ] Atur sandi 9 kotak surat, kirim pengumuman staf.
+- [ ] Ekstrak 3 zip favicon di `public_html`, hapus zip dan `favicon.svg` lama (atau cukup deploy lewat CI/CD setelah siap).
+- [ ] Enkripsi arsip lokal AES-256, salin ke Drive MEC.
+- [ ] Kirim tiket Rumahweb (`docs/TIKET-RUMAHWEB.md`); verifikasi Search Console (`docs/SEARCH-CONSOLE.md`).
+- [ ] Selasa 13 Okt: ns2 sinkron, MX di semua resolver, kirim/terima dua arah, mail-tester.
+- [ ] CI/CD: buat API Token cPanel, pasang secret (`docs/CICD.md`).
