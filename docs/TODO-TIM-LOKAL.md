@@ -49,11 +49,11 @@ Urutan dan alasannya ada di dokumen migrasi §4. Tiap langkah: minta persetujuan
 **C3. Email tahap 1 (persiapan)**
 - [ ] Buat 9 kotak surat yang sama di cPanel Rumahweb (sandi sementara, diberikan lewat kanal aman, bukan repo).
 
-**C4. DNS tahap 1 dan nameserver (batas malam Minggu 11 Okt; zona Hostinger tetap hidup)**
-- [ ] Zone Editor cPanel: `A @` → IP server, `www` CNAME → `@`, tanpa AAAA; salin MX, SPF, `_dmarc`, 3 CNAME DKIM, `autodiscover`, `autoconfig` persis seperti Hostinger (dokumen §3). `admin` tidak dibuat (rencana: dimatikan).
-- [ ] Cocokkan zona baru dengan hasil B2, baris per baris, **sebelum** mengganti NS.
-- [ ] Ganti nameserver (Nameserver Setting) ke NS Rumahweb; catat waktunya.
-- [ ] Segera **Run AutoSSL** (cPanel → SSL/TLS Status) sampai gembok hijau (situs lama mengirim HSTS).
+**C4. DNS tahap 1 dan nameserver: SELESAI Sab 10 Okt ±16.00–16.20 WIB** (NS Rumahweb aktif di 1.1.1.1 dan 8.8.8.8; A `.com` → server trial; MX/SPF/DKIM masih Hostinger; AutoSSL terbit, berlaku s.d. 8 Jan 2027; redirect dan 410 lolos). Propagasi NS bisa sampai 48 jam: sebagian resolver masih bisa melihat situs lama di Hostinger. **Jangan biarkan Hostinger lapse sebelum 14 Okt.**
+- [x] Zone Editor cPanel: `A @` → IP server, `www` CNAME → `@`, tanpa AAAA; salin MX, SPF, `_dmarc`, 3 CNAME DKIM, `autodiscover`, `autoconfig` persis seperti Hostinger (dokumen §3). `admin` tidak dibuat (rencana: dimatikan).
+- [x] Cocokkan zona baru dengan hasil B2, baris per baris, **sebelum** mengganti NS.
+- [x] Ganti nameserver (Nameserver Setting) ke NS Rumahweb; catat waktunya.
+- [x] Segera **Run AutoSSL** (cPanel → SSL/TLS Status) sampai gembok hijau (situs lama mengirim HSTS).
 
 **C5. Email tahap 2 (Senin 12 Okt)**
 - [ ] Salin isi semua kotak surat via IMAP (sumber `imap.hostinger.com:993`) ke server mail Rumahweb. **Syarat lanjut:** jumlah pesan per folder sama di ke-9 kotak surat.
