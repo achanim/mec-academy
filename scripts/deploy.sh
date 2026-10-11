@@ -38,7 +38,7 @@ npm run build
 test -f dist/index.html && test -f dist/.htaccess || { echo "dist/ tidak lengkap (index.html/.htaccess)" >&2; exit 1; }
 
 echo "==> unggah dist/ ke ${FTP_HOST}:${FTP_DIR}"
-flags="--reverse --only-newer --parallel=4 --no-perms"
+flags="--reverse --only-newer --parallel=2 --no-perms"
 [ "${DRY_RUN:-0}" = 1 ] && flags="$flags --dry-run"
 # Tanpa --delete: berkas yang dihapus dari build tidak ikut terhapus di server.
 # Sandi tidak boleh muncul di log: samarkan URL kredensial pada keluaran.
@@ -48,6 +48,8 @@ set ftp:ssl-protect-data true
 set ftp:passive-mode true
 set net:timeout 30
 set net:max-retries 3
+set net:connection-limit 2
+set net:reconnect-interval-base 5
 lcd dist
 cd "$FTP_DIR"
 mirror $flags . .

@@ -16,7 +16,7 @@ npm run deploy
 Skrip (`scripts/deploy.sh`):
 1. `npm run check` dan `npm test` (lewati dengan `SKIP_CHECKS=1`);
 2. `npm run build` (termasuk indeks Pagefind) dan memastikan `dist/index.html` + `dist/.htaccess` ada;
-3. mengunggah `dist/` ke `public_html` lewat FTPS (`lftp mirror`, hanya berkas yang lebih baru, 4 koneksi paralel);
+3. mengunggah `dist/` ke `public_html` lewat FTPS (`lftp mirror`, hanya berkas yang lebih baru, 2 koneksi paralel; server membatasi koneksi per IP);
 4. uji asap: beranda 200 dan memuat "MEC Academy", lalu status `/faq/` dan `/organisasi/` ditampilkan.
 
 Coba tanpa mengunggah: `DRY_RUN=1 npm run deploy`.
