@@ -1,0 +1,11 @@
+# Pengelola foto alumni: bukan halaman publik
+DirectoryIndex index.php
+Options -Indexes
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive"
+  Header set Cache-Control "no-store"
+</IfModule>
+# Berkas di folder ini yang tidak boleh dibuka lewat web
+<FilesMatch "^(config\.php|BUAT-SANDI\.txt)$">
+  Require all denied
+</FilesMatch>

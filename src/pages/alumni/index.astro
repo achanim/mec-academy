@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import Page from '../../components/Page.astro';
+import { img, pos } from '../../lib/images';
+import { waLink } from '../../lib/site';
+import content from '../../data/content.json';
+const companies = [...new Set(content.events.map((e) => e.company))];
+const fallback = [['alumni', 'Alumni MEC Academy bersama unit alat berat'], ['alumni2', 'Alumni MEC Academy di lokasi kerja']] as const;
+---
+<Page title="Alumni MEC Academy" image="alumni" imageAlt="Alumni MEC Academy bersama unit alat berat" eyebrow="From training to industry" description="Alumni Basic Mechanic Course melanjutkan perjalanan lewat On the Job Training dan kegiatan bersama pelaku industri alat berat.">
+  <div class="grid gap-10 md:grid-cols-[1fr_340px]">
+    <div>
+      <p class="max-w-2xl text-lg">Alumni siswa BMC telah memenuhi kebutuhan mekanik dari berbagai perusahaan yang bergerak di bidang industri alat berat. On the Job Training mengembangkan keterampilan, wawasan, mental kerja, dan kemampuan berorganisasi dalam perusahaan.</p>
+      <p class="mt-4 max-w-2xl text-sm text-sage">Foto dan kegiatan di halaman ini adalah dokumentasi, bukan jaminan penempatan kerja.</p>
+    </div>
+    <dl class="metrics-box grid grid-cols-2 gap-4">
+      <div class="border border-line p-4"><dt class="text-xs text-sage">{content.metrics.alumni_note}</dt><dd class="font-display text-5xl">{content.metrics.alumni}</dd></div>
+      <div class="border border-line p-4"><dt class="text-xs text-sage">{content.metrics.batch_note}</dt><dd class="font-display text-5xl">{content.metrics.batch}</dd></div>
+    </dl>
+  </div>
+
+  <h2 id="galeri" class="mb-6 mt-16 scroll-mt-28 text-4xl">Galeri alumni</h2>
+  <!-- Galeri dimuat dari /alumni-foto/manifest.json (dikelola admin MEC). Foto bawaan di bawah tampil bila galeri belum diisi atau JavaScript mati. -->
+  <ul id="alumni-gallery" class="grid grid-cols-2 gap-4 md:grid-cols-4" data-manifest="/alumni-foto/manifest.json">
+    {fallback.map(([a, alt]) => <li><button type="button" class="gallery-btn" data-caption={alt} aria-label={`Perbesar foto: ${alt}`}><Image src={img(a)} alt={alt} widths={[480, 800]} sizes="(min-width:768px) 25vw, 50vw" loading="lazy" style={pos(a)} /></button></li>)}
+  </ul>
+  <p id="alumni-empty" class="mt-4 text-sm text-sage" hidden></p>
+
+  <h2 class="mb-4 mt-16 text-3xl">Kegiatan bersama perusahaan</h2>
+  <ul class="flex flex-wrap gap-3">{companies.map((c) => <li class="border border-line px-4 py-2 text-sm">{c}</li>)}</ul>
+  <p class="mt-4 text-xs text-sage">Dokumentasi kunjungan dan penyerahan komponen. Lihat selengkapnya di halaman <a class="text-gold underline" href="/industri/">Industri</a>.</p>
+
+  <div class="mt-14 flex flex-wrap items-center gap-6">
+    <a class="btn" href={waLink('Halo MEC Academy, saya ingin bertanya tentang alumni dan alur On the Job Training BMC.')} target="_blank" rel="noopener">Tanya alur BMC &amp; OJT <span aria-hidden="true">↗</span></a>
+    <a class="text-link" href="/tahapan-seleksi/">Lihat tahapan BMC <span aria-hidden="true">↗</span></a>
+  </div>
+
+  <dialog id="lightbox" class="lightbox" aria-label="Foto alumni"><button type="button" class="close-dialog" aria-label="Tutup">×</button><img alt="" /><p></p></dialog>
+  <script>
+    const list = document.getElementById('alumni-gallery') as HTMLUListElement;
+    const dlg = document.getElementById('lightbox') as HTMLDialogElement;
+    const im = dlg.querySelector('img')!; const cap = dlg.querySelector('p')!;
+    const OK = /^(img|thumb)\/[a-f0-9]{16}\.jpg$/;   // hanya nama berkas yang dibuat pengelola foto
+    function open(src: string, caption: string) { im.src = src; im.alt = caption; cap.textContent = caption; dlg.showModal(); }
+    list.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('.gallery-btn'); if (!b) return;
+      const full = b.dataset.full ?? b.querySelector('img')!.currentSrc ?? b.querySelector('img')!.src;
+      open(full, b.dataset.caption ?? '');
+    });
+    dlg.querySelector('.close-dialog')!.addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    (async () => {
+      try {
+        const r = await fetch(`${list.dataset.manifest}?t=${Date.now()}`, { cache: 'no-store' });
+        if (!r.ok) return;
+        const m = await r.json();
+        const items = (Array.isArray(m.items) ? m.items : []).filter((x: any) => x && OK.test(x.file) && OK.test(x.thumb));
+        if (!items.length) return;                         // galeri kosong: biarkan foto bawaan
+        const frag = document.createDocumentFragment();
+        for (const x of items) {
+          const li = document.createElement('li'); const b = document.createElement('button');
+          b.type = 'button'; b.className = 'gallery-btn';
+          const caption = typeof x.caption === 'string' && x.caption ? x.caption.slice(0, 140) : 'Alumni MEC Academy';
+          b.dataset.full = `/alumni-foto/${x.file}`; b.dataset.caption = caption; b.setAttribute('aria-label', `Perbesar foto: ${caption}`);
+          const i = document.createElement('img');
+          i.src = `/alumni-foto/${x.thumb}`; i.alt = caption; i.loading = 'lazy'; i.decoding = 'async';
+          if (Number.isFinite(x.w) && Number.isFinite(x.h) && x.w > 0 && x.h > 0) { i.width = Math.min(+x.w, 2000); i.height = Math.min(+x.h, 2000); }
+          b.append(i); li.append(b);
+          if (typeof x.caption === 'string' && x.caption) { const fc = document.createElement('p'); fc.className = 'mt-2 text-xs text-sage'; fc.textContent = caption; li.append(fc); }
+          frag.append(li);
+        }
+        list.replaceChildren(frag);
+      } catch { /* biarkan foto bawaan */ }
+    })();
+  </script>
+</Page>

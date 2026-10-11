@@ -14,7 +14,6 @@ RewriteRule ^ https://malangeducationcenter.com%{REQUEST_URI} [L,R=301]
 # 2. Alamat lama (situs Hostinger/Zyro) -> alamat baru
 RewriteRule ^organisasi/?$     /tentang/ [L,R=301]
 RewriteRule ^galeri/?$         /fasilitas/ [L,R=301]
-RewriteRule ^alumni/?$         /industri/ [L,R=301]
 RewriteRule ^hubungi-kami/?$   /kontak/ [L,R=301]
 RewriteRule ^learning/?$       /program/basic-mechanic-course/ [L,R=301]
 RewriteRule ^syarat-in-class/?$  /tahapan-seleksi/ [L,R=301]
