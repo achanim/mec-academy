@@ -1,39 +1,52 @@
-# CI/CD: deploy `staging` → Rumahweb
+# Deploy ke Rumahweb
 
-**Status:** FTPS dari GitHub Actions **gagal** (login berhasil, tetapi *"Timeout when trying to open data connection"*: port data pasif diblokir firewall Rumahweb; SFTP/SSH 22/2222 tertutup). Rancangan baru memakai **cPanel API lewat HTTPS (port 2083)**. Belum diuji di server Rumahweb: anggap **eksperimental** sampai satu run berhasil.
+**Keputusan:** deploy dilakukan dari mesin lokal dengan `npm run deploy` (FTPS). Deploy dari GitHub Actions tidak mungkin di hosting ini:
 
-## Cara kerja (`.github/workflows/deploy.yml`)
-Push ke `staging` → `build` (astro check, tes, build, buat `dist.zip`, simpan sebagai artefak `dist-zip` 30 hari) → `deploy` (bila secret lengkap):
-1. cek koneksi + token (`Fileman/list_files`), gagal cepat bila port 2083 tertutup atau token salah;
-2. unggah `dist.zip` ke `public_html/_deploy-dist.zip` (`Fileman/upload_files`);
-3. ekstrak di server (API2 `Fileman::fileop op=extract`) dan hapus zip (`op=unlink`);
-4. uji asap: beranda 200 dan memuat "MEC Academy", `/organisasi/` 301, zip sisa 404.
+| Jalur | Hasil |
+|---|---|
+| FTPS dari GitHub | Login berhasil, tetapi *"Timeout when trying to open data connection"* (port data pasif diblokir firewall untuk IP GitHub) |
+| SSH/rsync | Port 22 ditolak (*Connection refused*), 2222/7822 timeout |
+| cPanel API Token | Menu *Manage API Tokens* tidak tersedia (juga di akun non-trial) |
 
-**Tanpa secret**, job `deploy` hanya mencatat pesan di ringkasan run dan berakhir hijau. Artefak `dist-zip` tetap tersedia = **jalur manual yang sudah terbukti** (unduh, unggah lewat File Manager, ekstrak ke `public_html`).
+## Deploy rutin
+```bash
+git checkout main && git pull
+npm run deploy
+```
+Skrip (`scripts/deploy.sh`):
+1. `npm run check` dan `npm test` (lewati dengan `SKIP_CHECKS=1`);
+2. `npm run build` (termasuk indeks Pagefind) dan memastikan `dist/index.html` + `dist/.htaccess` ada;
+3. mengunggah `dist/` ke `public_html` lewat FTPS (`lftp mirror`, hanya berkas yang lebih baru, 4 koneksi paralel);
+4. uji asap: beranda 200 dan memuat "MEC Academy", lalu status `/faq/` dan `/organisasi/` ditampilkan.
 
-## Setup (pemilik; ±10 menit)
-1. cPanel > **Security > Manage API Tokens > Create**: nama `github-deploy`, **isi tanggal kedaluwarsa** (mis. 90 hari). **Token tampil sekali**: salin langsung.
-2. GitHub > Settings > Secrets and variables > Actions, tambahkan:
-   - `CPANEL_HOST`: hostname cPanel server trial (tanpa `https://` dan tanpa port; sama seperti di URL cPanel)
-   - `CPANEL_USER`: username cPanel akun trial
-   - `CPANEL_TOKEN`: token dari langkah 1
-3. (Disarankan) Settings > Environments > `production` > **Required reviewers**: tiap deploy menunggu persetujuan.
-4. Jalankan: push kecil ke `staging`, atau (setelah `deploy.yml` ada di `main`) Actions > *Run workflow*.
+Coba tanpa mengunggah: `DRY_RUN=1 npm run deploy`.
 
-> **Trade-off keamanan:** token cPanel mewarisi hak penuh akun (berkas, email, database), lebih luas daripada akun FTP terbatas. Karena itu: kedaluwarsa wajib, simpan hanya di GitHub Secrets, aktifkan reviewer pada environment `production`, cabut dari *Manage API Tokens* bila ragu. Jika trial berpindah paket/server, ganti `CPANEL_HOST`/`CPANEL_USER` dan buat token baru.
+Nilai di `.env.deploy` dibaca sebagai teks, jadi sandi boleh berisi `;`, `#`, `$`. Variabel lingkungan yang diberikan di command line diutamakan.
 
-## Tombol "Run workflow" tidak muncul
-`workflow_dispatch` hanya tampil bila berkas workflow ada di **branch default** (sekarang `main`, hanya "Initial commit"). Pilihan (keputusan pemilik): (a) gabungkan `staging` ke `main` lewat PR, atau (b) biarkan; deploy tetap otomatis lewat push ke `staging`, dan run ulang bisa lewat Actions > run lama > *Re-run all jobs*.
-
-## Jika langkah cPanel API gagal
-Setiap kegagalan menyebut langkahnya di log. Penyebab yang mungkin: port 2083 diblokir dari IP GitHub; `dir` upload menolak jalur absolut (ganti `dir` menjadi `public_html`); API2 `fileop` dinonaktifkan di server. **Fallback:** artefak `dist-zip` + unggah manual. Alternatif berikutnya bila diperlukan: cPanel *Git Version Control* (cabang `deploy` berisi hasil build, ditarik cPanel).
+## Setup sekali saja
+1. `brew install lftp`
+2. Buat `.env.deploy` di akar repo (sudah diabaikan git lewat `.env*`; jangan di-commit):
+   ```
+   FTP_HOST=gede.iixcp.rumahweb.net   # hostname server; sertifikat TLS-nya valid. ftp.<domain> TIDAK cocok dengan sertifikat
+   FTP_USER=<akun FTP deploy, mis. deploy@malangeducationcenter.com>
+   FTP_PASS=<sandi akun tersebut>
+   ```
+   Opsional: `FTP_DIR` (bawaan `./`, karena akun dibatasi ke `public_html`), `SITE_URL`.
+3. Pastikan akun FTP tersebut tetap ada di cPanel (jangan dihapus).
 
 ## Perilaku
-- Ekstraksi **menimpa** berkas; berkas yang dihapus dari build **tidak** ikut terhapus di server (bersihkan manual bila perlu). `public_html` tidak dikosongkan, jadi berkas non-situs aman.
-- Satu deploy dalam satu waktu (`concurrency`), tanpa pemotongan.
-- `public/.htaccess` ikut ter-deploy; error di dalamnya bisa membuat seluruh situs 500, jadi tonton run pertama dan rollback segera bila uji asap merah.
+- Tanpa `--delete`: berkas yang dihapus dari build **tidak** ikut terhapus di server (bersihkan manual bila perlu); berkas non-situs di `public_html` aman.
+- Koneksi memaksa TLS (`ftp:ssl-force`). Sertifikat server hanya valid untuk hostname server (`gede.iixcp.rumahweb.net`), bukan `ftp.<domain>`.
+- Jalankan dari jaringan yang tidak memblokir port FTP dan data pasif. Bila diblokir (kantor, tethering), pakai jalur cadangan.
+- `public/.htaccess` ikut ter-deploy; error di dalamnya bisa membuat seluruh situs 500, jadi perhatikan uji asap dan rollback segera bila merah.
+
+## Jalur cadangan (manual)
+Actions > *Build artefak (deploy manual)* > *Run workflow* menghasilkan artefak `dist-zip` (30 hari). Unduh, unggah ke `public_html` lewat File Manager, lalu ekstrak. Atau pakai `dist/` hasil `npm run build` lokal.
+
+## CI
+`ci.yml` tetap menjalankan check, test, build, dan audit pada push/PR. `deploy.yml` kini hanya manual dan tidak men-deploy.
 
 ## Rollback
-1. **Cepat:** `git revert <commit>` lalu push ke `staging` → build lama tayang lagi (otomatis bila CI/CD aktif).
-2. **Manual:** unduh artefak `dist-zip` dari run lama (tab Actions, 30 hari) atau pakai `dist/` lokal; unggah ke `public_html` lewat File Manager, ekstrak.
-3. **Bila trial/akun hilang:** `docs/RUNBOOK-ROLLBACK.md`.
+1. **Cepat:** `git revert <commit>`, lalu `npm run deploy`.
+2. **Manual:** artefak `dist-zip` dari run lama atau `dist/` lokal, unggah lewat File Manager dan ekstrak.
+3. **Bila akun hilang:** `docs/RUNBOOK-ROLLBACK.md`.

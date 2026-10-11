@@ -13,7 +13,8 @@
     "start": "astro preview --host",
     "audit:lh": "node scripts/lighthouse.mjs",
     "audit:site": "node scripts/audit.mjs",
-    "audit": "npm run audit:site && npm run audit:lh"
+    "audit": "npm run audit:site && npm run audit:lh",
+    "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
