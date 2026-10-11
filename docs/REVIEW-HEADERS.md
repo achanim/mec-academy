@@ -26,7 +26,7 @@ Header always set Cross-Origin-Opener-Policy "same-origin"
 `Permissions-Policy` sudah menutup kamera, mikrofon, geolokasi. Hindari `Cross-Origin-Embedder-Policy` (merusak iframe YouTube).
 
 ## 4. Hal lain di `.htaccess`
-- Blokir berkas status CI/CD sudah ada (`.ftp-deploy-sync-state.json`); aman dibiarkan, tidak mengganggu rancangan baru.
+- Blok `.ftp-deploy-sync-state.json` sudah dihapus (FTP-Deploy-Action tidak dipakai lagi). **Blok handler PHP dari cPanel harus dipertahankan.**
 - Tambahkan penolakan berkas tersembunyi/sensitif (jaring pengaman bila ada yang terunggah tak sengaja):
 ```apache
 <FilesMatch "^\.(?!well-known)|\.(env|log|sql|bak|zip)$">

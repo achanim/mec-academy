@@ -6,6 +6,6 @@ Options -Indexes
   Header set Cache-Control "no-store"
 </IfModule>
 # Berkas di folder ini yang tidak boleh dibuka lewat web
-<FilesMatch "^(config\.php|BUAT-SANDI\.txt)$">
+<FilesMatch "^(config\.php|BUAT-SANDI\.txt|app\.php)$">
   Require all denied
 </FilesMatch>

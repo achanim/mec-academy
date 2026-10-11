@@ -12,6 +12,8 @@
 | Favicon logo MEC | Ada di `staging`; pemasangan ke server masih manual sampai CI/CD jalan |
 | CI/CD | FTPS **gagal** (port data pasif diblokir firewall Rumahweb; SFTP/SSH tertutup). Dirancang ulang lewat cPanel API (lihat `docs/CICD.md`) |
 
+**Verifikasi publik 11 Okt (DNS Google):** NS = ns1–ns4 Rumahweb; `A @` = server trial; **MX = `0 malangeducationcenter.com.`** (MX lokal bawaan cPanel, sah karena `A @` menunjuk ke server mail yang sama; pantau bila `A @` pernah dipindah); SPF `v=spf1 +a +mx +ip4:<server> ~all`; DMARC `p=none`; DKIM `default._domainkey` ada; CNAME Hostinger (`hostingermail-*`, `autodiscover`, `autoconfig`) sudah tidak ada; `webmail.` dan `mail.` mengarah ke server. `/alumni/` dan `/kelola-foto/` hidup (`noindex`); `config.php` 403. Sertifikat webmail/mail dan uji kirim-terima dua arah masih perlu dicek (Selasa 13 Okt).
+
 Risiko tersisa: akun trial ("Free Account") tidak bisa di-upgrade, tanpa jatuh tempo tertulis, daily backup mati; **situs dan 9 email bergantung padanya**. Lihat `docs/RUNBOOK-ROLLBACK.md` dan `docs/TIKET-RUMAHWEB.md`.
 Panduan staf: `docs/PANDUAN-EMAIL-STAF.md`. Search Console: `docs/SEARCH-CONSOLE.md`.
 

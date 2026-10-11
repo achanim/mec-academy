@@ -24,7 +24,8 @@ Hostinger tidak lagi menjadi cadangan (berakhir 15 Okt 2026, tidak diperpanjang)
 4. **Bangun zona DNS di paket baru:** `A @` ke IP server baru, `www` CNAME ke `@`, `MX` ke `mail.<domain>` (prioritas 0) dengan `A mail`, SPF `v=spf1 +a +mx +ip4:<IP baru> ~all`, DKIM dari cPanel (Email Deliverability), DMARC `v=DMARC1; p=none`, tanpa AAAA.
 5. **Ganti nameserver** di client zone Rumahweb ke nameserver hosting baru (bila server berbeda dan zona dikelola di paket baru). Bila server sama/DNS tetap, cukup ubah record.
 6. Setelah domain mengarah ke server baru: **Run AutoSSL** (cPanel > SSL/TLS Status). HSTS situs memakai `includeSubDomains`, jadi pastikan `mail.`/`webmail.` ikut bersertifikat valid.
-7. Verifikasi: `https://malangeducationcenter.com/` 200, redirect lama 301, kirim/terima email dua arah, mail-tester. Perbarui secret CI/CD.
+7. **PHP:** di server baru pilih **PHP 8.1+** (MultiPHP Manager) dan salin blok `# php -- BEGIN cPanel-generated handler` baru dari `.htaccess` server ke `public/.htaccess` repo sebelum deploy; tanpa itu `/kelola-foto/` 500. Pulihkan folder `alumni-foto/` dari cadangan dan buat ulang sandi admin (`docs/ALUMNI-ADMIN.md`).
+8. Verifikasi: `https://malangeducationcenter.com/` 200, redirect lama 301, kirim/terima email dua arah, mail-tester. Perbarui `.env.deploy` (FTP_HOST/USER/PASS) untuk `npm run deploy`.
 
 **Estimasi:** kerja aktif 2–4 jam; dengan TTL 300 detik, propagasi biasanya <1 jam; resolver bandel hingga 4 jam; delegasi nameserver bisa sampai 48 jam bila NS berganti.
 

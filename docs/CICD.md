@@ -41,8 +41,16 @@ Nilai di `.env.deploy` dibaca sebagai teks, jadi sandi boleh berisi `;`, `#`, `$
 - `public/.htaccess` memuat blok handler PHP 8.3 (`# php -- BEGIN cPanel-generated handler`, dari MultiPHP Manager) yang dibutuhkan `/kelola-foto/`. Jangan dihapus: deploy menimpa `.htaccess` server, dan tanpa blok itu domain kembali ke PHP 7.4 (default server) sehingga `/kelola-foto/` memberi 500.
 - `public/.htaccess` ikut ter-deploy; error di dalamnya bisa membuat seluruh situs 500, jadi perhatikan uji asap dan rollback segera bila merah.
 
+## Temuan server (11 Okt 2026, dari pemasangan nyata)
+1. **PHP bawaan domain 7.4** (diwarisi dari server), sehingga `/kelola-foto/` awalnya memberi 500. Diganti ke **PHP 8.3 (`ea-php83`)** lewat cPanel > *MultiPHP Manager*.
+2. cPanel menulis blok `# php -- BEGIN cPanel-generated handler` ke `public_html/.htaccess`. Karena deploy **menimpa** `.htaccess`, blok itu **disalin ke `public/.htaccess` di repo**. **Jangan dihapus**; tanpa blok itu PHP kembali ke 7.4 dan `/kelola-foto/` 500 lagi. Bila versi PHP diganti di MultiPHP Manager, salin blok baru dari `public_html/.htaccess` server ke repo.
+3. **Server membatasi 8 koneksi FTP per IP** (`421 Too many connections`). Sesi macet bisa menahan koneksi beberapa menit, jadi skrip memakai maksimal **2 koneksi paralel**.
+4. **Hostname FTP harus `gede.iixcp.rumahweb.net`**; sertifikat TLS tidak cocok untuk `ftp.<domain>`.
+5. **File Manager membatasi unggah browser ±10 MB per panggilan**, jadi jalur cadangan manual memecah build menjadi **3 zip (±8 MB)** lalu mengekstraknya ke `public_html`.
+6. Berkas status `FTP-Deploy-Action` (`.ftp-deploy-sync-state.json`) tidak lagi dipakai; blok penolaknya sudah dihapus dari `.htaccess`. Bila berkas itu masih ada di server, hapus lewat File Manager.
+
 ## Jalur cadangan (manual)
-Actions > *Build artefak (deploy manual)* > *Run workflow* menghasilkan artefak `dist-zip` (30 hari). Unduh, unggah ke `public_html` lewat File Manager, lalu ekstrak. Atau pakai `dist/` hasil `npm run build` lokal.
+Actions > *Build artefak (deploy manual)* > *Run workflow* menghasilkan artefak `dist-zip` (30 hari). Unduh, lalu **pecah menjadi beberapa zip ≤ ±8 MB** (batas unggah File Manager ±10 MB), unggah ke `public_html` lewat File Manager dan ekstrak satu per satu. Atau pakai `dist/` hasil `npm run build` lokal.
 
 ## CI
 `ci.yml` tetap menjalankan check, test, build, dan audit pada push/PR. `deploy.yml` kini hanya manual dan tidak men-deploy.

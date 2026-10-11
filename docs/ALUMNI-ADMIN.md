@@ -9,10 +9,11 @@
 Galeri `/alumni/` membaca `/alumni-foto/manifest.json`. Bila belum ada foto yang diunggah (atau JavaScript mati), halaman menampilkan 2 foto bawaan.
 
 ## Cara kerja (singkat)
-- Pengelola adalah satu berkas PHP (`public/kelola-foto/index.php`) yang ikut ter-deploy bersama situs.
+- Pengelola terdiri dari **`index.php`** (pemeriksa versi PHP dan ekstensi GD, sintaks lama agar aman di PHP < 8.1) dan **`app.php`** (aplikasinya; ditolak dari akses web langsung). Keduanya ikut ter-deploy bersama situs. Bila PHP < 8.1 atau GD tidak aktif, `index.php` menampilkan **pesan jelas (HTTP 503)** berisi cara memperbaikinya, bukan 500 kosong.
 - Foto tersimpan di `public_html/alumni-foto/` (`img/` besar, `thumb/` kecil, `manifest.json`). Folder ini **tidak ada di repo/build**, jadi **tidak tertimpa atau terhapus saat deploy** (`npm run deploy` memakai `mirror` tanpa `--delete`).
 - Kata sandi disimpan sebagai **hash** di `public_html/kelola-foto/config.php` (dibuat di server, tidak ada di repo).
-- Server harus: **PHP 8.1+**, ekstensi **GD** (semua paket cPanel Rumahweb umumnya sudah). Ekstensi `exif` opsional (memutar foto sesuai orientasi kamera).
+- Server harus: **PHP 8.1+** dan ekstensi **GD**. Ekstensi `exif` opsional (memutar foto sesuai orientasi kamera).
+- **Di server Rumahweb ini** PHP bawaan domain adalah 7.4, sehingga halaman awalnya 500. Sudah diganti ke **PHP 8.3 (`ea-php83`)** lewat cPanel > *MultiPHP Manager*. cPanel menulis blok `# php -- BEGIN cPanel-generated handler` di `.htaccess`; blok itu **sudah disalin ke `public/.htaccess` di repo dan jangan dihapus**, karena deploy menimpa `.htaccess` dan tanpa blok itu PHP kembali ke 7.4 (lihat `docs/CICD.md`).
 
 ## Penyiapan pertama (sekali, ±3 menit; pemilik/pengembang)
 1. Deploy situs seperti biasa (`npm run deploy` atau unggah `dist/`), sehingga `public_html/kelola-foto/index.php` ada.
@@ -42,4 +43,4 @@ Galeri `/alumni/` membaca `/alumni-foto/manifest.json`. Bila belum ada foto yang
 - Lupa sandi: hapus `config.php` lewat File Manager, buat `BUAT-SANDI.txt`, muat `/kelola-foto/`, buat sandi baru. Foto tidak terpengaruh.
 
 ## Pengujian yang sudah dilakukan (lokal, PHP 8.4 + GD)
-Penyiapan dan penolakan sandi pendek; login salah/benar, pengunci 5 kali, CSRF; unggah JPG besar, PNG transparan, WebP; **penolakan** berkas PHP berkedok `.jpg`, GIF, `.php`, dan gambar terlalu kecil; keterangan berisi `<script>` ditampilkan sebagai teks; urutan, hapus, id berbahaya (`../`) ditolak; sesi tanpa login tidak berefek. Galeri `/alumni/` memuat foto dari manifest dan lightbox bekerja (desktop dan 390 px, tanpa scroll horizontal). **Belum diuji di server Rumahweb** (versi PHP, batas `upload_max_filesize`/`post_max_size`, `.htaccess`).
+Penyiapan dan penolakan sandi pendek; login salah/benar, pengunci 5 kali, CSRF; unggah JPG besar, PNG transparan, WebP; **penolakan** berkas PHP berkedok `.jpg`, GIF, `.php`, dan gambar terlalu kecil; keterangan berisi `<script>` ditampilkan sebagai teks; urutan, hapus, id berbahaya (`../`) ditolak; sesi tanpa login tidak berefek. Galeri `/alumni/` memuat foto dari manifest dan lightbox bekerja (desktop dan 390 px, tanpa scroll horizontal). Di server Rumahweb (11 Okt): `/alumni/` tayang dan masuk sitemap, `/kelola-foto/` aktif dengan `noindex` dan `no-store`, `config.php` ditolak (403), `BUAT-SANDI.txt` sudah tidak ada, `alumni-foto/.htaccess` ditolak (403), dan `kelola-foto` tidak ada di sitemap. **Masih perlu diuji di server:** unggah foto sungguhan (batas `upload_max_filesize`/`post_max_size` dan memori GD).
