@@ -56,3 +56,12 @@ AddType font/woff2 .woff2
 <Files ".ftp-deploy-sync-state.json">
   Require all denied
 </Files>
+
+# PHP 8.3 untuk /kelola-foto/ (pengelola foto alumni). Blok ini ditulis cPanel (MultiPHP Manager) dan
+# disalin ke sini supaya tidak hilang saat .htaccess ditimpa oleh deploy. Jangan diubah manual.
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php83” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php83___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

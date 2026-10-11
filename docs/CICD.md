@@ -38,6 +38,7 @@ Nilai di `.env.deploy` dibaca sebagai teks, jadi sandi boleh berisi `;`, `#`, `$
 - Tanpa `--delete`: berkas yang dihapus dari build **tidak** ikut terhapus di server (bersihkan manual bila perlu); berkas non-situs di `public_html` aman.
 - Koneksi memaksa TLS (`ftp:ssl-force`). Sertifikat server hanya valid untuk hostname server (`gede.iixcp.rumahweb.net`), bukan `ftp.<domain>`.
 - Jalankan dari jaringan yang tidak memblokir port FTP dan data pasif. Bila diblokir (kantor, tethering), pakai jalur cadangan.
+- `public/.htaccess` memuat blok handler PHP 8.3 (`# php -- BEGIN cPanel-generated handler`, dari MultiPHP Manager) yang dibutuhkan `/kelola-foto/`. Jangan dihapus: deploy menimpa `.htaccess` server, dan tanpa blok itu domain kembali ke PHP 7.4 (default server) sehingga `/kelola-foto/` memberi 500.
 - `public/.htaccess` ikut ter-deploy; error di dalamnya bisa membuat seluruh situs 500, jadi perhatikan uji asap dan rollback segera bila merah.
 
 ## Jalur cadangan (manual)
