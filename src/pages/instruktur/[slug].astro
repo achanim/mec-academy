@@ -12,9 +12,11 @@ const ld = [
   { '@context': 'https://schema.org', '@type': 'Person', name: p.name, jobTitle: `${p.role} (pengalaman)`, description: `Instruktur MEC Academy dengan pengalaman di ${p.company}.`, worksFor: { '@type': 'EducationalOrganization', name: site.name }, hasCredential: p.credentials.map((c) => ({ '@type': 'EducationalOccupationalCredential', name: c })) },
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [['Beranda', '/'], ['Instruktur', '/instruktur/'], [p.name, Astro.url.pathname]].map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(path, Astro.site).href })) },
 ];
+const full = `${p.name}, instruktur MEC Academy dengan pengalaman sebagai ${p.role} di ${p.company}. Kompetensi: ${p.credentials.join(', ')}.`;
+const desc = full.length <= 158 ? full : full.slice(0, 155).replace(/[\s,;:.-]+\S*$/, '') + '...';
 const others = content.instructors.filter((x) => x.name !== p.name);
 ---
-<Base title={`${p.name} — Instruktur`} description={`${p.name}, instruktur MEC Academy dengan pengalaman sebagai ${p.role} di ${p.company}. Kompetensi: ${p.credentials.join(', ')}.`} jsonLd={ld}>
+<Base title={`${p.name} — Instruktur`} description={desc} jsonLd={ld}>
   <section class="wrap py-16 md:py-24">
     <nav aria-label="Breadcrumb" class="eyebrow mb-8"><a href="/">Beranda</a> / <a href="/instruktur/">Instruktur</a> / <span aria-current="page">{p.name}</span></nav>
     <div class="grid items-start gap-12 md:grid-cols-[380px_1fr]">

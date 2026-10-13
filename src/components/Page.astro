@@ -1,12 +1,14 @@
 ---
 // Layout halaman konten: banner (opsional berfoto) + slot
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { img, pos } from '../lib/images';
-interface Props { title: string; description: string; eyebrow?: string; heading?: string; image?: string; imageAlt?: string; jsonLd?: object | object[]; titleCase?: boolean; }
-const { title, description, eyebrow, heading = title, image, imageAlt = '', jsonLd, titleCase = false } = Astro.props;
+interface Props { title: string; description: string; eyebrow?: string; heading?: string; image?: string; imageAlt?: string; jsonLd?: object | object[]; titleCase?: boolean; noindex?: boolean; }
+const { title, description, eyebrow, heading = title, image, imageAlt = '', jsonLd, titleCase = false, noindex = false } = Astro.props;
+// Gambar berbagi (Open Graph) 1200×630 dari foto banner halaman; tanpa foto → og-default.jpg
+const og = image ? (await getImage({ src: img(image), width: 1200, height: 630, fit: 'cover', position: 'attention', format: 'jpg', quality: 80 })).src : undefined;
 ---
-<Base {title} {description} {jsonLd}>
+<Base {title} {description} {jsonLd} {noindex} image={og}>
   <section class:list={['page-hero', image && 'has-photo']}>
     {image && <Image src={img(image)} alt={imageAlt} widths={[800, 1280, 1920]} sizes="100vw" loading="eager" class="page-hero-photo" style={pos(image)} />}
     <div class="wrap page-hero-inner">

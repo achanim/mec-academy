@@ -101,3 +101,11 @@ document.querySelectorAll<HTMLAnchorElement>('a[href^="https://wa.me/"]').forEac
     if (t && !t.includes('Halaman:')) { u.searchParams.set('text', `${t}\nHalaman: ${location.pathname}`); a.href = u.toString(); }
   } catch { /* biarkan tautan apa adanya */ }
 });
+
+// Peristiwa klik WhatsApp untuk analitik (Plausible/Umami). Tidak berbuat apa pun bila skrip analitik tidak dipasang.
+document.addEventListener('click', (e) => {
+  const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="https://wa.me/"]');
+  if (!a) return;
+  const w = window as unknown as { plausible?: (n: string, o?: unknown) => void; umami?: { track: (n: string, d?: unknown) => void } };
+  try { w.plausible?.('WhatsApp', { props: { halaman: location.pathname } }); w.umami?.track('WhatsApp', { halaman: location.pathname }); } catch { /* abaikan */ }
+}, { capture: true });

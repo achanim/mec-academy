@@ -7,6 +7,8 @@ export const categories: Record<string, string> = {
   'info-bmc': 'Info BMC & OJT',
   alumni: 'Cerita Alumni',
 };
+// Halaman kategori baru diindeks Google bila isinya cukup (hindari konten tipis); selaras dengan filter sitemap di astro.config.mjs
+export const MIN_ARTICLES = 3;
 export async function publishedArticles() {
   const all = await getCollection('articles', (a) => !a.data.draft && a.data.publishedAt <= new Date());
   return all.sort((a, b) => +b.data.publishedAt - +a.data.publishedAt);

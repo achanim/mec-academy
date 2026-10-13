@@ -43,6 +43,8 @@ Kondisi terakhir: `astro check` 0 error · 9 test lolos · build 44 halaman · P
 
 - [x] Halaman `/alumni/` + pengelola foto tersembunyi `/kelola-foto/` (admin MEC unggah/urutkan/hapus sendiri) — `docs/ALUMNI-ADMIN.md`. **Belum di server**: deploy, buat `BUAT-SANDI.txt`, atur sandi, uji unggah di Rumahweb
 
+- [x] Perbaikan SEO audit 13 Okt (judul, JSON-LD, og:image per halaman, kategori tipis noindex, redirect, kait analitik/verifikasi): `docs/AUDIT-SEO-2026-10-13.md` §5. Sisa: `docs/TODO-LOKAL-SEO.md`
+
 ## Menunggu data / keputusan dari klien
 - [x] Domain: `malangeducationcenter.com` (sudah dipasang di config)
 - [ ] **Foto asli resolusi tinggi dari MEC** (foto lebar ≥1600px, potret instruktur ≥600px) — sumber sekarang thumbnail PDF (475–734px), buram di layar retina (audit C2). Setelah masuk: jalankan ulang `npm run extract`/ganti file di `src/assets/images/`

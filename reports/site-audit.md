@@ -1,6 +1,6 @@
 # Hasil audit situs
 
-Dijalankan: 2026-10-10 · desktop (1440×900): 16 halaman · laptop (1024×768): 16 halaman · tablet (820×1180): 16 halaman · mobile (390×844): 16 halaman · small (320×640): 16 halaman
+Dijalankan: 2026-10-13 · desktop (1440×900): 16 halaman · laptop (1024×768): 16 halaman · tablet (820×1180): 16 halaman · mobile (390×844): 16 halaman · small (320×640): 16 halaman
 
 Pemeriksaan: overflow horizontal, satu <h1>, alt gambar, gambar rusak, teks < 12px, kontras WCAG AA (latar polos), target sentuh < 24px (WCAG 2.2) di HP, error JS/HTTP.
 

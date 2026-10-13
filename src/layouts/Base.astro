@@ -11,14 +11,24 @@ import fontMono from '../assets/fonts/MECMono.woff2?url';
 import { site } from '../lib/site';
 interface Props { title: string; description?: string; image?: string; type?: 'website' | 'article'; noindex?: boolean; home?: boolean; footer?: boolean; jsonLd?: object | object[]; publishedAt?: Date; updatedAt?: Date; }
 const { home = false, footer = true, ...props } = Astro.props;
-const orgLd = {
+const orgLd: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': ['EducationalOrganization', 'LocalBusiness'],
+  '@id': `${site.url}/#organization`,
   name: site.name,
+  alternateName: 'Malang Education Center',
   url: site.url,
+  logo: `${site.url}/apple-touch-icon.png`,
+  image: `${site.url}/og-default.jpg`,
+  description: site.description,
   telephone: site.phone,
   email: site.email,
-  address: { '@type': 'PostalAddress', streetAddress: site.address, addressCountry: 'ID' },
+  address: { '@type': 'PostalAddress', streetAddress: site.address, addressLocality: 'Kabupaten Malang', addressRegion: 'Jawa Timur', addressCountry: 'ID' },
+  hasMap: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('MEC Academy, Jl. Jatisari No. 07, Plaosan, Wonosari, Malang'),
+  contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: site.phone, areaServed: 'ID', availableLanguage: ['id'] },
+  ...(site.social.length ? { sameAs: site.social } : {}),
+  ...(site.geo ? { geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng } } : {}),
+  ...(site.openingHours.length ? { openingHoursSpecification: site.openingHours.map((h) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: h.days, opens: h.opens, closes: h.closes })) } : {}),
 };
 const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [props.jsonLd]) : [];
 ---
@@ -39,6 +49,9 @@ const extra = props.jsonLd ? (Array.isArray(props.jsonLd) ? props.jsonLd : [prop
     <link rel="preload" as="font" type="font/woff2" href={fontMono} crossorigin />
     {home && <script is:inline>try{var m=matchMedia,c=navigator.connection;if(m('(min-width:1000px)').matches&&!m('(pointer:coarse)').matches&&!m('(prefers-reduced-motion:reduce)').matches&&innerHeight>=700&&localStorage.getItem('mec-calm')!=='1'&&!(c&&c.saveData))document.documentElement.classList.add('motion-pre')}catch(e){}</script>}
     <Seo {...props} jsonLd={[orgLd, ...extra]} />
+    {site.verification.google && <meta name="google-site-verification" content={site.verification.google} />}
+    {site.verification.bing && <meta name="msvalidate.01" content={site.verification.bing} />}
+    {site.analytics.src && <script is:inline defer src={site.analytics.src} {...site.analytics.attrs}></script>}
   </head>
   <body>
     {home && <Loader />}
