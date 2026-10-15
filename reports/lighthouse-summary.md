@@ -1,18 +1,12 @@
 # Ringkasan Lighthouse
 
-Dijalankan: 2026-10-13 · build produksi lokal · Lighthouse 13.5.0
+Dijalankan: 2026-10-15 · build produksi lokal · Lighthouse 13.5.0
 
 Catatan: Lighthouse melewati layar intro (user-agent headless dianggap crawler). Angka lab (throttling simulasi), bukan data pengguna nyata.
 
 | Perangkat | Halaman | Perf | A11y | BP | SEO | LCP (ms) | CLS | TBT (ms) | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| mobile | `/` | 99 | 100 | 100 | 100 | 1975 | 0 | 8 | ✓ |
-| mobile | `/alumni/` | 99 | 100 | 96 | 100 | 1958 | 0 | 0 | ✓ |
-| mobile | `/faq/` | 100 | 100 | 100 | 100 | 1592 | 0 | 0 | ✓ |
-| mobile | `/program/basic-mechanic-course/modul/basic-safety/` | 100 | 100 | 100 | 100 | 1831 | 0 | 0 | ✓ |
-| desktop | `/` | 100 | 100 | 100 | 100 | 487 | 0.003 | 0 | ✓ |
-| desktop | `/alumni/` | 100 | 100 | 96 | 100 | 566 | 0 | 0 | ✓ |
-| desktop | `/faq/` | 100 | 100 | 100 | 100 | 421 | 0 | 0 | ✓ |
-| desktop | `/program/basic-mechanic-course/modul/basic-safety/` | 100 | 100 | 100 | 100 | 528 | 0 | 0 | ✓ |
+| mobile | `/` | 99 | 100 | 100 | 100 | 2035 | 0 | 31 | ✓ |
+| desktop | `/` | 100 | 100 | 100 | 100 | 525 | 0.003 | 0 | ✓ |
 
 Ambang: mobile perf ≥ 90, desktop perf ≥ 95; a11y/BP/SEO ≥ 95; LCP ≤ 2500/2000 ms; CLS ≤ 0.1; TBT ≤ 200 ms.
