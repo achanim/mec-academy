@@ -6,15 +6,9 @@ Alur singkat: **ambil kode → ubah → lihat di komputer → periksa → simpan
 > Perubahan **teks artikel/foto alumni** tidak perlu cara ini: foto alumni lewat `/kelola-foto/` (lihat `docs/ALUMNI-ADMIN.md`).
 
 ## 0. Persiapan sekali saja
-1. Pasang **Node.js 22 LTS** (nodejs.org) dan **Git**. Mac: `brew install lftp`. Windows: pakai **WSL (Ubuntu)** lalu `sudo apt install lftp` (skrip deploy memakai `lftp`).
+1. Pasang **Node.js 22 LTS** (nodejs.org) dan **Git**.
 2. Ambil kode: `git clone <alamat-repositori> mec-academy` lalu `cd mec-academy` dan `npm install`.
-3. Buat berkas **`.env.deploy`** di folder utama (tidak ikut git, jangan dibagikan):
-   ```
-   FTP_HOST=gede.iixcp.rumahweb.net
-   FTP_USER=<akun FTP deploy>
-   FTP_PASS=<sandi akun FTP>
-   ```
-   Akun FTP dibuat di cPanel Rumahweb (Akun FTP, dibatasi ke `public_html`). Detail: `docs/CICD.md`.
+3. Siapkan **login cPanel Rumahweb** (diberikan terpisah oleh pengelola sandi). Unggahan dilakukan manual lewat File Manager, jadi tidak perlu `.env.deploy` atau FTP.
 
 ## 1. Setiap kali mengubah
 1. Ambil versi terbaru: `git pull`
@@ -52,12 +46,27 @@ git push -u origin perubahan-nama-singkat
 Lalu gabungkan ke cabang utama (`main`) lewat Pull Request di GitHub, atau `git checkout main && git merge perubahan-nama-singkat && git push`.
 Yang di-deploy adalah **isi komputer Anda**, jadi pastikan sedang di cabang `main` yang sudah mutakhir sebelum langkah 4: `git checkout main && git pull`.
 
-## 4. Deploy (unggah ke Rumahweb)
-```
-npm run deploy
-```
-Skrip otomatis: cek, uji, build, lalu unggah `dist/` lewat FTPS. Latihan tanpa mengunggah: `DRY_RUN=1 npm run deploy`.
-Catatan: berkas yang **dihapus** dari kode tidak otomatis hilang di server (sengaja, agar folder `alumni-foto/` aman). Untuk menghapus halaman lama, hapus lewat cPanel File Manager.
+## 4. Deploy manual lewat cPanel
+Deploy otomatis (CI/CD dan `npm run deploy`) **tidak dipakai**: unggahan FTPS dari lokal sering macet. Gunakan cPanel File Manager.
+
+1. Pastikan sedang di `main` yang mutakhir dan `npm run build` sukses (folder `dist/` terbentuk).
+2. File Manager membatasi unggah sekitar **10 MB** per berkas, sedangkan seluruh `dist/` sekitar 18 MB. Jadi **pecah menjadi beberapa zip ≤ 8 MB**, masing-masing berisi sebagian isi `dist/` (bukan foldernya). Contoh pembagian (Mac/Linux, jalankan di folder utama):
+   ```
+   cd dist
+   zip -qr ../mec-1.zip . -x '.DS_Store' -x '_astro/*.webp'
+   zip -q  ../mec-2.zip _astro/gallery-*.webp
+   zip -q  ../mec-3.zip _astro/*.webp -x '_astro/gallery-*'
+   cd .. && ls -lh mec-*.zip     # setiap berkas harus < 10 MB (saat ini sekitar 2,6 / 8,2 / 7,7 MB)
+   ```
+   Bila ada zip yang mendekati 10 MB karena gambar bertambah, pecah lagi per awalan nama berkas. `.htaccess` ikut di `mec-1.zip`. Hapus zip lokal setelah selesai (`rm ../mec-*.zip`); jangan di-commit.
+3. Login cPanel Rumahweb → **File Manager** → buka `public_html`.
+4. Klik **Upload**, pilih semua `mec-*.zip`, tunggu 100%.
+5. Kembali ke `public_html`, klik kanan tiap zip → **Extract** ke `public_html` (satu per satu). Jika ditanya menimpa, pilih timpa.
+6. Hapus semua `mec-*.zip` dari server.
+7. Klik **Settings** (kanan atas) → centang **Show Hidden Files (dotfiles)**, lalu pastikan `public_html/.htaccess` ada dan masih berisi blok PHP 8.3.
+8. **Jangan hapus** folder `alumni-foto/` dan `kelola-foto/` di server; isi `alumni-foto/` adalah data admin, bukan dari kode.
+
+Catatan: berkas yang **dihapus** dari kode tidak hilang di server saat ekstrak. Untuk menghapus halaman lama, hapus lewat File Manager. Kalau ekstrak gagal atau macet, ulangi dari langkah 4 (aman, hanya menimpa berkas).
 
 ## 5. Cek hasilnya
 1. Buka https://malangeducationcenter.com dan segarkan keras (Ctrl+Shift+R / Cmd+Shift+R).
@@ -68,14 +77,14 @@ Catatan: berkas yang **dihapus** dari kode tidak otomatis hilang di server (seng
 ## 6. Kalau ada masalah
 | Gejala | Tindakan |
 |---|---|
-| `lftp: command not found` | pasang lftp (langkah 0) |
-| Login FTP gagal | cek `.env.deploy` (host, user, sandi); sandi bisa diganti di cPanel |
-| Situs error / halaman putih setelah deploy | kembalikan ke versi sebelumnya: `git checkout <commit-lama>` lalu `npm run deploy` (lihat `docs/RUNBOOK-ROLLBACK.md`) |
+| Ekstrak zip gagal / berkas tidak berubah | ulangi unggah dan ekstrak; cek kuota disk di cPanel |
+| `.htaccess` tidak terlihat | aktifkan Show Hidden Files di File Manager |
+| Situs error / halaman putih setelah deploy | kembalikan ke versi sebelumnya: `git checkout <commit-lama>` lalu `npm run build` dan unggah ulang `dist/` lewat cPanel (lihat `docs/RUNBOOK-ROLLBACK.md`) |
 | `/kelola-foto/` error 500 | pastikan PHP **8.3** di cPanel (MultiPHP Manager) |
 | Ragu / buntu | berhenti, jangan deploy; hubungi pengembang |
 
 ## 7. Aturan aman
-- Jangan commit `.env.deploy`, sandi, atau data pribadi ke GitHub.
+- Jangan commit sandi atau data pribadi ke GitHub.
 - Selalu `npm run build` sukses sebelum deploy; satu perubahan, satu deploy.
 - Simpan cadangan: folder `alumni-foto/` dan salinan `dist/` terakhir.
 - Aktifkan 2FA di Rumahweb, GitHub, Google; ganti sandi bila ada staf keluar.
