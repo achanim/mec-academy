@@ -6,3 +6,22 @@ MEC_UI_Preview.html
 reports/lighthouse/
 reports/audit.json
 backup/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# logs & caches
+*.log
+npm-debug.log*
+*.tsbuildinfo
+.wrangler/
+.vercel/
+
+# python (docs/proposal generators)
+__pycache__/
+*.pyc
+.venv/
