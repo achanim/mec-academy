@@ -190,7 +190,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); ou
 .alumni-stack img { position: absolute; width: 74%; height: 62%; object-fit: cover; border: 8px solid #fff; box-shadow: 0 25px 60px #0004; }
 .alumni-back { right: 0; top: 0; transform: rotate(6deg); }
 .alumni-front { left: 0; bottom: 8%; transform: rotate(-5deg); }
-.alumni-caption { position: absolute; right: 0; bottom: 0; font: 12px var(--font-mono); letter-spacing: 1px; color: var(--color-green); }
+.alumni-caption { position: absolute; right: 0; bottom: 0; font: 12px var(--font-mono); letter-spacing: 1px; color: var(--color-sage); }
 @media (max-width: 899px) { .alumni-layout { grid-template-columns: 1fr; } .alumni-stack { min-height: 340px; } }
 
 .film-content { text-align: center; display: flex; flex-direction: column; align-items: center; }
