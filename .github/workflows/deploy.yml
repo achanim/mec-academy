@@ -1,8 +1,7 @@
 name: Build artefak (deploy manual)
 
 # Deploy dari GitHub tidak dimungkinkan: FTPS diblokir firewall Rumahweb, SSH tertutup, dan menu API Token cPanel tidak tersedia.
-# Deploy dilakukan dari mesin lokal dengan `npm run deploy` (scripts/deploy.sh). Workflow ini hanya membuat artefak dist.zip
-# untuk jalur cadangan (unggah manual lewat File Manager). Lihat docs/CICD.md.
+# Deploy dilakukan manual lewat cPanel File Manager (zip dipecah; lihat docs/PANDUAN-UPDATE-KODE-DAN-DEPLOY.md). Workflow ini hanya membuat artefak dist.zip. Lihat docs/CICD.md.
 on:
   workflow_dispatch:
 

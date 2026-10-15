@@ -1,6 +1,6 @@
 # Deploy ke Rumahweb
 
-**Keputusan:** deploy dilakukan dari mesin lokal dengan `npm run deploy` (FTPS). Deploy dari GitHub Actions tidak mungkin di hosting ini:
+**Keputusan (15 Okt 2026):** deploy dilakukan **manual lewat cPanel File Manager** (langkah lengkap: `docs/PANDUAN-UPDATE-KODE-DAN-DEPLOY.md` bagian 4). `npm run deploy` (FTPS/lftp) macet lebih dari 25 menit di praktik dan **tidak dipakai lagi**; skripnya disimpan hanya sebagai referensi. Deploy dari GitHub Actions juga tidak mungkin di hosting ini:
 
 | Jalur | Hasil |
 |---|---|
@@ -8,7 +8,12 @@
 | SSH/rsync | Port 22 ditolak (*Connection refused*), 2222/7822 timeout |
 | cPanel API Token | Menu *Manage API Tokens* tidak tersedia (juga di akun non-trial) |
 
-## Deploy rutin
+## Deploy rutin (manual, cPanel File Manager)
+1. `git checkout main && git pull && npm run build`.
+2. Pecah `dist/` menjadi zip ≤ 8 MB, unggah dan ekstrak ke `public_html` (rincian dan perintah zip di panduan bagian 4).
+3. Pastikan `.htaccess` masih memuat blok PHP 8.3, lalu uji asap (beranda, `/faq/`, `/alumni/`, `/kelola-foto/`).
+
+## Jalur lama: `npm run deploy` (tidak dipakai, referensi)
 ```bash
 git checkout main && git pull
 npm run deploy
@@ -23,7 +28,7 @@ Coba tanpa mengunggah: `DRY_RUN=1 npm run deploy`.
 
 Nilai di `.env.deploy` dibaca sebagai teks, jadi sandi boleh berisi `;`, `#`, `$`. Variabel lingkungan yang diberikan di command line diutamakan.
 
-## Setup sekali saja
+## Setup jalur lama (tidak dipakai)
 1. `brew install lftp`
 2. Buat `.env.deploy` di akar repo (sudah diabaikan git lewat `.env*`; jangan di-commit):
    ```
@@ -50,12 +55,12 @@ Nilai di `.env.deploy` dibaca sebagai teks, jadi sandi boleh berisi `;`, `#`, `$
 6. Berkas status `FTP-Deploy-Action` (`.ftp-deploy-sync-state.json`) tidak lagi dipakai; blok penolaknya sudah dihapus dari `.htaccess`. Bila berkas itu masih ada di server, hapus lewat File Manager.
 
 ## Jalur cadangan (manual)
-Actions > *Build artefak (deploy manual)* > *Run workflow* menghasilkan artefak `dist-zip` (30 hari). Unduh, lalu **pecah menjadi beberapa zip ≤ ±8 MB** (batas unggah File Manager ±10 MB), unggah ke `public_html` lewat File Manager dan ekstrak satu per satu. Atau pakai `dist/` hasil `npm run build` lokal.
+Actions > *Build artefak (deploy manual)* > *Run workflow* menghasilkan artefak `dist-zip` (30 hari). Unduh, lalu **pecah menjadi beberapa zip ≤ ±8 MB** (batas unggah File Manager ±10 MB), unggah ke `public_html` lewat File Manager dan ekstrak satu per satu. Atau pakai `dist/` hasil `npm run build` lokal (ini jalur utama sekarang).
 
 ## CI
 `ci.yml` tetap menjalankan check, test, build, dan audit pada push/PR. `deploy.yml` kini hanya manual dan tidak men-deploy.
 
 ## Rollback
-1. **Cepat:** `git revert <commit>`, lalu `npm run deploy`.
+1. **Cepat:** `git revert <commit>`, `npm run build`, lalu unggah `dist/` lewat File Manager (zip dipecah).
 2. **Manual:** artefak `dist-zip` dari run lama atau `dist/` lokal, unggah lewat File Manager dan ekstrak.
 3. **Bila akun hilang:** `docs/RUNBOOK-ROLLBACK.md`.

@@ -12,7 +12,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, Table, TableStyle, KeepTogether, XPreformatted
+from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, Table, TableStyle, KeepTogether, XPreformatted, CondPageBreak
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, '..', 'Panduan-Update-Situs-MEC-Academy.pdf')
@@ -61,12 +61,10 @@ s += [P('PANDUAN PENGELOLA SITUS', PS('e', fontName='Inter-SB', fontSize=8, text
 s += note('<b>Tidak perlu panduan ini</b> untuk menambah foto alumni. Foto alumni dikelola lewat halaman pengelola tersembunyi (lihat berkas <i>docs/ALUMNI-ADMIN.md</i>).')
 
 s += [P('0. Persiapan (sekali saja)', H1)]
-s += bl(['Pasang <b>Node.js 22 LTS</b> (nodejs.org) dan <b>Git</b>. Mac: <font name="Courier">brew install lftp</font>. Windows: pakai <b>WSL (Ubuntu)</b>, lalu <font name="Courier">sudo apt install lftp</font>. Skrip deploy memakai <b>lftp</b>.',
+s += bl(['Pasang <b>Node.js 22 LTS</b> (nodejs.org) dan <b>Git</b>.',
          'Ambil kode dari repositori, lalu pasang kebutuhan:'])
 s += code('git clone &lt;alamat-repositori&gt; mec-academy\ncd mec-academy\nnpm install')
-s += bl(['Buat berkas <b>.env.deploy</b> di folder utama. Berkas ini tidak ikut git dan <b>tidak boleh dibagikan</b>:'])
-s += code('FTP_HOST=gede.iixcp.rumahweb.net\nFTP_USER=&lt;akun FTP deploy&gt;\nFTP_PASS=&lt;sandi akun FTP&gt;')
-s += [P('Akun FTP dibuat di cPanel Rumahweb (menu Akun FTP, dibatasi ke folder <i>public_html</i>). Rincian: <i>docs/CICD.md</i>.', SMALL)]
+s += bl(['Siapkan <b>login cPanel Rumahweb</b> (diberikan terpisah lewat pengelola sandi). Unggahan dilakukan manual lewat File Manager, jadi tidak perlu FTP atau berkas sandi di komputer.'])
 
 s += [P('1. Setiap kali mengubah', H1)]
 s += code('git pull                       # ambil versi terbaru\ngit checkout -b perubahan-baru  # cabang kerja (disarankan)\nnpm run dev                    # lihat di http://localhost:4321')
@@ -89,29 +87,37 @@ s += note('Kalau ada yang merah, <b>jangan deploy</b>. Baca pesan error (biasany
 s += [P('3. Simpan perubahan (commit)', H1)]
 s += code('git add -A\ngit commit -m "Ubah nomor WA dan jam buka"\ngit push -u origin perubahan-baru')
 s += [P('Gabungkan ke cabang utama <b>main</b> lewat Pull Request di GitHub, lalu di komputer: <font name="Courier">git checkout main &amp;&amp; git pull</font>. '
-        'Yang di-deploy adalah <b>isi komputer Anda</b>, jadi pastikan sedang berada di <b>main</b> yang sudah mutakhir sebelum langkah 4.')]
+        'Yang diunggah adalah <b>isi komputer Anda</b>, jadi pastikan sedang berada di <b>main</b> yang sudah mutakhir.')]
 
-s += [P('4. Deploy (unggah ke Rumahweb)', H1)]
-s += code('npm run deploy               # cek, uji, build, lalu unggah lewat FTPS\nDRY_RUN=1 npm run deploy      # latihan: tidak ada yang diunggah')
-s += [P('Berkas yang <b>dihapus</b> dari kode tidak otomatis hilang di server (disengaja agar folder <i>alumni-foto/</i> aman). '
-        'Untuk menghapus halaman lama, hapus lewat cPanel File Manager.')]
+s += [P('4. Deploy manual lewat cPanel', H1)]
+s += [P('Unggahan otomatis (FTP) tidak dipakai karena sering macet. Gunakan <b>cPanel File Manager</b>. '
+        'File Manager membatasi unggah sekitar <b>10 MB</b> per berkas, sedangkan seluruh <i>dist/</i> sekitar 18 MB, jadi <b>pecah menjadi 3 zip (maksimal 8 MB)</b>:')]
+s += code("npm run build\ncd dist\nzip -qr ../mec-1.zip . -x '.DS_Store' -x '_astro/*.webp'\nzip -q  ../mec-2.zip _astro/gallery-*.webp\nzip -q  ../mec-3.zip _astro/*.webp -x '_astro/gallery-*'\ncd .. && ls -lh mec-*.zip   # tiap berkas harus di bawah 10 MB")
+s += bl(['Login cPanel Rumahweb, buka <b>File Manager</b>, lalu folder <b>public_html</b>.',
+         'Klik <b>Upload</b>, pilih ketiga <i>mec-*.zip</i>, tunggu 100%.',
+         'Kembali ke <i>public_html</i>, klik kanan tiap zip, pilih <b>Extract</b> ke <i>public_html</i>, satu per satu (pilih timpa bila ditanya).',
+         'Hapus semua <i>mec-*.zip</i> dari server (dan dari komputer; jangan di-commit).',
+         'Di <b>Settings</b> File Manager, centang <b>Show Hidden Files</b>, lalu pastikan <i>.htaccess</i> ada dan masih memuat blok <b>PHP 8.3</b>.',
+         '<b>Jangan hapus</b> folder <i>alumni-foto/</i> dan <i>kelola-foto/</i> di server. Isi <i>alumni-foto/</i> adalah data admin, bukan dari kode.'])
+s += [P('Berkas yang dihapus dari kode tidak hilang di server saat ekstrak; hapus manual lewat File Manager bila perlu. '
+        'Jika ekstrak gagal atau macet, ulangi dari langkah unggah (aman, hanya menimpa berkas). Bila gambar bertambah dan sebuah zip mendekati 10 MB, pecah lagi per awalan nama berkas.', SMALL)]
 
 s += [P('5. Cek hasilnya', H1)]
 s += bl(['Buka malangeducationcenter.com dan segarkan keras (<b>Ctrl+Shift+R</b>, di Mac <b>Cmd+Shift+R</b>).',
          'Cek halaman yang diubah, tombol WhatsApp, dan satu halaman lain, di HP dan laptop.',
          'Belum berubah? Tunggu 1 sampai 2 menit (cache) atau coba jendela penyamaran.'])
 
-s += [P('6. Kalau ada masalah', H1)]
+s += [CondPageBreak(75 * mm), P('6. Kalau ada masalah', H1)]
 s += table(['Gejala', 'Tindakan'], [
-    ['<font name="Courier">lftp: command not found</font>', 'Pasang lftp (langkah 0).'],
-    ['Login FTP gagal', 'Cek <i>.env.deploy</i> (host, user, sandi). Sandi bisa diganti di cPanel.'],
-    ['Situs error / halaman putih setelah deploy', 'Kembali ke versi sebelumnya: <font name="Courier">git checkout &lt;commit-lama&gt;</font> lalu <font name="Courier">npm run deploy</font> (lihat <i>docs/RUNBOOK-ROLLBACK.md</i>).'],
+    ['Ekstrak zip gagal / berkas tidak berubah', 'Ulangi unggah dan ekstrak; cek kuota disk di cPanel.'],
+    ['<i>.htaccess</i> tidak terlihat', 'Aktifkan Show Hidden Files di File Manager.'],
+    ['Situs error / halaman putih setelah deploy', 'Kembali ke versi sebelumnya: <font name="Courier">git checkout &lt;commit-lama&gt;</font> lalu <font name="Courier">npm run build</font> dan unggah ulang <i>dist/</i> lewat cPanel (lihat <i>docs/RUNBOOK-ROLLBACK.md</i>).'],
     ['Halaman <i>/kelola-foto/</i> error 500', 'Pastikan PHP <b>8.3</b> di cPanel (MultiPHP Manager).'],
     ['Ragu atau buntu', 'Berhenti, jangan deploy, hubungi pengembang.'],
 ], [CW * .38, CW * .62])
 
 s += [P('Aturan aman', H1)]
-s += bl(['Jangan commit <i>.env.deploy</i>, sandi, atau data pribadi ke GitHub.',
+s += bl(['Jangan commit sandi atau data pribadi ke GitHub.',
          'Pastikan <b>build berhasil</b> sebelum deploy; satu perubahan, satu deploy.',
          'Simpan cadangan: folder <i>alumni-foto/</i> dan salinan <i>dist/</i> terakhir.',
          'Aktifkan 2FA di Rumahweb, GitHub, dan Google; ganti sandi bila ada staf keluar.'])

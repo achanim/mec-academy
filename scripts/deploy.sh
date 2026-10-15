@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Deploy dist/ ke Rumahweb lewat FTPS dari mesin lokal. Lihat docs/CICD.md.
+# TIDAK DIPAKAI LAGI (15 Okt 2026): FTPS/lftp macet di praktik; deploy dilakukan manual lewat cPanel File Manager (docs/CICD.md).
+# Disimpan sebagai referensi. Catatan: sandi dikirim sebagai argumen `lftp -u`, sehingga terlihat di `ps` selama berjalan.
+# Deploy dist/ ke Rumahweb lewat FTPS dari mesin lokal.
 # Kredensial dibaca dari .env.deploy (diabaikan git) atau variabel lingkungan:
 #   FTP_HOST, FTP_USER, FTP_PASS   (opsional: FTP_DIR, SITE_URL, SKIP_CHECKS=1, DRY_RUN=1)
 set -euo pipefail

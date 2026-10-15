@@ -1,6 +1,6 @@
 # Rencana deploy — malangeducationcenter.com ke Rumahweb
 
-Diperbarui: 2026-10-01. Status: rencana (belum dijalankan).
+Diperbarui: 2026-10-01. Status: arsip rencana awal; situs sudah tayang dan deploy kini manual (lihat `docs/CICD.md`).
 
 ## Temuan
 - **Situs sekarang** `malangeducationcenter.com`: dibuat dengan **Hostinger Website Builder (Zyro)** dan dilayani dari Hostinger (header `x-powered-by: HostingerWebsiteBuilder`), bukan Rumahweb. Tidak ada blog. `www` sudah 301 ke tanpa-www.
@@ -13,17 +13,17 @@ Diperbarui: 2026-10-01. Status: rencana (belum dijalankan).
 |---|---|---|
 | Domain di config, sitemap, robots | placeholder `mecacademy.id` | `malangeducationcenter.com` |
 | `_headers`, `_redirects` | khusus Cloudflare/Netlify, tidak jalan di cPanel | tetap ada, ditambah `public/.htaccess` (HTTPS, www→apex, redirect alamat lama, 404/500, gzip, cache, header keamanan) |
-| Deploy | rencana Cloudflare Pages | workflow manual `deploy-rumahweb.yml` (FTPS ke `public_html/`) |
+| Deploy | rencana Cloudflare Pages | manual lewat cPanel File Manager (zip dipecah); `deploy.yml` hanya membuat artefak build. Lihat `docs/CICD.md` |
 | Judul beranda | "Kursus Mekanik Alat Berat di Malang" | memuat "Pelatihan Teknik Alat Berat di Malang \| Malang Education Center" agar dekat dengan judul lama di Google |
 
 Peta redirect alamat lama (perlu dikonfirmasi):
 `/organisasi`→`/tentang/` · `/galeri`→`/fasilitas/` · `/alumni`→`/industri/` · `/hubungi-kami`→`/kontak/` · `/learning`→`/program/basic-mechanic-course/` · `/assessment`→`/assessment/`
 
 ## Langkah (urutan aman, tanpa downtime)
-1. **Pilih paket.** Entry/Small cukup (tanpa SSH). Pakai FTPS dari GitHub Actions; kalau ambil Medium+, bisa pakai SSH/rsync.
+1. **Pilih paket.** Entry/Small cukup (tanpa SSH). Unggah manual lewat File Manager (FTPS dari GitHub diblokir firewall).
 2. **Cek dulu situasi domain.** Siapa registrar (Hostinger? Rumahweb?), dan apakah ada **email di domain ini** (MX). Kalau ada email, catat record MX/SPF/DKIM supaya tidak putus saat DNS dipindah.
 3. **Tambahkan domain ke cPanel Rumahweb** (Addon/Primary Domain) **tanpa mengubah DNS dulu**. Uji lewat URL sementara atau file `hosts`.
-4. **Build dan unggah:** jalankan workflow *Deploy ke Rumahweb* (atau unggah isi `dist/` ke `public_html/` lewat File Manager/FTP). Pastikan `.htaccess` ikut terunggah (berkas tersembunyi).
+4. **Build dan unggah:** unggah isi `dist/` ke `public_html/` lewat File Manager (zip dipecah, lihat `docs/CICD.md`). Pastikan `.htaccess` ikut terunggah (berkas tersembunyi).
 5. **Uji di Rumahweb:** semua halaman terbuka, `www`→apex, HTTP→HTTPS, redirect alamat lama, halaman 404, pencarian (Pagefind), gambar dan font, galeri, tombol WhatsApp.
 6. **Pastikan SSL aktif** (AutoSSL Let's Encrypt di cPanel) sebelum DNS dipindah.
 7. **Cutover DNS:** turunkan TTL ke 300 detik sehari sebelumnya; arahkan A record (atau nameserver) ke Rumahweb; salin record email jika ada. Biarkan paket Hostinger aktif 1–2 minggu sebagai cadangan.
