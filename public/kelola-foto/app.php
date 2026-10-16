@@ -3,7 +3,7 @@
  * Pengelola foto halaman Alumni (khusus admin MEC). Tidak ditautkan dari situs mana pun, tidak masuk sitemap, noindex.
  * - Foto disimpan di ../alumni-foto/ (di luar build, jadi tidak tertimpa saat deploy); daftar ada di manifest.json.
  * - Kata sandi disimpan sebagai hash di config.php (dibuat di server lewat penyiapan awal; tidak ada di repo).
- * Panduan: docs/ALUMNI-ADMIN.md
+ * Pengelola foto alumni (halaman tersembunyi).
  * Dimuat oleh index.php (pemeriksa versi PHP/GD). Berkas ini ditolak dari akses web langsung (lihat .htaccess).
  */
 declare(strict_types=1);
@@ -154,7 +154,7 @@ try {
     if (!is_array($config) || empty($config['hash'])) {
         if (!is_file($setupFlag)) {
             http_response_code(503);
-            render('Belum disiapkan', '<div class="card"><h1>Belum disiapkan</h1><p>Untuk membuat kata sandi pertama kali, buat berkas kosong bernama <code>BUAT-SANDI.txt</code> di folder ini lewat File Manager cPanel, lalu muat ulang halaman. Panduan ada di <code>docs/ALUMNI-ADMIN.md</code>.</p></div>');
+            render('Belum disiapkan', '<div class="card"><h1>Belum disiapkan</h1><p>Untuk membuat kata sandi pertama kali, buat berkas kosong bernama <code>BUAT-SANDI.txt</code> di folder ini lewat File Manager cPanel, lalu muat ulang halaman.</p></div>');
         }
         if ($action === 'setup') {
             $p1 = (string)($_POST['p1'] ?? ''); $p2 = (string)($_POST['p2'] ?? '');

@@ -2,10 +2,8 @@ node_modules
 dist
 .astro
 .env*
-MEC_UI_Preview.html
 reports/lighthouse/
 reports/audit.json
-backup/
 
 # OS / editor
 .DS_Store
@@ -20,8 +18,3 @@ npm-debug.log*
 *.tsbuildinfo
 .wrangler/
 .vercel/
-
-# python (docs/proposal generators)
-__pycache__/
-*.pyc
-.venv/
