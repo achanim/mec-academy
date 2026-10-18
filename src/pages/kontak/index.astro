@@ -9,7 +9,7 @@ const steps = [
   ['Mulai belajar', 'In-class training, lalu On the Job Training untuk praktik di lapangan.'],
 ];
 ---
-<Page title="Kontak & Konsultasi" image="building" imageAlt="Gedung MEC Academy" eyebrow="Langkah berikutnya" description="Hubungi tim MEC untuk jadwal, biaya, persyaratan, dan proses seleksi Basic Mechanic Course.">
+<Page title="Kontak & Konsultasi" image="building" imageAlt="Gedung MEC Academy" eyebrow="Langkah berikutnya" description="Hubungi tim MEC (Senin–Jumat 08.00–16.00) atau isi formulir pendaftaran Basic Mechanic Course untuk jadwal, biaya, dan persyaratan.">
   <div class="contact-cards">
     <a href={waLink()} target="_blank" rel="noopener"><small>WhatsApp</small><b>{site.phone}</b><span>Chat untuk jadwal & pendaftaran ↗</span></a>
     <a href={`tel:${site.phone.replace(/\s/g, '')}`}><small>Telepon</small><b>{site.phone}</b><span>Hubungi langsung ↗</span></a>
@@ -17,7 +17,7 @@ const steps = [
     <a href={site.registerFormUrl} target="_blank" rel="noopener"><small>Pendaftaran</small><b>Formulir BMC</b><span>Isi formulir angkatan berjalan ↗</span></a>
     <a href={maps} target="_blank" rel="noopener"><small>Alamat</small><b>Plaosan, Wonosari, Malang</b><span>{site.address} Buka peta ↗</span></a>
   </div>
-  <p class="mt-8 text-sm text-sage">Jam operasional: {site.hoursLabel}. Ikuti kami: {site.social.map((u) => <><a class="text-gold underline" href={u} target="_blank" rel="noopener">{u.includes('instagram') ? 'Instagram' : 'LinkedIn'}</a>{' · '}</>)}<a class="text-gold underline" href={site.googleProfileUrl} target="_blank" rel="noopener">Google</a> · TikTok (segera hadir).</p>
+  <p class="mt-8 text-sm text-sage">Jam operasional: {site.hoursLabel}. Ikuti kami: <a class="text-gold underline" href={site.instagramUrl} target="_blank" rel="noopener">Instagram</a> · <a class="text-gold underline" href={site.linkedinUrl} target="_blank" rel="noopener">LinkedIn</a> · <a class="text-gold underline" href={site.googleProfileUrl} target="_blank" rel="noopener">Google</a> · TikTok (segera hadir).</p>
   <h2 class="mb-6 mt-16 text-4xl">Cara mendaftar</h2>
   <ol class="grid gap-6 md:grid-cols-3">
     {steps.map(([t, d], i) => <li class="border-t-2 border-gold pt-4"><span class="font-mono text-xs text-gold">0{i + 1}</span><h3 class="mt-2 text-2xl">{t}</h3><p class="mt-2 text-sm text-sage">{d}</p></li>)}

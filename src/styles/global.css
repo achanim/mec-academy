@@ -813,3 +813,8 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .hero-media { position: absolute; inset: 0; z-index: -2; overflow: clip; background: var(--color-ink); }
 .hero-media iframe { position: absolute; top: 50%; left: 50%; width: max(100%, 177.78vh); height: max(100%, 56.25vw); border: 0; transform: translate(-50%, -50%); pointer-events: none; opacity: 0; transition: opacity .8s ease; }
 .hero-media.playing iframe { opacity: 1; }
+
+/* Ikon sosial di footer */
+.footer-grid .social-icons { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.footer-grid .social-icons a { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--color-line); border-radius: 50%; color: var(--color-sage); transition: color .2s, border-color .2s; }
+.footer-grid .social-icons a:hover, .footer-grid .social-icons a:focus-visible { color: var(--color-gold); border-color: var(--color-gold); }
