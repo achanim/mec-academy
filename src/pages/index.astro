@@ -36,16 +36,11 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.na
   <ChapterUI chapters={chapters} />
 
   <!-- 01 Hero -->
-  <section class="chapter" id="hero" data-ch="Mulai langkahmu" data-chapter="hero" data-span="1.9" style="--span:1.9">
+  <section class="chapter" id="hero" data-ch="Mulai langkahmu">
     <div class="scene isolate">
-      <div class="depth-photo"><Image src={img('hero')} alt="Siswa MEC Academy praktik di workshop" class="h-full w-full object-cover" widths={[640, 1024, 1600, 2400]} sizes="100vw" loading="eager" fetchpriority="high" /></div>
+      <div class="hero-media" data-hero-video="ZV39to3Qfz8"><Image src={img('hero')} alt="Siswa MEC Academy praktik di workshop" class="h-full w-full object-cover" widths={[640, 1024, 1600, 2400]} sizes="100vw" loading="eager" fetchpriority="high" /></div>
       <div class="absolute inset-0 z-[-1] bg-gradient-to-r from-ink via-ink/75 to-ink/5"></div>
       <div class="technical-grid" aria-hidden="true"></div>
-      <span class="hero-word" aria-hidden="true">PRAKTIK.</span>
-      <figure class="hero-frame" aria-hidden="true">
-        <div class="hero-frame-image"><Image src={img('practice')} alt="" widths={[480, 720, 1600]} sizes="31vw" loading="eager" class="h-full w-full object-cover" /></div>
-        <figcaption><span>01 / PRAKTIK KOMPONEN</span><strong>Kenali. Coba. Pahami.</strong></figcaption>
-      </figure>
       <div class="scene-pad wrap"><div class="scene-inner hero-copy">
         <p class="eyebrow mb-6">01 / Basic Mechanic Course</p>
         <SplitHeading tag="h1" class="display max-w-4xl">Mulai langkahmu.<br />Jadi mekanik<br /><em>alat berat.</em></SplitHeading>
@@ -297,5 +292,5 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.na
   </section>
 
   <dialog id="video-dialog" aria-label="Video company profile MEC Academy"><button type="button" class="close-dialog" aria-label="Tutup video">×</button><div class="video-box"></div></dialog>
-  <script>import '../scripts/home.ts';</script>
+  <script>import '../scripts/home.ts'; import '../scripts/hero-video.ts';</script>
 </Base>
