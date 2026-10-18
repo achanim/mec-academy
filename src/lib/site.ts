@@ -8,11 +8,16 @@ export const site = {
   registerMessage:
     'Halo MEC Academy, saya ingin mendaftar program Basic Mechanic Course (BMC). Mohon informasi jadwal, biaya, persyaratan, dan alur seleksinya.',
   assessmentUrl: 'https://malangeducationcentreacademy.my.id/assessment/',
-  // Profil sosial resmi (untuk schema.org sameAs). Instagram diambil dari situs lama; tambahkan Facebook/LinkedIn bila sudah dikonfirmasi MEC.
-  social: ['https://www.instagram.com/malangeducation/'] as string[],
+  // Formulir pendaftaran angkatan berjalan (Google Form). Diperbarui MEC tiap angkatan.
+  registerFormUrl: 'https://forms.gle/HoMKfnvuJLiLXtvWA',
+  mapsUrl: 'https://maps.app.goo.gl/EThQMpHZzWx9vvUr8',
+  googleProfileUrl: 'https://share.google/hhJuteGRUgX3LXx7g',
+  // Profil sosial resmi (schema.org sameAs). Info dari MEC, 18 Okt 2026. TikTok: coming soon (belum ada akun).
+  social: ['https://www.instagram.com/academy_mec/', 'https://www.linkedin.com/company/cv-mec-academy/'] as string[],
+  hoursLabel: 'Senin–Jumat, 08.00–16.00 WIB',
   // Isi bila sudah ada data resmi; kosong = tidak ditampilkan di data terstruktur.
   geo: null as null | { lat: number; lng: number },
-  openingHours: [] as { days: string[]; opens: string; closes: string }[],   // mis. { days: ['Monday','Tuesday'], opens: '08:00', closes: '16:00' }
+  openingHours: [{ days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '16:00' }] as { days: string[]; opens: string; closes: string }[],
   // Verifikasi kepemilikan (isi nilai content dari meta tag Google Search Console / Bing Webmaster; kosong = tidak dirender)
   verification: { google: '', bing: '' },
   // Analitik ramah privasi (mis. Plausible/Umami). Kosong = tidak ada skrip. Contoh Plausible: { src: 'https://plausible.io/js/script.js', attrs: { 'data-domain': 'malangeducationcenter.com' } }
