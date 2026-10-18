@@ -13,7 +13,7 @@ Diperbarui: 2026-10-01. Status: arsip rencana awal; situs sudah tayang dan deplo
 |---|---|---|
 | Domain di config, sitemap, robots | placeholder `mecacademy.id` | `malangeducationcenter.com` |
 | `_headers`, `_redirects` | khusus Cloudflare/Netlify, tidak jalan di cPanel | tetap ada, ditambah `public/.htaccess` (HTTPS, www→apex, redirect alamat lama, 404/500, gzip, cache, header keamanan) |
-| Deploy | rencana Cloudflare Pages | manual lewat cPanel File Manager (zip dipecah); `deploy.yml` hanya membuat artefak build. Lihat `docs/CICD.md` |
+| Deploy | rencana Cloudflare Pages | manual lewat cPanel File Manager (zip dipecah); tanpa GitHub Actions. Lihat `docs/CICD.md` |
 | Judul beranda | "Kursus Mekanik Alat Berat di Malang" | memuat "Pelatihan Teknik Alat Berat di Malang \| Malang Education Center" agar dekat dengan judul lama di Google |
 
 Peta redirect alamat lama (perlu dikonfirmasi):

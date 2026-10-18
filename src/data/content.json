@@ -225,13 +225,15 @@
   ],
   "facilities": [
     "6 ruang kelas",
-    "Mess satu lokasi dengan pelatihan, kapasitas 30 siswa",
+    "Mess satu lokasi dengan pelatihan (kapasitas 30 siswa) untuk siswa di luar Range 1 pelatihan, dengan iuran per bulan tiap siswa",
     "Workshop, tools & equipment",
     "Pantry",
     "Musholla",
     "Kamar mandi",
     "Parkir kendaraan",
-    "Seragam dan APD: seragam bintalsik, seragam trainee, dan sepatu safety"
+    "Seragam in class, seragam bintalsik, dan sepatu safety",
+    "Modul pelatihan",
+    "Sertifikat BMC"
   ],
   "propositions": [
     "Basic Mechanic Course",
@@ -369,13 +371,16 @@
     "Nomor telepon dan email contoh pada gambar kartu tidak dipakai sebagai kontak website."
   ],
   "requirements": {
-    "source": "Situs MEC saat ini (malangeducationcenter.com/syarat-in-class), Okt 2026; konfirmasi MEC sebelum dipublikasikan ulang",
+    "source": "Info resmi MEC (balasan otomatis WhatsApp), 17 Okt 2026",
     "admin": [
-      "Pendidikan minimal SMA / SMK / sederajat",
-      "Sehat jasmani dan rohani",
-      "Tidak buta warna, tidak berkacamata, tidak bertato",
-      "Tinggi badan minimal 163 cm",
-      "Usia maksimal 23 tahun pada tahun pendaftaran"
+      "Laki-laki",
+      "Belum menikah",
+      "Usia maksimal 23 tahun",
+      "Pendidikan minimal SMK jurusan TAB, TKR, TPM, atau Listrik, atau SMA jurusan IPA",
+      "Tidak bertato",
+      "Tidak berkacamata",
+      "Sehat jasmani dan tidak buta warna",
+      "Tinggi badan minimal 163 cm"
     ],
     "inclass": [
       "Lolos seleksi administrasi",
@@ -387,7 +392,7 @@
       "Telah menyelesaikan in-class training",
       "Lolos assessment teori dan praktik",
       "Menyelesaikan syarat administrasi",
-      "Mengikuti OJT selama 3–6 bulan di tempat yang ditentukan"
+      "Mengikuti OJT selama 6–12 bulan di tempat yang ditentukan"
     ]
   }
 }
