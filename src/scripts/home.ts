@@ -1,4 +1,4 @@
-import { chapterState, choreography, clamp, damp, indexFromProgress, motionAllowed, railIndex, railOffset, railProgress, zoomPortal } from './motion';
+import { chapterState, choreography, clamp, damp, indexFromProgress, motionAllowed, railIndex, railOffset, railProgress } from './motion';
 
 const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -110,7 +110,6 @@ let chapters: Ch[] = [];
 let active = false;
 let raf = 0, last = 0;
 let px = 0, py = 0, tx = 0, ty = 0;
-let heroBox: { x: number; y: number; width: number; height: number } | null = null;
 
 const rail = document.querySelector<HTMLElement>('[data-rail]');
 const railBar = document.querySelector<HTMLElement>('[data-rail-bar]');
@@ -154,8 +153,6 @@ function setup() {
 
 function measure(els: HTMLElement[]) {
   chapters = els.map((el) => ({ el, id: el.dataset.chapter!, top: el.getBoundingClientRect().top + scrollY, height: el.offsetHeight, p: 0, ready: false }));
-  const fr = document.querySelector<HTMLElement>('.hero-frame');
-  heroBox = fr ? { x: fr.offsetLeft, y: fr.offsetTop, width: fr.offsetWidth, height: fr.offsetHeight } : null;
   queueStatus();
 }
 
@@ -184,11 +181,6 @@ function tick(now: number) {
     s.setProperty('--enter', st.enter.toFixed(4));
     s.setProperty('--exit', st.exit.toFixed(4));
     for (const [k, val] of Object.entries(v)) s.setProperty(`--${k === 'camX' ? 'camx' : k === 'camY' ? 'camy' : k}`, val.toFixed(4));
-    if (c.id === 'hero') {
-      const z = zoomPortal(c.p, heroBox, { width: innerWidth, height: vh });
-      s.setProperty('--zp', z.progress.toFixed(4)); s.setProperty('--zs', z.scale.toFixed(4));
-      s.setProperty('--zx', `${z.x.toFixed(1)}px`); s.setProperty('--zy', `${z.y.toFixed(1)}px`); s.setProperty('--zc', z.caption.toFixed(3));
-    }
     if (c.id === 'learning') {
       const g = railGeom();
       if (g) {
