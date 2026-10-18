@@ -51,7 +51,7 @@ function openVideo(id: string) {
   loading.className = 'video-loading';
   loading.innerHTML = '<div class="spinner" role="status" aria-label="Memuat video"></div>';
   const f = document.createElement('iframe');
-  f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+  f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&cc_load_policy=0`;
   f.title = 'Company Profile MEC Academy';
   f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
   f.className = 'absolute inset-0 h-full w-full';
