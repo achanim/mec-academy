@@ -10,7 +10,7 @@
 
 ## Deploy rutin (manual, cPanel File Manager)
 1. `git checkout main && git pull && npm run build`.
-2. Pecah `dist/` menjadi zip ≤ 8 MB, unggah dan ekstrak ke `public_html` (rincian dan perintah zip di panduan bagian 4).
+2. Zip seluruh `dist/` menjadi satu berkas (batas unggah saat ini 512 MB), unggah dan ekstrak ke `public_html` (rincian dan perintah zip di panduan bagian 4).
 3. Pastikan `.htaccess` masih memuat blok PHP 8.3, lalu uji asap (beranda, `/faq/`, `/alumni/`, `/kelola-foto/`).
 
 ## Jalur lama: `npm run deploy` (tidak dipakai, referensi)
@@ -51,7 +51,7 @@ Nilai di `.env.deploy` dibaca sebagai teks, jadi sandi boleh berisi `;`, `#`, `$
 2. cPanel menulis blok `# php -- BEGIN cPanel-generated handler` ke `public_html/.htaccess`. Karena deploy **menimpa** `.htaccess`, blok itu **disalin ke `public/.htaccess` di repo**. **Jangan dihapus**; tanpa blok itu PHP kembali ke 7.4 dan `/kelola-foto/` 500 lagi. Bila versi PHP diganti di MultiPHP Manager, salin blok baru dari `public_html/.htaccess` server ke repo.
 3. **Server membatasi 8 koneksi FTP per IP** (`421 Too many connections`). Sesi macet bisa menahan koneksi beberapa menit, jadi skrip memakai maksimal **2 koneksi paralel**.
 4. **Hostname FTP harus `gede.iixcp.rumahweb.net`**; sertifikat TLS tidak cocok untuk `ftp.<domain>`.
-5. **File Manager membatasi unggah browser ±10 MB per panggilan**, jadi jalur cadangan manual memecah build menjadi **3 zip (±8 MB)** lalu mengekstraknya ke `public_html`.
+5. **Batas unggah File Manager** dulu ±10 MB (build dipecah 3 zip), kini 512 MB sehingga cukup **satu zip** yang diekstrak ke `public_html`.
 6. Berkas status `FTP-Deploy-Action` (`.ftp-deploy-sync-state.json`) tidak lagi dipakai; blok penolaknya sudah dihapus dari `.htaccess`. Bila berkas itu masih ada di server, hapus lewat File Manager.
 
 ## CI dan GitHub Actions

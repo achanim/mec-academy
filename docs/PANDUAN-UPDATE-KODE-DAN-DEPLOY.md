@@ -50,19 +50,15 @@ Yang di-deploy adalah **isi komputer Anda**, jadi pastikan sedang di cabang `mai
 Deploy otomatis (CI/CD dan `npm run deploy`) **tidak dipakai**: unggahan FTPS dari lokal sering macet. Gunakan cPanel File Manager.
 
 1. Pastikan sedang di `main` yang mutakhir dan `npm run build` sukses (folder `dist/` terbentuk).
-2. File Manager membatasi unggah sekitar **10 MB** per berkas, sedangkan seluruh `dist/` sekitar 18 MB. Jadi **pecah menjadi beberapa zip ≤ 8 MB**, masing-masing berisi sebagian isi `dist/` (bukan foldernya). Contoh pembagian (Mac/Linux, jalankan di folder utama):
+2. Batas unggah File Manager di hosting ini saat ini **512 MB**, jadi cukup **satu zip** berisi seluruh isi `dist/` (bukan foldernya). Jalankan di folder utama (Mac/Linux):
    ```
-   cd dist
-   zip -qr ../mec-1.zip . -x '.DS_Store' -x '_astro/*.webp'
-   zip -q  ../mec-2.zip _astro/gallery-*.webp
-   zip -q  ../mec-3.zip _astro/*.webp -x '_astro/gallery-*'
-   cd .. && ls -lh mec-*.zip     # setiap berkas harus < 10 MB (saat ini sekitar 2,6 / 8,2 / 7,7 MB)
+   cd dist && zip -qr ../mec.zip . -x '.DS_Store' && cd .. && ls -lh mec.zip     # saat ini sekitar 18 MB
    ```
-   Bila ada zip yang mendekati 10 MB karena gambar bertambah, pecah lagi per awalan nama berkas. `.htaccess` ikut di `mec-1.zip`. Hapus zip lokal setelah selesai (`rm ../mec-*.zip`); jangan di-commit.
+   `.htaccess` ikut di dalam zip. Hapus zip lokal setelah selesai (`rm mec.zip`); jangan di-commit. Bila batas unggah turun lagi, pecah per awalan nama berkas di `_astro/`.
 3. Login cPanel Rumahweb → **File Manager** → buka `public_html`.
-4. Klik **Upload**, pilih semua `mec-*.zip`, tunggu 100%.
-5. Kembali ke `public_html`, klik kanan tiap zip → **Extract** ke `public_html` (satu per satu). Jika ditanya menimpa, pilih timpa.
-6. Hapus semua `mec-*.zip` dari server.
+4. Klik **Upload**, pilih `mec.zip`, tunggu 100%.
+5. Kembali ke `public_html`, klik kanan `mec.zip` → **Extract** ke `public_html` . Jika ditanya menimpa, pilih timpa.
+6. Hapus `mec.zip` dari server.
 7. Klik **Settings** (kanan atas) → centang **Show Hidden Files (dotfiles)**, lalu pastikan `public_html/.htaccess` ada dan masih berisi blok PHP 8.3.
 8. **Jangan hapus** folder `alumni-foto/` dan `kelola-foto/` di server; isi `alumni-foto/` adalah data admin, bukan dari kode.
 
