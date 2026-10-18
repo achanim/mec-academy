@@ -24,7 +24,7 @@ const orgLd: Record<string, unknown> = {
   telephone: site.phone,
   email: site.email,
   address: { '@type': 'PostalAddress', streetAddress: site.address, addressLocality: 'Kabupaten Malang', addressRegion: 'Jawa Timur', addressCountry: 'ID' },
-  hasMap: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('MEC Academy, Jl. Jatisari No. 07, Plaosan, Wonosari, Malang'),
+  hasMap: site.mapsUrl,
   contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: site.phone, areaServed: 'ID', availableLanguage: ['id'] },
   ...(site.social.length ? { sameAs: site.social } : {}),
   ...(site.geo ? { geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng } } : {}),
