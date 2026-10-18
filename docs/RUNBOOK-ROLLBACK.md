@@ -6,7 +6,7 @@ Hostinger tidak lagi menjadi cadangan (berakhir 15 Okt 2026, tidak diperpanjang)
 ## Persiapan SEKARANG (murah, memperpendek pemulihan nanti)
 - [ ] **Turunkan TTL record `A @`, `www`, dan `MX` di zona cPanel ke 300 detik** supaya perpindahan nanti merata dalam menit, bukan jam.
 - [ ] **Simpan salinan konfigurasi** (di luar repo): isi zona DNS (screenshot Zone Editor), daftar 9 kotak surat (jumlah dan kuota; sandi di pengelola sandi), pengaturan `.htaccess`.
-- [ ] Simpan **`dist/` terbaru** dan artefak `dist-zip` terakhir (GitHub Actions, 30 hari).
+- [ ] Simpan salinan **`dist/` terbaru** (zip) di luar server.
 - [ ] **Cadangkan email berkala:** tiap staf salin surat ke *Folder Lokal* Thunderbird; atau minta tiket Rumahweb mengaktifkan daily backup (`docs/TIKET-RUMAHWEB.md`).
 - [ ] Catat tanggal berakhir trial begitu Rumahweb menjawab tiket.
 - [ ] Kalender: ingatkan 7 hari sebelum tanggal berakhir.
@@ -19,7 +19,7 @@ Hostinger tidak lagi menjadi cadangan (berakhir 15 Okt 2026, tidak diperpanjang)
 
 ## Langkah pemulihan (±2–4 jam kerja + propagasi)
 1. **Tentukan paket pengganti** (A atau B) dan siapkan akses cPanel-nya.
-2. **Pasang situs:** tambahkan domain (addon atau domain utama paket baru), unggah isi `dist/` ke `public_html` (atau jalankan CI/CD dengan secret cPanel baru; lihat `docs/CICD.md`). Uji lewat file `hosts` ke IP server baru.
+2. **Pasang situs:** tambahkan domain (addon atau domain utama paket baru), unggah isi `dist/` ke `public_html` (lewat File Manager, zip dipecah; lihat `docs/CICD.md`). Uji lewat file `hosts` ke IP server baru.
 3. **Buat ulang kotak surat** (9 buah) dengan sandi baru; atur ulang aplikasi email staf (`docs/PANDUAN-EMAIL-STAF.md`). **Isi surat lama tidak otomatis ikut**; pulihkan dari Folder Lokal Thunderbird staf atau backup bila ada.
 4. **Bangun zona DNS di paket baru:** `A @` ke IP server baru, `www` CNAME ke `@`, `MX` ke `mail.<domain>` (prioritas 0) dengan `A mail`, SPF `v=spf1 +a +mx +ip4:<IP baru> ~all`, DKIM dari cPanel (Email Deliverability), DMARC `v=DMARC1; p=none`, tanpa AAAA.
 5. **Ganti nameserver** di client zone Rumahweb ke nameserver hosting baru (bila server berbeda dan zona dikelola di paket baru). Bila server sama/DNS tetap, cukup ubah record.

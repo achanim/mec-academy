@@ -50,7 +50,7 @@ Catatan: situs statis, jadi **tidak ada panel pengelola konten** selain pengelol
 
 ## 5. Hal teknis yang harus diketahui penerus
 - Cabang: `main` (live) = `staging`; `dev` versi satu halaman (arsip).
-- Deploy lokal saja (GitHub Actions tidak bisa menjangkau Rumahweb): `npm run deploy` dengan `.env.deploy` (tidak masuk git); hostname FTP `gede.iixcp.rumahweb.net`; maksimal 2 koneksi paralel; `.htaccess` berisi blok handler PHP 8.3 dari cPanel yang **tidak boleh dihapus**.
+- Deploy manual lewat cPanel File Manager (`docs/PANDUAN-UPDATE-KODE-DAN-DEPLOY.md` bagian 4); GitHub Actions dicabut dan `npm run deploy` (FTPS) tidak dipakai karena macet; `.htaccess` berisi blok handler PHP 8.3 dari cPanel yang **tidak boleh dihapus**.
 - `public/kelola-foto/` butuh PHP 8.1+ dan GD; foto ada di `public_html/alumni-foto/` (di luar build, **jangan dihapus saat deploy**; cadangkan berkala).
 - Kait yang tinggal diisi (`src/lib/site.ts`): verifikasi Search Console/Bing, analitik, koordinat, jam buka, tautan sosial.
 - Indeks dokumentasi: `docs/` (PLAN, TODO, CICD, MIGRASI, RUNBOOK, ALUMNI-ADMIN, AUDIT-SEO, TODO-LOKAL-SEO, REVIEW-HEADERS, PANDUAN-EMAIL-STAF, TIKET-RUMAHWEB, SEARCH-CONSOLE, KEBUTUHAN-DARI-KLIEN, DRAFT-KONTEN-UNTUK-MEC, RENCANA-KONTEN-SEO).

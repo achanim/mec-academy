@@ -1,6 +1,6 @@
 # Deploy ke Rumahweb
 
-**Keputusan (15 Okt 2026):** deploy dilakukan **manual lewat cPanel File Manager** (langkah lengkap: `docs/PANDUAN-UPDATE-KODE-DAN-DEPLOY.md` bagian 4). `npm run deploy` (FTPS/lftp) macet lebih dari 25 menit di praktik dan **tidak dipakai lagi**; skripnya disimpan hanya sebagai referensi. Deploy dari GitHub Actions juga tidak mungkin di hosting ini:
+**Keputusan (15 Okt 2026):** deploy dilakukan **manual lewat cPanel File Manager** (langkah lengkap: `docs/PANDUAN-UPDATE-KODE-DAN-DEPLOY.md` bagian 4). `npm run deploy` (FTPS/lftp) macet lebih dari 25 menit di praktik dan **tidak dipakai lagi**; skripnya disimpan hanya sebagai referensi. Deploy dari GitHub Actions juga tidak mungkin di hosting ini (workflow-nya sudah dihapus):
 
 | Jalur | Hasil |
 |---|---|
@@ -54,13 +54,10 @@ Nilai di `.env.deploy` dibaca sebagai teks, jadi sandi boleh berisi `;`, `#`, `$
 5. **File Manager membatasi unggah browser ±10 MB per panggilan**, jadi jalur cadangan manual memecah build menjadi **3 zip (±8 MB)** lalu mengekstraknya ke `public_html`.
 6. Berkas status `FTP-Deploy-Action` (`.ftp-deploy-sync-state.json`) tidak lagi dipakai; blok penolaknya sudah dihapus dari `.htaccess`. Bila berkas itu masih ada di server, hapus lewat File Manager.
 
-## Jalur cadangan (manual)
-Actions > *Build artefak (deploy manual)* > *Run workflow* menghasilkan artefak `dist-zip` (30 hari). Unduh, lalu **pecah menjadi beberapa zip ≤ ±8 MB** (batas unggah File Manager ±10 MB), unggah ke `public_html` lewat File Manager dan ekstrak satu per satu. Atau pakai `dist/` hasil `npm run build` lokal (ini jalur utama sekarang).
-
-## CI
-`ci.yml` tetap menjalankan check, test, build, dan audit pada push/PR. `deploy.yml` kini hanya manual dan tidak men-deploy.
+## CI dan GitHub Actions
+Dicabut pada 18 Okt 2026: folder `.github/workflows/` (`ci.yml` dan `deploy.yml`) dihapus dari `main` dan `staging`. Tidak ada pipeline otomatis; pemeriksaan dilakukan lokal sebelum deploy (`npm run check`, `npm test`, `npm run build`, opsional `npm run audit`).
 
 ## Rollback
 1. **Cepat:** `git revert <commit>`, `npm run build`, lalu unggah `dist/` lewat File Manager (zip dipecah).
-2. **Manual:** artefak `dist-zip` dari run lama atau `dist/` lokal, unggah lewat File Manager dan ekstrak.
+2. **Manual:** `git checkout <commit-lama>`, `npm run build`, lalu unggah `dist/` lewat File Manager dan ekstrak.
 3. **Bila akun hilang:** `docs/RUNBOOK-ROLLBACK.md`.
