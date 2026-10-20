@@ -1,6 +1,6 @@
 ---
 import Page from '../../../components/Page.astro';
-import { modules, waLink } from '../../../lib/site';
+import { modules, site } from '../../../lib/site';
 import ModuleGroups from '../../../components/ModuleGroups.astro';
 import content from '../../../data/content.json';
 const ld = {
@@ -15,5 +15,5 @@ const ld = {
   <ModuleGroups />
   <h2 class="mb-6 mt-16 text-4xl">Komponen praktik</h2>
   <ul class="flex flex-wrap gap-3">{content.components.map((c) => <li class="border border-line px-4 py-2 text-sm">{c}</li>)}</ul>
-  <a class="btn mt-14" href={waLink()} target="_blank" rel="noopener">Daftar BMC ↗</a>
+  <a class="btn mt-14" href={site.registerFormUrl} target="_blank" rel="noopener">Daftar BMC ↗</a>
 </Page>
