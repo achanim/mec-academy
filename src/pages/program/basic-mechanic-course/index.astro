@@ -1,17 +1,17 @@
 ---
 import Page from '../../../components/Page.astro';
-import { modules, site } from '../../../lib/site';
+import { coreModuleCount, extraModuleCount, site } from '../../../lib/site';
 import ModuleGroups from '../../../components/ModuleGroups.astro';
 import content from '../../../data/content.json';
 const ld = {
   '@context': 'https://schema.org', '@type': 'Course', name: 'Basic Mechanic Course (BMC)',
-  description: 'Pelatihan dasar mekanik alat berat: 16 modul, praktik komponen, dan On the Job Training.',
+  description: 'Pelatihan dasar mekanik alat berat: 14 modul, praktik komponen, dan On the Job Training.',
   provider: { '@type': 'EducationalOrganization', name: 'MEC Academy', sameAs: 'https://malangeducationcenter.com' },
   inLanguage: 'id',
 };
 ---
 <Page title="Basic Mechanic Course (BMC)" image="workshop" imageAlt="Praktik di workshop MEC Academy" eyebrow="Program" description="Bangun dasar teknis, pengalaman praktik, dan karakter profesional untuk menjadi mekanik alat berat." jsonLd={ld}>
-  <h2 class="mb-6 text-4xl">{modules.length} modul pembelajaran</h2>
+  <h2 class="mb-6 text-4xl">{coreModuleCount} modul pembelajaran</h2><p class="-mt-3 mb-6 text-sage">Ditambah {extraModuleCount} modul tambahan: Aksesoris (AC - ALS) &amp; safety dan Device (AFS).</p>
   <ModuleGroups />
   <h2 class="mb-6 mt-16 text-4xl">Komponen praktik</h2>
   <ul class="flex flex-wrap gap-3">{content.components.map((c) => <li class="border border-line px-4 py-2 text-sm">{c}</li>)}</ul>

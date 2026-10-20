@@ -36,6 +36,6 @@ export async function ensureServer() {
 
 export const PAGES = [
   '/', '/program/basic-mechanic-course/', '/program/basic-mechanic-course/modul/', '/program/basic-mechanic-course/modul/basic-safety/',
-  '/tahapan-seleksi/', '/fasilitas/', '/instruktur/', '/instruktur/chandra-choirulyanto/', '/industri/', '/sumber/', '/tentang/',
+  '/tahapan-seleksi/', '/fasilitas/', '/instruktur/', '/instruktur/chandra-choirulyanto/', '/industri/', '/tentang/',
   '/assessment/', '/kontak/', '/faq/', '/artikel/', '/artikel/tahapan-belajar-basic-mechanic-course/',
 ];

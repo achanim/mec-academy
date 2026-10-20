@@ -23,6 +23,8 @@ RewriteRule ^program/?$        /program/basic-mechanic-course/ [L,R=301]
 # Alamat umum yang dicari crawler -> berkas sitemap yang sebenarnya
 # Ejaan nama instruktur dikoreksi (Winarto -> Wiharto)
 RewriteRule ^instruktur/johan-winarto/?$ /instruktur/johan-wiharto/ [L,R=301]
+# Halaman Sumber informasi dihapus (feedback klien)
+RewriteRule ^sumber/?$ / [L,R=301]
 RewriteRule ^sitemap\.xml$    /sitemap-index.xml [L,R=301]
 RewriteRule ^artikel/kategori/?$ /artikel/ [L,R=301]
 # /assessment sudah sama; garis miring penutup ditambahkan otomatis oleh Apache (mod_dir)

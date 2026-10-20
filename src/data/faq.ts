@@ -1,11 +1,12 @@
 import content from './content.json';
+import { coreModuleCount, extraModuleCount } from '../lib/site';
 
 /** FAQ hanya memuat fakta dari company profile; biaya/jadwal sengaja diarahkan ke tim MEC. */
 export const faq: { q: string; a: string; home?: boolean }[] = [
   { q: 'Apa itu MEC Academy?', a: 'MEC Academy adalah lembaga pendidikan dan pelatihan keterampilan teknik alat berat di Malang yang menyiapkan peserta untuk berkarier di dunia profesional. Saat ini program yang tersedia adalah Basic Mechanic Course (BMC).', home: true },
-  { q: 'Apa itu Basic Mechanic Course (BMC)?', a: 'BMC adalah program pelatihan dasar mekanik alat berat di MEC Academy, Malang: 16 modul pembelajaran, praktik komponen, pembentukan karakter, dan On the Job Training.', home: true },
+  { q: 'Apa itu Basic Mechanic Course (BMC)?', a: 'BMC adalah program pelatihan dasar mekanik alat berat di MEC Academy, Malang: 14 modul pembelajaran (ditambah 2 modul tambahan), praktik komponen, pembentukan karakter, dan On the Job Training.', home: true },
   { q: 'Apa saja tahapan seleksinya?', a: `${content.stages[0].items.join(', ')}. Setelah itu peserta mengikuti in-class training dan On the Job Training.`, home: true },
-  { q: 'Apa saja yang dipelajari di BMC?', a: `Ada ${content.modules.length} modul, antara lain ${content.modules.slice(0, 5).join(', ')}, dan seterusnya sampai ${content.modules.at(-1)}. Praktik memakai komponen seperti ${content.components.slice(0, 3).join(', ')}.`, home: true },
+  { q: 'Apa saja yang dipelajari di BMC?', a: `Ada ${coreModuleCount} modul, antara lain ${content.modules.slice(0, 5).join(', ')}, dan seterusnya sampai ${content.modules[coreModuleCount - 1]}. Ada juga ${extraModuleCount} modul tambahan: ${content.modules.slice(coreModuleCount).join(' dan ')}. Praktik memakai komponen seperti ${content.components.slice(0, 3).join(', ')}.`, home: true },
   { q: 'Apa saja persyaratan menjadi siswa BMC?', a: `${content.requirements.admin.join('; ')}.` },
   { q: 'Berapa lama durasi pelatihan?', a: 'In-class training berlangsung 3 bulan, dilanjutkan On the Job Training (OJT) selama 6–12 bulan.' },
   { q: 'Apakah ada On the Job Training (OJT)?', a: `Ya, selama 6–12 bulan. ${content.stages[2].items.join('; ')}.` },

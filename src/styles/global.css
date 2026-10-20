@@ -57,7 +57,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); ou
 @media (max-width: 899px) { .desktop-nav { display: none; } .site-header-inner { height: 76px; gap: 14px; } .menu-panel { inset-block-start: 76px; } .motion-control { display: none; } .logo-frame img { width: 70px; } }
 @media (min-width: 900px) { .menu-control { display: none; } }
 
-.loader { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; background: radial-gradient(ellipse at 50% 0, #315f61, var(--color-ink) 70%); overflow: auto; }
+.loader { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; background: radial-gradient(ellipse at 50% 0, rgba(49,95,97,.85), rgba(6,31,35,.85) 70%); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); overflow: auto; }
 .intro-pending .loader { display: flex; }
 .intro-pending body { overflow: hidden; }
 .loader-body { max-width: 480px; width: 100%; padding: 40px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; }
@@ -163,11 +163,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); ou
 @media (max-width: 1150px) { .trainer-gallery { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 560px) { .trainer-gallery { grid-template-columns: repeat(2, 1fr); } }
 
-.about-layout { display: grid; grid-template-columns: .9fr 1.2fr; gap: 70px; align-items: center; }
-.about-visual { position: relative; padding-bottom: 60px; }
-.about-photo { width: 100%; height: 400px; object-fit: cover; border-top: 3px solid var(--color-gold); }
-.about-logo { position: absolute; right: -20px; bottom: 20px; padding: 14px 20px; background: linear-gradient(120deg, var(--color-paper), #e6dfca); box-shadow: 0 20px 50px #0007; line-height: 0; transform: rotate(-3deg); }
-.about-logo img { width: 130px; height: auto; }
+.about-layout { display: flex; justify-content: flex-end; }
+.about-copy { max-width: 600px; }
+.about-bleed { position: absolute; inset: 0; z-index: -2; }
 .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 26px 0 18px; }
 .timeline li { border-top: 1px solid var(--color-gold); padding-top: 8px; }
 .timeline b { display: block; font: 700 28px var(--font-display); color: var(--color-gold); }
@@ -176,7 +174,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); ou
 .metrics div { display: flex; gap: 12px; align-items: center; }
 .metrics b { font: 700 40px var(--font-display); }
 .metrics span { max-width: 110px; font: 12px/1.5 var(--font-mono); color: var(--color-sage); }
-@media (max-width: 899px) { .about-layout { grid-template-columns: 1fr; gap: 30px; } .about-logo { right: 0; } }
+
 
 .industry-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 24px; margin: 22px 0 28px; }
 .industry-grid figure { margin: 0; }
@@ -187,9 +185,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-gold); ou
 
 .alumni-layout { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center; }
 .alumni-stack { position: relative; min-height: 420px; }
-.alumni-stack img { position: absolute; width: 74%; height: 62%; object-fit: cover; border: 8px solid #fff; box-shadow: 0 25px 60px #0004; }
-.alumni-back { right: 0; top: 0; transform: rotate(6deg); }
-.alumni-front { left: 0; bottom: 8%; transform: rotate(-5deg); }
 .alumni-caption { position: absolute; right: 0; bottom: 0; font: 12px var(--font-mono); letter-spacing: 1px; color: var(--color-sage); }
 @media (max-width: 899px) { .alumni-layout { grid-template-columns: 1fr; } .alumni-stack { min-height: 340px; } }
 
@@ -269,8 +264,6 @@ dialog .close-dialog { position: absolute; right: 22px; top: 22px; width: 40px; 
 .motion-ready .character-beats { display: grid; position: absolute; right: 7%; bottom: 14%; z-index: 4; width: 42%; text-align: right; font: 700 clamp(36px, 4.8vw, 88px)/1 var(--font-display); text-transform: uppercase; pointer-events: none; text-shadow: 0 2px 30px var(--color-ink); }
 .character-beats span { grid-area: 1 / 1; opacity: var(--b, 0); transform: translate3d(0, calc((1 - var(--b, 0)) * 18px), 0); }
 
-.motion-ready .alumni-back { transform: perspective(900px) rotateZ(calc(9deg - var(--advance, 0) * 8deg)) rotateY(calc(-8deg + var(--advance, 0) * 8deg)) translate3d(0, calc(var(--advance, 0) * -25px), 0); }
-.motion-ready .alumni-front { transform: perspective(900px) rotateZ(calc(-8deg + var(--advance, 0) * 6deg)) translate3d(calc(var(--advance, 0) * -20px), calc(var(--advance, 0) * -48px), 70px); }
 
 .motion-ready .film-bg { clip-path: inset(calc(var(--portal, 0) * .45%) calc(var(--portal, 0) * 1%)); }
 
@@ -448,8 +441,6 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 @media (max-width: 1150px) { .trainer-portrait { height: 260px; } }
 
 /* Tentang */
-.about-logo { position: absolute; bottom: 30px; right: -20px; background: linear-gradient(120deg, var(--color-paper), #eae5d5); padding: 20px 32px; transform: rotate(-3deg); border-bottom: 3px solid var(--color-gold); box-shadow: none; }
-.about-logo img { width: 120px; height: 65px; object-fit: contain; }
 .metrics { display: flex; gap: 45px; margin-bottom: 20px; }
 .metrics article { display: flex; gap: 15px; align-items: center; }
 .metrics strong { font: 700 42px/1 var(--font-display); color: var(--color-gold); }
@@ -503,7 +494,6 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .machine-infos h3 { font-size: 24px; }
 .timeline b { font: 12px/1.6 var(--font-mono); color: var(--color-gold); letter-spacing: 1px; }
 .timeline span { font: 12px/1.6 var(--font-mono); color: var(--color-sage); }
-.alumni-stack img { width: 78%; height: 68%; }
 .film-content > p { max-width: 420px; font-size: 15px; }
 #contact .lead { max-width: 570px; font-size: 22px; line-height: 1.5; color: var(--color-paper); }
 .trainer-info strong { text-transform: none; }
@@ -540,9 +530,6 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
   .trainer-gallery { gap: 12px; }
   .trainer-info { padding: 14px 10px; min-height: 110px; }
   .trainer-info strong { font-size: 15px; }
-  .about-photo { height: 260px; }
-  .about-logo { right: 0; bottom: 10px; padding: 12px 18px; }
-  .about-logo img { width: 90px; height: auto; }
   .timeline { grid-template-columns: 1fr; gap: 10px; }
   .metrics { flex-direction: column; gap: 14px; }
   .metrics article { flex-direction: row; align-items: center; }
@@ -659,7 +646,6 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
   .industry-grid > li { flex: 0 0 78vw; scroll-snap-align: start; }
   .industry-grid img { height: 210px; }
   .journey-image { height: 170px; }
-  .about-photo { height: 220px; }
   .alumni-stack { min-height: 260px; }
 }
 
@@ -682,7 +668,6 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .spatial-frame { max-width: 640px; }
 .spatial-image { height: clamp(240px, 40svh, 360px); }
 .trainer-portrait { height: clamp(250px, 34vh, 360px); }
-.about-photo { height: clamp(300px, 46vh, 440px); }
 @media (max-width: 899px) { .spatial-image { height: clamp(200px, 52vw, 320px); } }
 @media (max-width: 760px) { .industry-grid img { aspect-ratio: 3 / 2; height: auto; } .trainer-portrait { height: 270px; } }
 
@@ -823,3 +808,23 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .home-footer .social-icons { display: flex; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .home-footer .social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--color-line, rgba(255,255,255,.25)); border-radius: 50%; color: var(--color-paper); transition: color .2s, border-color .2s; }
 .home-footer .social-icons a:hover, .home-footer .social-icons a:focus-visible { color: var(--color-gold); border-color: var(--color-gold); }
+
+.module-group .extra-tag { display: block; margin-top: 3px; font: 11px var(--font-mono); letter-spacing: .5px; color: var(--color-gold); text-transform: uppercase; }
+
+/* Slideshow foto alumni: tiap foto masuk dari kanan, lalu memudar keluar bergantian */
+.alumni-stack { position: relative; min-height: 460px; }
+.alumni-slide { position: absolute; inset: 0 auto 0 50%; width: min(78%, 380px); height: 100%; margin-left: calc(min(78%, 380px) / -2); object-fit: cover; border: 8px solid #fff; box-shadow: 0 25px 60px #0004; opacity: 0; animation: alumni-fade calc(var(--n) * 3.6s) infinite both; animation-delay: calc(var(--i) * 3.6s); }
+@keyframes alumni-fade {
+  0% { opacity: 0; transform: translateX(46px) rotate(2deg); }
+  3% { opacity: 1; transform: translateX(0) rotate(0); }
+  11% { opacity: 1; transform: translateX(0) rotate(0); }
+  14% { opacity: 0; transform: translateX(-22px) rotate(-1deg); }
+  100% { opacity: 0; transform: translateX(-22px) rotate(-1deg); }
+}
+.calm .alumni-slide, .intro-pending .alumni-slide { animation: none; }
+.calm .alumni-slide:first-child { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .alumni-slide { animation: none; } .alumni-slide:first-child { opacity: 1; } }
+@media (max-width: 899px) { .alumni-stack { min-height: 420px; } }
+.learn-steps { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; counter-reset: step; font: 12px var(--font-mono); color: var(--color-sage); text-transform: uppercase; }
+.learn-steps li { counter-increment: step; }
+.learn-steps li::before { content: counter(step) ". "; color: var(--color-gold); }

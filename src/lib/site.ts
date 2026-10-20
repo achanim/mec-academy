@@ -15,7 +15,9 @@ export const site = {
   // Profil sosial resmi (schema.org sameAs). Info dari MEC, 18 Okt 2026. TikTok: coming soon (belum ada akun).
   instagramUrl: 'https://www.instagram.com/academy_mec/',
   linkedinUrl: 'https://www.linkedin.com/company/cv-mec-academy/',
-  social: ['https://www.instagram.com/academy_mec/', 'https://www.linkedin.com/company/cv-mec-academy/', 'https://share.google/hhJuteGRUgX3LXx7g'] as string[],
+  youtubeUrl: 'https://www.youtube.com/@MecAcademyOfficial',
+  facebookUrl: 'https://www.facebook.com/profile.php?id=61593022360337',
+  social: ['https://www.instagram.com/academy_mec/', 'https://www.linkedin.com/company/cv-mec-academy/', 'https://www.youtube.com/@MecAcademyOfficial', 'https://www.facebook.com/profile.php?id=61593022360337', 'https://share.google/hhJuteGRUgX3LXx7g'] as string[],
   hoursLabel: 'Senin–Jumat, 08.00–16.00 WIB',
   // Isi bila sudah ada data resmi; kosong = tidak ditampilkan di data terstruktur.
   geo: { lat: -8.0995239, lng: 112.5351695 } as null | { lat: number; lng: number },   // pin Google Maps "MEC ( Malang Education Centre )"
@@ -31,4 +33,7 @@ export const waSource = `Saya menemukan MEC Academy lewat website (${site.url.re
 export const waLink = (msg = site.registerMessage) => `${site.whatsapp}?text=${encodeURIComponent(`${msg}\n\n${waSource}`)}`;
 export const slugify = (s: string) =>
   s.toLowerCase().replace(/&/g, 'dan').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-export const modules = (content.modules as string[]).map((title, i) => ({ title, slug: slugify(title), n: i + 1 }));
+// 14 modul inti (sampai Part book reading) + modul tambahan (Aksesoris & Device) menurut feedback klien, 20 Okt 2026.
+export const coreModuleCount = 14;
+export const modules = (content.modules as string[]).map((title, i) => ({ title, slug: slugify(title), n: i + 1, extra: i >= coreModuleCount }));
+export const extraModuleCount = modules.length - coreModuleCount;

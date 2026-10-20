@@ -43,11 +43,8 @@ if (loader) {
   const fill = document.getElementById('load-fill')!;
   const pct = document.getElementById('load-percent')!;
   const status = document.getElementById('load-status')!;
-  const enter = document.getElementById('enter-mec') as HTMLButtonElement;
-  const enterLabel = document.getElementById('enter-label')!;
-  const calmBtn = document.getElementById('enter-calm')!;
-  const AUTO_MS = 1400;
-  let loadedOnce = false, auto = 0, interacted = false;
+  const AUTO_MS = 350;   // setelah 100%, langsung masuk beranda tanpa klik
+  let loadedOnce = false, auto = 0;
 
   function progress() {
     const imgs = [...document.querySelectorAll<HTMLImageElement>('img[loading="eager"], img[fetchpriority="high"]')];
@@ -57,11 +54,8 @@ if (loader) {
       fill.style.transform = `scaleX(${p / 100})`; pct.textContent = `${p}%`;
       if (done >= total && !loadedOnce) {
         loadedOnce = true;
-        status.textContent = interacted ? 'Siap dijelajahi' : 'Siap dijelajahi · masuk otomatis…';
-        enterLabel.textContent = 'Mulai perjalanan';
-        enter.focus({ preventScroll: true });
-        // Jangan memaksa klik: lanjut sendiri kecuali pengunjung sedang berinteraksi dengan tombol
-        if (!interacted) auto = window.setTimeout(close, AUTO_MS);
+        status.textContent = 'Siap dijelajahi';
+        auto = window.setTimeout(close, AUTO_MS);
       }
     };
     const one = () => { done++; tick(); };
@@ -76,20 +70,7 @@ if (loader) {
     store.sset('mec-intro', '1');
     dispatchEvent(new CustomEvent('mec:enter'));
   }
-  function open() {
-    clearTimeout(auto); loadedOnce = false; interacted = false;
-    fill.style.transform = 'scaleX(0)'; pct.textContent = '0%'; status.textContent = 'Menyiapkan pengalaman MEC'; enterLabel.textContent = 'Langsung masuk';
-    root.classList.add('intro-pending'); scrollTo(0, 0); progress();
-  }
-  // Tahan masuk otomatis bila pengunjung mengarahkan kursor/fokus ke tombol
-  [enter, calmBtn].forEach((b) => {
-    b.addEventListener('pointerenter', () => { interacted = true; clearTimeout(auto); status.textContent = 'Siap dijelajahi'; });
-    b.addEventListener('focus', () => { if (loadedOnce && auto) return; });
-  });
-  enter.addEventListener('click', close);
-  calmBtn.addEventListener('click', () => { store.set(CALM_KEY, '1'); paintMotionBtn(); dispatchEvent(new CustomEvent('mec:motion')); close(); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.classList.contains('intro-pending')) close(); });
-  document.getElementById('replay-loader')?.addEventListener('click', open);
   if (root.classList.contains('intro-pending')) progress();
 }
 
