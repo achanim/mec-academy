@@ -60,7 +60,8 @@ Deploy otomatis (CI/CD dan `npm run deploy`) **tidak dipakai**: unggahan FTPS da
 5. Kembali ke `public_html`, klik kanan `mec.zip` → **Extract** ke `public_html` . Jika ditanya menimpa, pilih timpa.
 6. Hapus `mec.zip` dari server.
 7. Klik **Settings** (kanan atas) → centang **Show Hidden Files (dotfiles)**, lalu pastikan `public_html/.htaccess` ada dan masih berisi blok PHP 8.3.
-8. **Jangan hapus** folder `alumni-foto/` dan `kelola-foto/` di server; isi `alumni-foto/` adalah data admin, bukan dari kode.
+8. **Jangan hapus** folder `alumni-foto/`, `kelola-foto/`, dan `unduhan/` di server; isi `alumni-foto/` adalah data admin, bukan dari kode.
+9. **Company profile (PDF ±53 MB) tidak ada di repo.** Tombol unduh di halaman Tentang menautkan `/unduhan/MEC_Academy_Company_Profile_2026.pdf`. Unggah sekali lewat File Manager ke `public_html/unduhan/` (buat folder bila belum ada) dengan nama berkas persis itu. Bila PDF diganti versi baru, timpa berkas yang sama (atau ubah tautan di `src/pages/tentang/index.astro`). Sebelum diunggah, tombol itu menghasilkan 404.
 
 Catatan: berkas yang **dihapus** dari kode tidak hilang di server saat ekstrak. Untuk menghapus halaman lama, hapus lewat File Manager. Kalau ekstrak gagal atau macet, ulangi dari langkah 4 (aman, hanya menimpa berkas).
 
