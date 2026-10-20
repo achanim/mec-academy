@@ -809,7 +809,7 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .home-footer .social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--color-line, rgba(255,255,255,.25)); border-radius: 50%; color: var(--color-paper); transition: color .2s, border-color .2s; }
 .home-footer .social-icons a:hover, .home-footer .social-icons a:focus-visible { color: var(--color-gold); border-color: var(--color-gold); }
 
-.module-group .extra-tag { display: block; margin-top: 3px; font: 11px var(--font-mono); letter-spacing: .5px; color: var(--color-gold); text-transform: uppercase; }
+.module-group .extra-tag { display: block; margin-top: 3px; font: 12px var(--font-mono); letter-spacing: .5px; color: var(--color-gold); text-transform: uppercase; }
 
 /* Slideshow foto alumni: tiap foto masuk dari kanan, lalu memudar keluar bergantian */
 .alumni-stack { position: relative; min-height: 460px; }
