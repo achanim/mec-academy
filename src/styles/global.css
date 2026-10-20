@@ -818,3 +818,8 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .footer-grid .social-icons { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 .footer-grid .social-icons a { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--color-line); border-radius: 50%; color: var(--color-sage); transition: color .2s, border-color .2s; }
 .footer-grid .social-icons a:hover, .footer-grid .social-icons a:focus-visible { color: var(--color-gold); border-color: var(--color-gold); }
+
+/* Ikon sosmed di footer beranda */
+.home-footer .social-icons { display: flex; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.home-footer .social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--color-line, rgba(255,255,255,.25)); border-radius: 50%; color: var(--color-paper); transition: color .2s, border-color .2s; }
+.home-footer .social-icons a:hover, .home-footer .social-icons a:focus-visible { color: var(--color-gold); border-color: var(--color-gold); }

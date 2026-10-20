@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { img } from '../../lib/images';
-import { slugify, site, waLink } from '../../lib/site';
+import { slugify, site } from '../../lib/site';
 import content from '../../data/content.json';
 export function getStaticPaths() {
   return content.instructors.map((p) => ({ params: { slug: slugify(p.name) }, props: { p } }));
@@ -28,7 +28,7 @@ const others = content.instructors.filter((x) => x.name !== p.name);
         <h2 class="mb-4 mt-10 text-3xl">Kompetensi & sertifikasi</h2>
         <ul class="flex flex-wrap gap-3">{p.credentials.map((c) => <li class="border border-line px-4 py-2 text-sm">{c}</li>)}</ul>
         <p class="mt-8 max-w-xl text-sm text-sage">Riwayat pekerjaan ditulis sebagai pengalaman, bukan pekerjaan aktif. Sumber: company profile MEC Academy 2026.</p>
-        <div class="mt-10 flex flex-wrap gap-4"><a class="btn" href={waLink()} target="_blank" rel="noopener">Daftar BMC ↗</a><a class="btn btn-ghost" href="/instruktur/">Semua instruktur</a></div>
+        <div class="mt-10 flex flex-wrap gap-4"><a class="btn" href={site.registerFormUrl} target="_blank" rel="noopener">Daftar BMC ↗</a><a class="btn btn-ghost" href="/instruktur/">Semua instruktur</a></div>
       </div>
     </div>
     <h2 class="mb-6 mt-20 text-3xl">Instruktur lainnya</h2>

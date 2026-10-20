@@ -1,4 +1,5 @@
 ---
+import SocialIcons from '../components/SocialIcons.astro';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { img, pos } from '../lib/images';
@@ -47,10 +48,10 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.na
         <p class="hero-hook">{h.lead}</p>
         <p class="body-copy" style="font-size:16px;line-height:1.5;max-width:470px;margin-bottom:24px">Bangun dasar teknis, pengalaman praktik, dan karakter profesional melalui BMC MEC Academy.</p>
         <div class="mt-8 flex flex-wrap items-center gap-4">
-          <a class="btn" href={waLink()} target="_blank" rel="noopener">{h.primary_cta} <span aria-hidden="true">↗</span></a>
-          <a class="text-link" href="#challenge">{h.secondary_cta} <span aria-hidden="true">↓</span></a>
+          <a class="btn" href={site.registerFormUrl} target="_blank" rel="noopener">{h.primary_cta} <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href={waLink('Halo MEC Academy, saya ingin bertanya tentang program BMC.')} target="_blank" rel="noopener">{h.secondary_cta} <span aria-hidden="true">↗</span></a>
         </div>
-        <p class="micro-proof"><span>{modules.length} modul pembelajaran</span><i></i><span>Praktik komponen</span><i></i><span>Pembentukan karakter</span></p>
+        <p class="micro-proof"><span>MEKANIK BERKARAKTER</span></p>
       </div></div>
       <!-- <p class="floating-caption" aria-hidden="true"><span class="plus">+</span><span>LEARN BY DOING<br /><b>Mulai dari praktik nyata.</b></span></p> -->
       <div class="scene-bottom"><p class="scroll-cue" aria-hidden="true">Gulir untuk menjelajah <span>↓</span></p>
@@ -283,10 +284,10 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.na
     <div class="scene bg-cta"><div class="contact-orbit" aria-hidden="true"></div><div class="scene-pad wrap"><div class="scene-inner">
       <p class="eyebrow mb-4">12 / Langkah berikutnya milikmu</p><SplitHeading tag="h2" class="display">Cita-cita perlu<br /><em>langkah pertama.</em></SplitHeading>
       <p class="lead" data-reveal>Mulai persiapanmu menjadi mekanik alat berat bersama BMC MEC Academy.</p>
-      <div class="mt-8 flex flex-wrap items-center gap-6"><a class="btn large" href={waLink()} target="_blank" rel="noopener">Mulai daftar BMC <span aria-hidden="true">↗</span></a><a class="text-link" href="/kontak/">Konsultasi dulu <span aria-hidden="true">↗</span></a></div>
+      <div class="mt-8 flex flex-wrap items-center gap-6"><a class="btn large" href={site.registerFormUrl} target="_blank" rel="noopener">Mulai daftar BMC <span aria-hidden="true">↗</span></a><a class="text-link" href="/kontak/">Konsultasi dulu <span aria-hidden="true">↗</span></a></div>
       <p class="mt-4 max-w-md text-xs text-sage">Hubungi tim MEC untuk jadwal, biaya, persyaratan, dan proses seleksi.</p>
       <div class="contact-row"><div><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></div><address>{site.address}</address></div>
-      <footer class="home-footer"><span>© MEC Academy · Mekanik Berkarakter</span>
+      <footer class="home-footer"><span>© MEC Academy · Mekanik Berkarakter</span><SocialIcons />
         <div><a href="/assessment/">Assessment ↗</a><a href="/tentang/#identitas">Identitas lembaga</a><a href="/sumber/">Sumber informasi</a><button type="button" id="replay-loader">Ulang pembuka</button><a href="#hero">Kembali ke atas ↑</a></div></footer>
     </div></div></div>
   </section>
