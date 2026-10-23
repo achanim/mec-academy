@@ -828,3 +828,6 @@ html:not(.motion-ready) .journey li:hover .journey-img { transform: scale(1.04);
 .learn-steps { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; counter-reset: step; font: 12px var(--font-mono); color: var(--color-sage); text-transform: uppercase; }
 .learn-steps li { counter-increment: step; }
 .learn-steps li::before { content: counter(step) ". "; color: var(--color-gold); }
+
+/* Foto gedung: geser ke kiri agar tulisan "Welcome to MEC" berada di area kosong sebelah kiri teks (desktop) */
+@media (min-width: 900px) { .about-bleed { overflow: hidden; } .about-bleed img { width: 160%; max-width: none; margin-left: -58%; } }

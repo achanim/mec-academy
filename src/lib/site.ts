@@ -12,12 +12,13 @@ export const site = {
   registerFormUrl: 'https://forms.gle/HoMKfnvuJLiLXtvWA',
   mapsUrl: 'https://maps.app.goo.gl/EThQMpHZzWx9vvUr8',
   googleProfileUrl: 'https://share.google/hhJuteGRUgX3LXx7g',
-  // Profil sosial resmi (schema.org sameAs). Info dari MEC, 18 Okt 2026. TikTok: coming soon (belum ada akun).
+  // Profil sosial resmi (schema.org sameAs). Info dari MEC, 18 Okt 2026. TikTok aktif sejak 24 Okt 2026.
   instagramUrl: 'https://www.instagram.com/academy_mec/',
   linkedinUrl: 'https://www.linkedin.com/company/cv-mec-academy/',
   youtubeUrl: 'https://www.youtube.com/@MecAcademyOfficial',
   facebookUrl: 'https://www.facebook.com/profile.php?id=61593022360337',
-  social: ['https://www.instagram.com/academy_mec/', 'https://www.linkedin.com/company/cv-mec-academy/', 'https://www.youtube.com/@MecAcademyOfficial', 'https://www.facebook.com/profile.php?id=61593022360337', 'https://share.google/hhJuteGRUgX3LXx7g'] as string[],
+  tiktokUrl: 'https://www.tiktok.com/@academy_mec',
+  social: ['https://www.instagram.com/academy_mec/', 'https://www.linkedin.com/company/cv-mec-academy/', 'https://www.youtube.com/@MecAcademyOfficial', 'https://www.facebook.com/profile.php?id=61593022360337', 'https://www.tiktok.com/@academy_mec', 'https://share.google/hhJuteGRUgX3LXx7g'] as string[],
   hoursLabel: 'Senin–Jumat, 08.00–16.00 WIB',
   // Isi bila sudah ada data resmi; kosong = tidak ditampilkan di data terstruktur.
   geo: { lat: -8.0995239, lng: 112.5351695 } as null | { lat: number; lng: number },   // pin Google Maps "MEC ( Malang Education Centre )"
