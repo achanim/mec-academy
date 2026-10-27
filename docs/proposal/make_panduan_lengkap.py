@@ -131,27 +131,22 @@ s += step(3, 'Pasang plugin (extension) VS Code',
 s += step(4, 'Salin folder website dari flashdisk ke komputer',
           P('Colokkan flashdisk. Buka <b>File Explorer</b> (Windows) lalu salin folder <b>mec-academy</b> ke tempat yang mudah, misalnya <b>drive C:</b> sehingga alamatnya menjadi ' + C('C:\\mec-academy') + '. Cara menyalin: klik kanan folder &gt; <b>Copy</b>, buka drive C:, klik kanan area kosong &gt; <b>Paste</b>.'),
           P('Kalau berkasnya berupa <b>.zip</b>: klik kanan &gt; <b>Extract All</b> &gt; pilih drive C: &gt; <b>Extract</b>.'),
-          *box9('warn', 'Salin ke komputer, jangan dijalankan langsung dari flashdisk', 'Menjalankan website langsung dari flashdisk lambat dan sering gagal. Hindari juga folder yang disinkronkan OneDrive (Desktop/Documents) karena memperlambat pemasangan.'),
-          P('<b>Cek folder sudah benar:</b> buka folder <i>mec-academy</i>. Di dalamnya harus langsung terlihat berkas ' + C('package.json') + ' dan folder <i>src</i> dan <i>public</i>. Kalau yang terlihat hanya satu folder lagi bernama <i>mec-academy</i>, buka folder itu, itulah folder proyek yang sebenarnya.'))
+          *box9('warn', 'Salin ke komputer, jangan dijalankan langsung dari flashdisk', 'Menjalankan website langsung dari flashdisk lambat dan sering gagal. Hindari juga folder OneDrive (Desktop/Documents).'),
+          P('<b>Cek folder sudah benar (penting):</b> buka folder <i>mec-academy</i>. Di dalamnya harus <b>langsung</b> terlihat berkas ' + C('package.json') + ' dan folder <i>src</i> dan <i>public</i>. Kalau yang terlihat hanya <b>satu folder lagi bernama mec-academy</b> (folder berlapis, ini sering terjadi saat Extract All), buka folder dalam itu. <b>Folder yang berisi package.json itulah folder proyek</b>, dan hanya folder itu yang boleh dibuka di VS Code.'))
 s += step(5, 'Buka folder website di VS Code',
-          P('Di VS Code klik menu <b>File &gt; Open Folder...</b> (Buka Folder). Pilih folder <i>C:\\mec-academy</i> (yang berisi package.json), klik <b>Select Folder</b>. Jika muncul pertanyaan <b>"Do you trust the authors?"</b>, klik <b>"Yes, I trust the authors"</b>.'),
-          P('Di bilah kiri akan tampak daftar folder dan berkas website. Bagian ini disebut <b>Explorer</b>.'))
+          P('Di VS Code klik menu <b>File &gt; Open Folder...</b> (Buka Folder). Pilih folder yang <b>berisi package.json</b> (misalnya <i>C:\\mec-academy</i>), klik <b>Select Folder</b>. Nama folder itu akan tampil di judul VS Code. Jika muncul pertanyaan <b>"Do you trust the authors?"</b>, klik <b>"Yes, I trust the authors"</b>.'),
+          P('Di bilah kiri harus terlihat daftar <i>public</i>, <i>src</i>, <i>package.json</i>, dan seterusnya (bagian ini disebut <b>Explorer</b>). Kalau yang terlihat hanya satu folder <i>mec-academy</i> lagi, berarti folder yang dibuka salah: tutup folder (File &gt; Close Folder) dan buka folder dalamnya.'))
 s += step(6, 'Buka Terminal di VS Code',
           P('Klik menu <b>Terminal &gt; New Terminal</b>. Sebuah panel akan terbuka di bagian bawah. Di situlah perintah diketik. Anda hanya perlu <b>menyalin perintah, menempelkannya dengan klik kanan, lalu menekan Enter</b>.'),
           *box9('warn', 'Kalau muncul tulisan "running scripts is disabled" (merah)', 'Ini hal umum di Windows. Di panel Terminal klik tanda panah kecil <b>&#9662;</b> di sebelah tombol <b>+</b>, pilih <b>Command Prompt</b>, lalu ulangi perintahnya di jendela baru itu. Jangan ubah pengaturan lain.'))
 s += step(7, 'Pasang bahan-bahan website (npm install)',
           P('Di Terminal ketik perintah berikut lalu Enter. Butuh internet dan sekitar 1 sampai 3 menit. <b>Cukup sekali.</b>'),
           *code('npm install'),
+          P('Kalau langsung muncul tulisan merah <b>ENOENT ... package.json</b>, Terminal terbuka di folder yang salah. Lihat Bab 6, baris pertama.', SMALL),
           P('Selama berjalan akan muncul banyak tulisan, termasuk tulisan kuning <i>"npm warn"</i> atau <i>"deprecated"</i>. <b>Itu normal</b>, abaikan. Selesai bila kursor kembali dan muncul tulisan seperti ' + C('added 296 packages') + '. Sebuah folder baru bernama <i>node_modules</i> akan muncul di Explorer. Jangan diubah atau dihapus.'))
 s += [P('Apakah ada pengaturan lain (env) yang dibutuhkan?', H2),
-      P('<b>Tidak ada.</b> Website ini tidak memakai database, kata sandi, atau berkas pengaturan rahasia (.env). Cukup yang sudah Anda pasang di atas:')]
-s += table(['Yang dibutuhkan', 'Status', 'Cek'], [
-    ['Node.js versi 22 atau lebih', 'Dipasang di langkah 1', ('Terminal: ' + C('node -v'))],
-    ['VS Code + plugin Astro', 'Langkah 2 dan 3', 'Plugin Astro tampil di daftar Extensions'],
-    ['Folder proyek di komputer', 'Langkah 4', 'Ada package.json di dalamnya'],
-    ['node_modules', 'Dibuat otomatis oleh langkah 7', 'Folder node_modules ada'],
-    ['Database, API key, berkas .env', '<b>Tidak perlu</b>', '-'],
-], [.40, .30, .30])
+      P('<b>Tidak ada.</b> Website ini tidak memakai database, kata sandi, atau berkas pengaturan rahasia (.env).')]
+s += [P('Cukup <b>Node.js 22+</b>, <b>VS Code + plugin Astro</b>, <b>folder proyek</b>, dan <b>node_modules</b> (dibuat otomatis oleh langkah 7). <b>Tidak perlu</b> database, API key, atau berkas .env.')]
 
 # ---------------------------------------------------------------- BAB 3
 s += chapter(3, 'Menjalankan website di komputer', 'Cara melihat website di komputer Anda sendiri sebelum diunggah ke internet. Lakukan setiap kali mulai bekerja.')
@@ -258,10 +253,10 @@ s += step(13, 'Periksa website yang tayang',
 # ---------------------------------------------------------------- BAB 6
 s += chapter(6, 'Masalah umum dan jawabannya', 'Cari gejala yang sama, ikuti tindakannya. Kalau masih buntu, jangan menebak, hubungi pengembang dan kirim foto layar pesan error.')
 s += table(['Gejala', 'Penyebab dan tindakan'], [
+    ['<b>ENOENT ... could not read package.json</b> saat npm install atau npm run dev', 'Terminal tidak berada di folder proyek. Biasanya folder berlapis (<i>mec-academy\\mec-academy</i>). Di Terminal ketik ' + C('dir') + ': harus terlihat <i>package.json</i>. Kalau tidak, ketik ' + C('cd mec-academy') + ' lalu Enter dan ' + C('dir') + ' lagi. Atau tutup folder (File &gt; Close Folder) dan buka folder dalamnya lewat File &gt; Open Folder.'],
     ['<b>"npm" is not recognized</b> / "node tidak dikenali"', 'Node.js belum terpasang atau VS Code belum dimulai ulang sesudahnya. Pasang Node.js (Bab 2 langkah 1), <b>tutup semua VS Code</b>, buka lagi.'],
     ['<b>"running scripts is disabled on this system"</b>', 'Ganti jenis terminal ke Command Prompt (Bab 2 langkah 6).'],
     ['<b>npm install</b> lama atau gagal jaringan', 'Cek internet. Ulangi perintah. Jika masih gagal, pindahkan folder ke drive C: dan coba lagi.'],
-    ['Perintah muncul "Could not read package.json"', 'Terminal sedang tidak berada di folder proyek. Tutup VS Code, buka lagi lewat File &gt; Open Folder ke folder yang berisi package.json.'],
     ['<b>localhost:4321</b> tidak terbuka', 'Pastikan Terminal masih menjalankan <i>npm run dev</i> dan tulisan <i>Local</i> masih muncul. Pakai alamat yang ditampilkan Terminal.'],
     ['Halaman error merah / layar penuh pesan', 'Perubahan terakhir salah (tanda kutip, koma, atau &lt; &gt; terhapus). Tekan Ctrl+Z di berkas itu sampai kembali, simpan.'],
     ['Gambar baru tidak muncul atau "Image not found"', 'Nama atau ekstensi tidak sama persis dengan berkas lama (huruf besar, .jpg.jpg, atau jpg vs webp).'],
