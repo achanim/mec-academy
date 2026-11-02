@@ -84,6 +84,12 @@ def table(head, rows, widths, w=None):
 def chapter(no, title, sub):
     return [PageBreak(), P(f'BAB {no}', EB), P(title, H1), P(sub, PS('sub', fontSize=10.4, leading=15.5, textColor=MUTE, spaceAfter=10))]
 
+import json, re
+def _slug(t): return re.sub(r'(^-|-$)', '', re.sub(r'[^a-z0-9]+', '-', t.lower().replace('&', 'dan')))
+_mods = json.load(open(os.path.join(HERE, '..', '..', 'src', 'data', 'content.json'), encoding='utf8'))['modules']
+_cells = [(C(_slug(m)), m) for m in _mods]
+_half = (len(_cells) + 1) // 2
+MODUL_ROWS = [[_cells[i][1], _cells[i][0]] + ([_cells[i + _half][1], _cells[i + _half][0]] if i + _half < len(_cells) else ['', '']) for i in range(_half)]
 s = []
 # ---------------------------------------------------------------- SAMPUL (digambar di onFirstPage)
 s += [Spacer(1, 150 * mm), NextPageTemplate('main'), PageBreak()]
@@ -174,12 +180,40 @@ s += bl(['Ubah <b>hanya tulisan yang terlihat</b> di antara tanda kutip ' + C('"
 s += [P('Cara cepat menemukan teks di seluruh website', H2),
       P('Tidak perlu tahu teks itu ada di berkas mana. Di VS Code tekan ' + C('Ctrl+Shift+F') + ' (Pencarian), ketik <b>sebagian teks yang terlihat di website</b> (misalnya <i>Jadi mekanik</i>), lalu Enter. Daftar berkas yang memuat teks itu muncul. <b>Klik salah satu hasil</b>, berkas terbuka dan teksnya tersorot. Ubah, lalu simpan.'),
       P('Mau mengganti satu tulisan di <b>banyak tempat sekaligus</b> (misalnya alamat Instagram)? Tekan ' + C('Ctrl+Shift+H') + ', isi kotak atas dengan teks lama dan kotak bawah dengan teks baru, lalu klik ikon <b>"Replace All"</b> (dua panah) di sebelah kotak bawah.')]
+s += box('warn', 'Kalau pencarian "tidak menemukan" tulisan yang jelas-jelas terlihat', 'Ada dua penyebab umum. <b>(1)</b> Anda memakai ' + C('Ctrl+F') + ' (hanya mencari di satu berkas yang sedang dibuka). Pakai ' + C('Ctrl+Shift+F') + ' untuk mencari di seluruh website. <b>(2)</b> Satu kalimat di website bisa <b>tersusun dari dua tempat</b>, misalnya "MEC Academy, " ada di satu berkas dan "Lembaga Pendidikan dan Pelatihan..." ada di berkas lain. Mencari kalimat utuh tidak ketemu. Carilah <b>potongan pendek</b> saja, misalnya ' + C('Lembaga Pendidikan') + ', lalu lihat semua hasilnya.')
 s += [CondPageBreak(60 * mm), P('Contoh 1: ganti judul besar di beranda', H2)]
 s += [P('Buka ' + C('src/pages/index.astro') + ' (Explorer: klik <i>src</i>, lalu <i>pages</i>, lalu <i>index.astro</i>). Cari baris ini (' + C('Ctrl+F') + ' lalu ketik <i>Jadi mekanik</i>):'),
       *code('Mulai langkahmu.&lt;br /&gt;Jadi mekanik&lt;br /&gt;&lt;em&gt;alat berat.&lt;/em&gt;', CW),
       P('Artinya: ' + C('&lt;br /&gt;') + ' = pindah baris, ' + C('&lt;em&gt;...&lt;/em&gt;') + ' = bagian yang berwarna emas. Ubah hanya kata-katanya, misalnya:'),
       *code('Mulai langkahmu hari ini.&lt;br /&gt;Jadi mekanik&lt;br /&gt;&lt;em&gt;alat berat.&lt;/em&gt;', CW)]
-s += [P('Contoh 2: ganti nomor WhatsApp, email, dan alamat', H2),
+s += [CondPageBreak(90 * mm), P('Contoh 2: pindah baris (Enter), ukuran, warna, dan tebal tulisan', H2),
+      P('Menekan <b>Enter</b> di berkas website <b>tidak</b> membuat baris baru di tampilan. Itu hanya merapikan kode. Untuk pindah baris di halaman, tulis ' + C('&lt;br /&gt;') + ' di tempat yang diinginkan. Contoh di beranda, kalimat di bawah judul besar:'),
+      *code('&lt;p class="hero-hook"&gt;MEC Academy, {content.institution}&lt;/p&gt;', CW),
+      P('Tulisan ' + C('{content.institution}') + ' berarti "isi tulisan <i>Lembaga Pendidikan dan Pelatihan Keterampilan Teknik Alat Berat</i> yang diambil dari berkas ' + C('src/data/content.json') + '". <b>Jangan dihapus tanda kurung kurawalnya.</b> Agar tulisannya turun ke baris kedua, sisipkan ' + C('&lt;br /&gt;') + ' sebelum tulisan itu:'),
+      *code('&lt;p class="hero-hook"&gt;MEC Academy,&lt;br /&gt;{content.institution}&lt;/p&gt;', CW),
+      P('Hasilnya: baris pertama <b>MEC Academy,</b> dan baris kedua <b>Lembaga Pendidikan dan Pelatihan Keterampilan Teknik Alat Berat</b>. Catatan: ' + C('&lt;br /&gt;') + ' hanya berfungsi di berkas halaman (.astro). Di dalam ' + C('content.json') + ' tidak berfungsi.'),
+      P('Mengubah ukuran, warna, dan tebal tulisan', H3),
+      P('Tambahkan atribut ' + C('style="..."') + ' di dalam tanda pembuka, setelah ' + C('class="..."') + ', <b>dipisah spasi</b>. Setiap pengaturan diakhiri titik koma:'),
+      *code('&lt;p class="hero-hook" style="font-size:22px; color:#cdbe86; font-weight:700;"&gt;', CW),
+      *table(['Ingin mengubah', 'Tulis', 'Contoh'], [
+          ['Ukuran huruf', C('font-size:...px;'), C('font-size:22px;') + ' (lebih besar = angka lebih besar)'],
+          ['Warna huruf', C('color:#......;'), C('color:#cdbe86;') + ' (emas)'],
+          ['Tebal atau tipis', C('font-weight:...;'), C('font-weight:700;') + ' tebal, ' + C('400') + ' normal'],
+          ['Jarak antarbaris', C('line-height:...;'), C('line-height:1.6;')],
+          ['Jarak antarhuruf', C('letter-spacing:...px;'), C('letter-spacing:1px;')],
+          ['Lebar blok teks', C('max-width:...px;'), C('max-width:600px;') + ' (tulisan turun lebih cepat)'],
+          ['Jarak ke atas', C('margin-top:...px;'), C('margin-top:16px;')],
+      ], [.26, .30, .44]),
+      P('Warna yang dipakai website ini (latar website gelap, jadi untuk tulisan pilih warna terang):', H3),
+      *table(['Nama', 'Kode warna', 'Cocok untuk'], [
+          ['Emas', C('#cdbe86'), 'Penekanan, kata kunci'],
+          ['Krem terang', C('#f3f0e4'), 'Tulisan utama di latar gelap'],
+          ['Hijau abu muda', C('#c0cbc0'), 'Tulisan pendukung'],
+          ['Hijau tua', C('#265154'), 'Tulisan di latar terang (krem)'],
+          ['Hijau sangat tua', C('#061f23'), 'Tulisan di latar terang atau tombol emas'],
+      ], [.26, .24, .50]),
+      *box('warn', 'Satu tanda, satu style', 'Jika tanda yang Anda ubah <b>sudah punya</b> ' + C('style="..."') + ', jangan buat yang kedua. Tambahkan pengaturan baru <b>di dalam</b> tanda kutip yang sama. Angka ukuran dan warna berlaku sama di komputer dan HP, jadi cek hasilnya juga lewat HP sebelum tayang.')]
+s += [CondPageBreak(70 * mm), P('Contoh 3: ganti nomor WhatsApp, email, dan alamat', H2),
       P('Buka ' + C('src/data/content.json') + ' lalu cari tulisan ' + C('"contact"') + ' (' + C('Ctrl+F') + ').'),
       *code('"phone": "+62 822 2998 5588",\n"whatsapp": "https://wa.me/6282229985588",\n"email": "malangeducationcenter@gmail.com",\n"address": "Jl. Jatisari No. 07, ...",', CW),
       *table(['Baris', 'Cara mengisi'], [
@@ -188,11 +222,11 @@ s += [P('Contoh 2: ganti nomor WhatsApp, email, dan alamat', H2),
           ['<b>email</b>, <b>address</b>', 'Ganti isi di antara tanda kutip.'],
       ], [.22, .78]),
       *box9('warn', 'Tanda kutip dan koma harus tetap ada', 'Setiap baris diakhiri koma (kecuali baris terakhir dalam kelompoknya) dan teksnya dibungkus tanda kutip. Kalau terhapus, website akan menampilkan layar error. Cukup ' + C('Ctrl+Z') + ' untuk membatalkan.')]
-s += [CondPageBreak(70 * mm), P('Contoh 3: ganti tautan formulir pendaftaran, media sosial, dan jam buka', H2),
+s += [CondPageBreak(70 * mm), P('Contoh 4: ganti tautan formulir pendaftaran, media sosial, dan jam buka', H2),
       P('Buka ' + C('src/lib/site.ts') + '. Di bagian atas ada daftar yang mudah dibaca:'),
       *code("registerFormUrl: 'https://forms.gle/...',     &lt;- tautan formulir pendaftaran\ninstagramUrl: 'https://www.instagram.com/...',\ntiktokUrl: 'https://www.tiktok.com/@...',\nhoursLabel: 'Senin–Jumat, 08.00–16.00 WIB',", CW),
       P('Ganti hanya alamat atau tulisan di antara tanda kutip tunggal. Alamat media sosial muncul <b>dua kali</b> di berkas yang sama (satu di ' + C('instagramUrl') + ', satu lagi di daftar ' + C('social') + '). Cara paling aman: gunakan <b>Ctrl+Shift+H (Replace All)</b> dengan alamat lama dan alamat baru, supaya semuanya berganti sekaligus.')]
-s += [CondPageBreak(75 * mm), P('Contoh 4: ganti gambar', H2),
+s += [CondPageBreak(75 * mm), P('Contoh 5: ganti gambar', H2),
       P('Semua foto website ada di folder ' + C('src/assets/images') + '. Cara paling mudah dan aman: <b>ganti berkas dengan nama dan format yang sama persis.</b>'),
       *bl(['Siapkan foto baru. Pilih foto <b>mendatar</b> (lebar lebih besar dari tinggi), lebar minimal 1600 piksel, ukuran sebaiknya di bawah 1 MB. Untuk mengecilkan ukuran gratis, buka <b>squoosh.app</b>, seret foto, atur kualitas sekitar 80, lalu simpan.',
             'Ubah nama foto baru menjadi <b>sama persis</b> dengan foto lama, misalnya ' + C('hero.jpg') + ' (huruf kecil, ekstensi .jpg).',
@@ -209,7 +243,41 @@ s += [CondPageBreak(75 * mm), P('Contoh 4: ganti gambar', H2),
           [C('gallery-01.jpg') + ' sampai ' + C('gallery-20.jpg'), 'Galeri fasilitas dan kegiatan'],
           [C('trainer-nama.webp'), 'Foto masing-masing instruktur (format .webp)'],
       ], [.46, .54])]
-s += [CondPageBreak(60 * mm), P('Contoh 5: ganti video di bagian atas beranda', H2),
+s += [CondPageBreak(95 * mm), P('Contoh 6: foto berbeda untuk setiap halaman modul', H2),
+      P('Setiap halaman modul punya <b>foto header</b> (latar bagian atas). Modul yang belum diatur memakai foto bawaan yang sama (' + C('workshop.jpg') + '), sehingga semua terlihat sama. <b>Jangan mengganti workshop.jpg</b> untuk ini, karena foto itu dipakai di banyak tempat. Aturlah per modul lewat berkas ' + C('src/data/module-images.ts') + ':'),
+      *bl(['Siapkan foto (mendatar, lebar minimal 1600 piksel, di bawah 1 MB). Beri nama sesuai modul, misalnya ' + C('modul-basic-safety.jpg') + ', lalu salin ke ' + C('src/assets/images') + '.',
+            'Buka ' + C('src/data/module-images.ts') + '. Di dalam tanda kurung kurawal ada contoh yang diawali ' + C('//') + '. Hapus ' + C('//') + ' di depannya lalu sesuaikan, atau tambahkan baris seperti ini:']),
+      *code("'basic-safety': {\n  image: 'modul-basic-safety',\n  alt: 'Siswa MEC mempelajari keselamatan kerja',\n},", CW),
+      *bl(['<b>Kata pertama</b> (' + C("'basic-safety'") + ') adalah kode alamat modul, dilihat di tabel di bawah. <b>image</b> = nama foto tanpa .jpg. <b>alt</b> = deskripsi singkat foto (untuk pembaca layar dan Google). Setiap baris diakhiri koma.',
+            'Simpan, lalu buka alamat modulnya, misalnya ' + C('localhost:4321/program/basic-mechanic-course/modul/basic-safety/') + '.']),
+      *table(['Modul', 'Kode alamat', 'Modul', 'Kode alamat'], MODUL_ROWS, [.26, .24, .26, .24]),
+      *box('tip', 'Apakah akan muncul foto kedua di bawah, seperti modul Diesel Engine?', '<b>Tidak.</b> Mengisi <i>module-images.ts</i> hanya mengganti foto <b>header</b> (latar atas). Foto kedua di bagian "Tentang modul ini" hanya ada pada <b>empat modul sistem</b> (Diesel Engine, Hydraulic System, Torqflow Drive System, Electrical System). Fotonya diatur di ' + C('src/data/systems.ts') + ' (baris <i>image</i>), dan juga dipakai di bagian "Jelajahi sistem" di beranda. Mengubah baris <i>image</i> di sana mengganti foto kedua dan foto di beranda sekaligus.')]
+s += [CondPageBreak(95 * mm), P('Contoh 7: tambah atau hapus instruktur', H2),
+      P('Data instruktur ada di ' + C('src/data/content.json') + '. Cari tulisan ' + C('"instructors"') + '. Setiap instruktur adalah satu <b>blok</b> dari ' + C('{') + ' sampai ' + C('}') + ':'),
+      *code('{\n  "name": "Moh. Andy Prastyawan",\n  "asset": "trainer-andy",\n  "role": "Mekanik",\n  "company": "PT Pama Persada Nusantara",\n  "credentials": ["BNSP ToT Level IV", "Asesor Kompetensi"]\n},', CW),
+      P('<b>Menambah:</b>', H3),
+      *bl(['Siapkan foto potret tegak (wajah di tengah atas, latar polos lebih baik), sekitar 800 x 1000 piksel. Beri nama ' + C('trainer-namabaru.jpg') + ' (atau .webp) dan salin ke ' + C('src/assets/images') + '.',
+            'Di ' + C('content.json') + ', <b>salin satu blok utuh</b> (dari { sampai } termasuk koma di akhir), tempel tepat di bawahnya, lalu ubah isinya. Isian <b>asset</b> = nama foto <b>tanpa</b> ekstensi (' + C('trainer-namabaru') + '). <b>credentials</b> adalah daftar, dipisah koma, tiap item dalam tanda kutip. Bila ada angka ' + C('"page": 6') + ', boleh dibiarkan (tidak dipakai).',
+            'Simpan. Kartu instruktur baru otomatis muncul di <b>beranda</b> (bab instruktur) dan halaman <b>Instruktur</b>, dan halaman profilnya otomatis dibuat di ' + C('/instruktur/nama-instruktur/') + '. Cek tampilan beranda, karena jumlah kartu mempengaruhi tata letak.']),
+      P('<b>Menghapus:</b> hapus satu blok utuh dari { sampai } (dan koma setelahnya). Foto boleh dibiarkan. Halaman profilnya otomatis hilang. Pastikan antarblok tetap dipisah koma, dan <b>blok paling akhir tidak memakai koma</b>.', BODY)]
+s += [CondPageBreak(95 * mm), P('Contoh 8: tambah atau hapus foto kegiatan dan galeri', H2),
+      P('Ada dua daftar foto kegiatan, masing-masing punya berkas data sendiri:', BODY),
+      *table(['Tampil di', 'Data', 'Folder foto', 'Isi satu blok'], [
+          ['Halaman <b>Industri</b> (Kegiatan industri) dan tiga kartu di <b>beranda</b>', C('src/data/content.json') + ' bagian ' + C('"events"'), C('src/assets/images'), C('name') + ', ' + C('company') + ', ' + C('asset') + ' (nama foto tanpa .jpg)'],
+          ['Halaman <b>Fasilitas</b> (Galeri kegiatan, bisa diperbesar)', C('src/data/gallery.json'), C('src/assets/images'), C('name') + ', ' + C('caption') + ' (tulisan di bawah foto), ' + C('asset')],
+      ], [.25, .27, .22, .26]),
+      P('<b>Menambah kegiatan industri:</b>', H3),
+      *code('{\n  "name": "Kunjungan industri ke MEC",\n  "company": "PT Nama Perusahaan",\n  "asset": "event-baru"\n},', CW),
+      *bl(['Salin foto (mendatar, lebar 1600 piksel atau lebih) ke ' + C('src/assets/images') + ' dengan nama ' + C('event-baru.jpg') + '.',
+            'Di ' + C('content.json') + ' bagian ' + C('"events"') + ', salin satu blok, tempel, lalu ubah isinya. Halaman <b>Industri</b> menampilkan semua kegiatan otomatis, dan daftar nama perusahaan di beranda ikut bertambah.',
+            '<b>Beranda hanya menampilkan 3 kartu.</b> Pilihannya ada di ' + C('src/pages/index.astro') + ', baris yang diawali ' + C("const events = ['event-komatsu', 'event-sinarindo', 'event-ppa']") + '. Ganti salah satu nama dengan nama foto kegiatan baru (tanpa .jpg).']),
+      P('<b>Menambah foto galeri:</b> salin foto dengan nama berurutan, misalnya ' + C('gallery-21.jpg') + ', lalu di ' + C('gallery.json') + ' salin satu blok dan ubah <b>caption</b> dan <b>asset</b> (' + C('gallery-21') + '). Foto baru otomatis muncul di halaman Fasilitas.', BODY),
+      P('<b>Menghapus foto:</b> hapus <b>blok</b>-nya dari berkas data (dari { sampai }). Aman. Jangan menghapus <b>berkas fotonya</b> kecuali Anda yakin: beberapa foto dipakai juga di tempat lain di beranda (misalnya ' + C('gallery-01') + ' dan ' + C('gallery-02') + '). Kalau sesudah menghapus foto muncul pesan ' + C('Image not found: nama') + ' saat build, kembalikan foto bernama itu.', BODY),
+      *box('tip', 'Foto alumni berbeda', 'Foto di halaman <b>Alumni</b> tidak diatur dari kode. Admin MEC mengunggahnya lewat halaman pengelola foto tersembunyi di <i>malangeducationcenter.com/kelola-foto/</i> (perlu kata sandi dari pemilik), tanpa membuka VS Code.')]
+s += [CondPageBreak(45 * mm), P('Contoh 9: menu di bagian atas (termasuk "Learning")', H2),
+      P('Menu atas dan menu layar penuh ada di ' + C('src/components/Header.astro') + ', dalam dua daftar (' + C('nav') + ' dan ' + C('menuItems') + '). Satu menu = satu baris. Menu <b>Learning</b> mengarah ke portal e-learning, alamatnya diatur di satu tempat: ' + C('src/lib/site.ts') + ' baris ' + C('learningUrl') + '. Untuk mengganti tujuannya cukup ubah alamat itu. Untuk <b>menghapus</b> menu Learning, hapus dua baris yang berisi ' + C('site.learningUrl') + ' di ' + C('Header.astro') + '.'),
+      P('Menu baru ditambah dengan menyalin satu baris di setiap daftar: ' + C("['/alamat/', 'Nama menu'],") + ' (di daftar kedua ada tambahan tulisan deskripsi). Alamat internal dimulai garis miring, alamat luar dimulai ' + C('https://') + ' dan otomatis dibuka di tab baru.')]
+s += [CondPageBreak(38 * mm), P('Contoh 10: ganti video di bagian atas beranda', H2),
       P('Video latar dan tombol "Tonton company profile" memakai kode video YouTube. Kode video adalah bagian setelah ' + C('v=') + ' di alamat video, misalnya ' + C('https://www.youtube.com/watch?v=ZV39to3Qfz8') + ' memiliki kode ' + C('ZV39to3Qfz8') + '. Tekan ' + C('Ctrl+Shift+H') + ', isi kode lama dan kode baru, lalu <b>Replace All</b>. Pastikan video di YouTube diizinkan untuk disematkan (embed).')]
 s += box('stop', 'Hindari hal berikut', '<b>Jangan</b> menghapus atau mengganti nama folder <i>src</i>, <i>public</i>, <i>node_modules</i>, atau berkas <i>package.json</i> dan <i>astro.config.mjs</i>. <b>Jangan</b> mengetik di berkas yang tidak dikenal. Bila ragu, tanyakan ke pengembang sebelum mengubah.')
 
@@ -260,6 +328,7 @@ s += table(['Gejala', 'Penyebab dan tindakan'], [
     ['<b>localhost:4321</b> tidak terbuka', 'Pastikan Terminal masih menjalankan <i>npm run dev</i> dan tulisan <i>Local</i> masih muncul. Pakai alamat yang ditampilkan Terminal.'],
     ['Halaman error merah / layar penuh pesan', 'Perubahan terakhir salah (tanda kutip, koma, atau &lt; &gt; terhapus). Tekan Ctrl+Z di berkas itu sampai kembali, simpan.'],
     ['Gambar baru tidak muncul atau "Image not found"', 'Nama atau ekstensi tidak sama persis dengan berkas lama (huruf besar, .jpg.jpg, atau jpg vs webp).'],
+    ['Error menyebut <b>JSON</b> atau <b>content.json</b> / <b>gallery.json</b>', 'Ada koma atau tanda kurung yang hilang atau berlebih saat menyalin blok. Setiap blok dipisah koma dan blok terakhir tanpa koma. Tekan Ctrl+Z sampai build normal.'],
     ['<b>npm run build</b> menampilkan error merah', 'Biasanya karena perubahan terakhir. Batalkan dengan Ctrl+Z lalu build ulang.'],
     ['Setelah unggah, website putih atau error 500', 'Kemungkinan .htaccess terhapus atau rusak. Ekstrak ulang zip, cek Show Hidden Files, lihat langkah 12. Bila tetap, pulihkan dari cadangan (langkah 8) dan hubungi pengembang.'],
     ['Perubahan tidak terlihat di website', 'Tekan Ctrl+F5, tunggu 2 menit, atau jendela penyamaran. Pastikan zip diekstrak ke <i>public_html</i> (bukan subfolder).'],
@@ -282,7 +351,10 @@ s += table(['Lokasi', 'Isi'], [
     [C('src/pages/'), 'Halaman-halaman website (beranda = index.astro, Tentang, Kontak, FAQ, dan seterusnya).'],
     [C('src/data/content.json'), 'Banyak teks utama: kontak, instruktur, modul, kegiatan.'],
     [C('src/data/faq.ts'), 'Tanya jawab (FAQ).'],
-    [C('src/lib/site.ts'), 'Tautan formulir, media sosial, jam buka, data situs.'],
+    [C('src/lib/site.ts'), 'Tautan formulir, media sosial, jam buka, alamat portal Learning.'],
+    [C('src/data/gallery.json'), 'Daftar foto galeri kegiatan (halaman Fasilitas).'],
+    [C('src/data/module-images.ts'), 'Foto header per modul.'],
+    [C('src/components/Header.astro'), 'Menu di bagian atas.'],
     [C('src/content/articles/'), 'Artikel blog (satu berkas per artikel).'],
     [C('src/assets/images/'), 'Semua foto website.'],
     [C('public/'), 'Berkas yang diunggah apa adanya (ikon, robots.txt, halaman pengelola foto).'],
@@ -296,7 +368,7 @@ s += bl(['<b>1.</b> Buka VS Code, buka folder, buka Terminal, ketik ' + C('npm r
          '<b>4.</b> Buka folder <i>dist</i>, tampilkan berkas tersembunyi, pilih semua, jadikan zip.',
          '<b>5.</b> cPanel &gt; File Manager &gt; <i>public_html</i> &gt; (cadangkan) &gt; Upload zip &gt; Extract ke <i>/public_html</i> &gt; hapus zip.',
          '<b>6.</b> Buka website, tekan Ctrl+F5, periksa hasilnya.'])
-s += box('warn', 'Keamanan', 'Simpan kata sandi cPanel di tempat aman, jangan dibagikan lewat grup chat dan jangan ditulis di berkas website. Ganti sandi bila ada orang yang berhenti mengelola website. Simpan salinan folder <i>mec-academy</i> (dan folder <i>alumni-foto</i> dari hosting) secara berkala di flashdisk atau penyimpanan lain.')
+s += [P('<b>Keamanan:</b> simpan kata sandi cPanel di tempat aman (jangan lewat grup chat), ganti bila ada yang berhenti mengelola, dan simpan salinan folder <i>mec-academy</i> serta <i>alumni-foto</i> secara berkala.', SMALL)]
 
 # ---------------------------------------------------------------- HALAMAN
 def cover(c, d):
