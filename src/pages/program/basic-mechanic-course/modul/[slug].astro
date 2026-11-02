@@ -5,6 +5,7 @@ import { modules, coreModuleCount, waLink } from '../../../../lib/site';
 import { getCollection } from 'astro:content';
 import { img, pos } from '../../../../lib/images';
 import { systems } from '../../../../data/systems';
+import { moduleImages } from '../../../../data/module-images';
 import { moduleGroups } from '../../../../lib/modules';
 export async function getStaticPaths() {
   const articles = await getCollection('articles', (a) => !a.data.draft);
@@ -12,10 +13,11 @@ export async function getStaticPaths() {
 }
 const { m, prev, next, related } = Astro.props;
 const sys = systems.find((s) => s.slug === m.slug);
+const hero = moduleImages[m.slug] ?? (sys ? { image: sys.image, alt: sys.alt } : { image: 'workshop', alt: 'Praktik di workshop MEC Academy' });
 const group = moduleGroups.find((g) => g.items.some((x) => x.slug === m.slug))!;
 const ld = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [['Beranda', '/'], ['Program BMC', '/program/basic-mechanic-course/'], ['Modul', '/program/basic-mechanic-course/modul/'], [m.title, Astro.url.pathname]].map(([name, p], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(p, Astro.site).href })) };
 ---
-<Page title={`Modul ${m.title}`} image={sys?.image ?? 'workshop'} imageAlt={sys?.alt ?? 'Praktik di workshop MEC Academy'} eyebrow={`${m.extra ? 'Modul tambahan' : 'Modul'} ${String(m.n).padStart(2, '0')} · ${group.title}`} description={sys?.description ?? `Modul ${m.title} pada Basic Mechanic Course MEC Academy, dipelajari bersama instruktur berpengalaman industri.`} jsonLd={ld}>
+<Page title={`Modul ${m.title}`} image={hero.image} imageAlt={hero.alt} eyebrow={`${m.extra ? 'Modul tambahan' : 'Modul'} ${String(m.n).padStart(2, '0')} · ${group.title}`} description={sys?.description ?? `Modul ${m.title} pada Basic Mechanic Course MEC Academy, dipelajari bersama instruktur berpengalaman industri.`} jsonLd={ld}>
   <div class="module-detail">
     <div>
       <h2 class="text-3xl">Tentang modul ini</h2>
