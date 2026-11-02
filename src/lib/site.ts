@@ -7,6 +7,8 @@ export const site = {
     'Basic Mechanic Course MEC Academy: praktik komponen, instruktur industri, dan pembentukan karakter untuk calon mekanik alat berat di Malang.',
   registerMessage:
     'Halo MEC Academy, saya ingin mendaftar program Basic Mechanic Course (BMC). Mohon informasi jadwal, biaya, persyaratan, dan alur seleksinya.',
+  // Portal e-learning dan assessment (hosting terpisah). Dipakai oleh menu "Learning" di header.
+  learningUrl: 'https://malangeducationcentreacademy.my.id/',
   assessmentUrl: 'https://malangeducationcentreacademy.my.id/assessment/',
   // Formulir pendaftaran angkatan berjalan (Google Form). Diperbarui MEC tiap angkatan.
   registerFormUrl: 'https://forms.gle/HoMKfnvuJLiLXtvWA',
