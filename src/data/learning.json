@@ -1,0 +1,30 @@
+{
+  "title": "Learning",
+  "metaDescription": "Portal pembelajaran online MEC Academy: masuk sebagai siswa atau non siswa untuk mengakses kegiatan belajar Basic Mechanic Course.",
+  "eyebrow": "E-learning MEC Academy",
+  "heading": "Belajar online,",
+  "headingAccent": "kapan saja siap.",
+  "description": "Masuk ke portal pembelajaran MEC Academy sesuai peran Anda. Akun diberikan oleh tim MEC Academy.",
+  "heroImage": {
+    "src": "/images/learning/workshop.jpg",
+    "alt": "Siswa MEC Academy belajar dan berlatih di workshop",
+    "position": "50% 40%",
+    "width": 1400,
+    "height": 933
+  },
+  "logins": [
+    {
+      "label": "Siswa",
+      "description": "Untuk siswa BMC yang sudah memiliki akun dari tim MEC Academy.",
+      "button": "Login Siswa",
+      "url": "https://pembelajaran.malangeducationcenter.com/login"
+    },
+    {
+      "label": "Non Siswa",
+      "description": "Untuk pengguna selain siswa yang memiliki akun dari tim MEC Academy.",
+      "button": "Login Non Siswa",
+      "url": "https://pembelajaran.malangeducationcenter.com/panel/auth/login"
+    }
+  ],
+  "help": "Belum punya akun atau lupa kata sandi? Hubungi tim MEC Academy lewat WhatsApp."
+}

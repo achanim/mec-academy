@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site, waLink } from '../../lib/site';
+import learning from '../../data/learning.json';
+const hero = learning.heroImage;
+---
+<Base title={learning.title} description={learning.metaDescription}>
+  <section class="page-hero has-photo">
+    <img src={hero.src} alt={hero.alt} width={hero.width} height={hero.height} loading="eager" fetchpriority="high" decoding="async" class="page-hero-photo" style={`object-position: ${hero.position}`} />
+    <div class="wrap page-hero-inner">
+      <p class="eyebrow mb-4">{learning.eyebrow}</p>
+      <h1 class="page-title">{learning.heading} <span class="hl">{learning.headingAccent}</span></h1>
+      <p class="mt-6 max-w-2xl text-lg text-sage">{learning.description}</p>
+    </div>
+  </section>
+  <div class="wrap py-16">
+    <div class="contact-cards">
+      {learning.logins.map((l) => (
+        <a href={l.url} target="_blank" rel="noopener"><small>{l.label}</small><b>{l.button}</b><span>{l.description} ↗</span></a>
+      ))}
+    </div>
+    <p class="mt-10 max-w-2xl text-sm text-sage">{learning.help} <a class="text-gold underline" href={waLink('Halo MEC Academy, saya butuh bantuan akun portal pembelajaran (Learning).')} target="_blank" rel="noopener">Chat WhatsApp</a>. Portal assessment ada di halaman <a class="text-gold underline" href="/assessment/">Assessment</a>.</p>
+  </div>
+</Base>
