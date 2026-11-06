@@ -166,6 +166,7 @@ s += step(2, 'Buka di browser',
           P('Tidak ada tampilan? Cek apakah Terminal masih menampilkan tulisan <i>Local</i> di atas. Kalau ada alamat lain (misalnya ' + C('localhost:4322') + '), pakai alamat itu.', SMALL))
 s += step(3, 'Biarkan terbuka sambil mengubah isi',
           P('Selama Terminal berjalan, <b>setiap kali Anda menyimpan berkas</b> (' + C('Ctrl+S') + '), halaman di browser berubah sendiri dalam beberapa detik. Kalau tidak berubah, tekan ' + C('F5') + '.'))
+s += box('warn', 'Untuk mengedit pakai "npm run dev", bukan "npm run preview"', C('npm run preview') + ' hanya menampilkan hasil build <b>terakhir</b>, jadi perubahan yang baru disimpan <b>tidak tampil</b> sampai Anda menjalankan ' + C('npm run build') + ' lagi. Selama mengubah isi, selalu gunakan ' + C('npm run dev') + '. Kalau sudah ' + C('Ctrl+C') + ', jalankan ulang ' + C('npm run dev') + ' dan segarkan browser dengan ' + C('Ctrl+F5') + '.')
 s += step(4, 'Berhenti',
           P('Klik di panel Terminal, lalu tekan ' + C('Ctrl+C') + '. Kalau ditanya "Terminate batch job (Y/N)?" ketik ' + C('Y') + ' lalu Enter. Tutup VS Code seperti biasa. Esok harinya cukup ulangi dari langkah 1 (tidak perlu npm install lagi).'))
 s += box('tip', 'Bekerja dengan aman', 'Sebelum mulai mengubah, <b>salin seluruh folder mec-academy</b> dan beri nama baru, misalnya <i>mec-academy-cadangan</i>. Kalau ada yang berantakan, hapus folder yang rusak dan salin lagi dari cadangan. Setiap perubahan juga bisa dibatalkan dengan ' + C('Ctrl+Z') + '.')
@@ -212,6 +213,7 @@ s += [CondPageBreak(90 * mm), P('Contoh 2: pindah baris (Enter), ukuran, warna, 
           ['Hijau tua', C('#265154'), 'Tulisan di latar terang (krem)'],
           ['Hijau sangat tua', C('#061f23'), 'Tulisan di latar terang atau tombol emas'],
       ], [.26, .24, .50]),
+      *box('warn', 'Kalau pengaturan style tidak berlaku', 'Periksa penulisannya satu per satu: ada <b>titik dua</b> setelah nama pengaturan (' + C('color:#cdbe86') + ', bukan ' + C('color#cdbe86') + '), ada <b>titik koma</b> di akhir setiap pengaturan, tanda kutip pembuka dan penutup lengkap, dan ' + C('style="..."') + ' berada <b>di dalam</b> tanda ' + C('&lt; &gt;') + '. Satu salah ketik membuat pengaturan itu diabaikan tanpa pesan error, sedangkan pengaturan lain tetap jalan. Trik uji: ganti sementara menjadi ' + C('color:red;') + '. Kalau tulisan jadi merah, penulisan benar dan tinggal mengganti warnanya.'),
       *box('warn', 'Satu tanda, satu style', 'Jika tanda yang Anda ubah <b>sudah punya</b> ' + C('style="..."') + ', jangan buat yang kedua. Tambahkan pengaturan baru <b>di dalam</b> tanda kutip yang sama. Angka ukuran dan warna berlaku sama di komputer dan HP, jadi cek hasilnya juga lewat HP sebelum tayang.')]
 s += [CondPageBreak(70 * mm), P('Contoh 3: ganti nomor WhatsApp, email, dan alamat', H2),
       P('Buka ' + C('src/data/content.json') + ' lalu cari tulisan ' + C('"contact"') + ' (' + C('Ctrl+F') + ').'),
@@ -274,10 +276,21 @@ s += [CondPageBreak(95 * mm), P('Contoh 8: tambah atau hapus foto kegiatan dan g
       P('<b>Menambah foto galeri:</b> salin foto dengan nama berurutan, misalnya ' + C('gallery-21.jpg') + ', lalu di ' + C('gallery.json') + ' salin satu blok dan ubah <b>caption</b> dan <b>asset</b> (' + C('gallery-21') + '). Foto baru otomatis muncul di halaman Fasilitas.', BODY),
       P('<b>Menghapus foto:</b> hapus <b>blok</b>-nya dari berkas data (dari { sampai }). Aman. Jangan menghapus <b>berkas fotonya</b> kecuali Anda yakin: beberapa foto dipakai juga di tempat lain di beranda (misalnya ' + C('gallery-01') + ' dan ' + C('gallery-02') + '). Kalau sesudah menghapus foto muncul pesan ' + C('Image not found: nama') + ' saat build, kembalikan foto bernama itu.', BODY),
       *box('tip', 'Foto alumni berbeda', 'Foto di halaman <b>Alumni</b> tidak diatur dari kode. Admin MEC mengunggahnya lewat halaman pengelola foto tersembunyi di <i>malangeducationcenter.com/kelola-foto/</i> (perlu kata sandi dari pemilik), tanpa membuka VS Code.')]
-s += [CondPageBreak(45 * mm), P('Contoh 9: menu di bagian atas (termasuk "Learning")', H2),
-      P('Menu atas dan menu layar penuh ada di ' + C('src/components/Header.astro') + ', dalam dua daftar (' + C('nav') + ' dan ' + C('menuItems') + '). Satu menu = satu baris. Menu <b>Learning</b> mengarah ke portal e-learning, alamatnya diatur di satu tempat: ' + C('src/lib/site.ts') + ' baris ' + C('learningUrl') + '. Untuk mengganti tujuannya cukup ubah alamat itu. Untuk <b>menghapus</b> menu Learning, hapus dua baris yang berisi ' + C('site.learningUrl') + ' di ' + C('Header.astro') + '.'),
-      P('Menu baru ditambah dengan menyalin satu baris di setiap daftar: ' + C("['/alamat/', 'Nama menu'],") + ' (di daftar kedua ada tambahan tulisan deskripsi). Alamat internal dimulai garis miring, alamat luar dimulai ' + C('https://') + ' dan otomatis dibuka di tab baru.')]
-s += [CondPageBreak(38 * mm), P('Contoh 10: ganti video di bagian atas beranda', H2),
+s += [CondPageBreak(45 * mm), P('Contoh 9: menu di bagian atas', H2),
+      P('Menu atas dan menu layar penuh ada di ' + C('src/components/Header.astro') + ', dalam dua daftar (' + C('nav') + ' dan ' + C('menuItems') + '). Satu menu = satu baris, misalnya ' + C("['/learning/', 'Learning'],") + '. Untuk <b>menghapus</b> sebuah menu, hapus barisnya di <b>kedua</b> daftar. Untuk <b>menambah</b>, salin satu baris di setiap daftar lalu ubah alamat dan namanya (di daftar kedua ada tambahan tulisan deskripsi). Alamat internal dimulai garis miring, alamat luar dimulai ' + C('https://') + ' dan otomatis dibuka di tab baru.')]
+s += [CondPageBreak(110 * mm), P('Contoh 10: halaman Learning (foto utama, judul, dan tombol login)', H2),
+      P('Semua isi halaman <b>Learning</b> (alamat ' + C('/learning/') + ') diatur di satu berkas: ' + C('src/data/learning.json') + '. Foto bawaannya ada di ' + C('public/images/learning/workshop.jpg') + '.'),
+      *code('"heading": "Belajar online,",\n"headingAccent": "kapan saja siap.",   &lt;- bagian berwarna emas\n"description": "Masuk ke portal pembelajaran ...",\n"heroImage": {\n  "src": "/images/learning/workshop.jpg",\n  "alt": "Siswa MEC Academy belajar ...",\n  "position": "50% 40%",\n  "width": 1400,\n  "height": 933\n},\n"logins": [ ... dua tombol: Siswa dan Non Siswa ... ]', CW),
+      P('Mengganti foto utama Learning', H3),
+      *bl(['Kecilkan foto dulu di <b>squoosh.app</b> (lebar sekitar 1400 sampai 1600 piksel, ukuran file di bawah 150 KB). Foto di folder <i>public</i> <b>tidak</b> dikecilkan otomatis, jadi foto besar membuat halaman lambat di HP.',
+            'Beri nama sederhana (huruf kecil, tanpa spasi), misalnya ' + C('learning-hero-bmc54.jpg') + ', lalu salin ke ' + C('public/images/learning/') + '.',
+            'Di ' + C('learning.json') + ', ubah <b>src</b> menjadi ' + C('"/images/learning/learning-hero-bmc54.jpg"') + ' (awali dengan garis miring), <b>alt</b> menjadi deskripsi singkat isi foto, serta <b>width</b> dan <b>height</b> sesuai ukuran asli foto dalam piksel (Windows: klik kanan foto &gt; Properties &gt; Details).',
+            '<b>position</b> mengatur bagian foto yang diprioritaskan: ' + C('"50% 50%"') + ' tengah, ' + C('"50% 25%"') + ' geser ke atas (bila kepala terpotong), ' + C('"65% 40%"') + ' geser ke kanan.',
+            'Simpan, lihat ' + C('localhost:4321/learning/') + ' di komputer dan HP.']),
+      P('Mengganti judul dan alamat login', H3),
+      *bl(['<b>heading</b> = bagian putih judul, <b>headingAccent</b> = bagian emas di baris bawahnya.',
+            'Setiap tombol login adalah satu blok di <b>logins</b>: <b>label</b> (nama kecil di atas), <b>button</b> (tulisan utama), <b>description</b> (keterangan), dan <b>url</b> (tujuan, harus diawali https://). Ubah <b>url</b> bila alamat portal berubah. Untuk menambah tombol, salin satu blok utuh dan beri koma.'])]
+s += [CondPageBreak(38 * mm), P('Contoh 11: ganti video di bagian atas beranda', H2),
       P('Video latar dan tombol "Tonton company profile" memakai kode video YouTube. Kode video adalah bagian setelah ' + C('v=') + ' di alamat video, misalnya ' + C('https://www.youtube.com/watch?v=ZV39to3Qfz8') + ' memiliki kode ' + C('ZV39to3Qfz8') + '. Tekan ' + C('Ctrl+Shift+H') + ', isi kode lama dan kode baru, lalu <b>Replace All</b>. Pastikan video di YouTube diizinkan untuk disematkan (embed).')]
 s += box('stop', 'Hindari hal berikut', '<b>Jangan</b> menghapus atau mengganti nama folder <i>src</i>, <i>public</i>, <i>node_modules</i>, atau berkas <i>package.json</i> dan <i>astro.config.mjs</i>. <b>Jangan</b> mengetik di berkas yang tidak dikenal. Bila ragu, tanyakan ke pengembang sebelum mengubah.')
 
@@ -350,16 +363,15 @@ s += [P('Peta folder: apa isinya', H2)]
 s += table(['Lokasi', 'Isi'], [
     [C('src/pages/'), 'Halaman-halaman website (beranda = index.astro, Tentang, Kontak, FAQ, dan seterusnya).'],
     [C('src/data/content.json'), 'Banyak teks utama: kontak, instruktur, modul, kegiatan.'],
-    [C('src/data/faq.ts'), 'Tanya jawab (FAQ).'],
     [C('src/lib/site.ts'), 'Tautan formulir, media sosial, jam buka, alamat portal Learning.'],
     [C('src/data/gallery.json'), 'Daftar foto galeri kegiatan (halaman Fasilitas).'],
     [C('src/data/module-images.ts'), 'Foto header per modul.'],
-    [C('src/components/Header.astro'), 'Menu di bagian atas.'],
+    [C('src/data/learning.json'), 'Isi halaman Learning (judul, foto utama, tombol login).'],
+    [C('public/images/learning/'), 'Foto halaman Learning (tidak dikecilkan otomatis).'],
     [C('src/content/articles/'), 'Artikel blog (satu berkas per artikel).'],
     [C('src/assets/images/'), 'Semua foto website.'],
     [C('public/'), 'Berkas yang diunggah apa adanya (ikon, robots.txt, halaman pengelola foto).'],
     [C('dist/'), 'Hasil build. <b>Ini yang diunggah ke hosting</b>, dibuat otomatis.'],
-    [C('node_modules/'), 'Bahan program. Dibuat otomatis, jangan diubah.'],
 ], [.34, .66])
 s += [P('Urutan setiap update', H2)]
 s += bl(['<b>1.</b> Buka VS Code, buka folder, buka Terminal, ketik ' + C('npm run dev') + '.',
